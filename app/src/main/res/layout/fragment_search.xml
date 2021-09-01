@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.nav_items.topRated.TopRatedFragment">
+    tools:context=".presentation.nav_items.search.SearchFragment">
 
     <TextView
-        android:id="@+id/text_toprated"
+        android:id="@+id/text_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

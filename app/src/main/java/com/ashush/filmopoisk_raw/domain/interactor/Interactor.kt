@@ -1,4 +1,9 @@
 package com.ashush.filmopoisk_raw.domain.interactor
 
-class Interactor: Iinteractor {
+class Interactor: IInteractor {
+
+    override fun getSomeItem() {
+        Unit
+    }
+
 }

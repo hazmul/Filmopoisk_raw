@@ -1,3 +1,16 @@
+Задачи:
+0) подготовить retrofit and okhttp
+1) запрос в сеть на configuration
+2) premain fragment с запросом
+3) запрос на поиск 
+4) search fragment с поисковой строкой
+5) подготовить все возможные запросы
+
+
+
+
+
+
 PreMainActivity
 картинка
 прогресс бар
@@ -39,3 +52,7 @@ https://developers.themoviedb.org/3/configuration/get-api-configuration
 </br>Ключ API (v3 auth)  = 5f7614e8aead89a63d1dae413fd0153a
 </br>Пример API-запроса = https://api.themoviedb.org/3/movie/550?api_key=5f7614e8aead89a63d1dae413fd0153a
 </br>Ключ доступа к API (v4 auth) = eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1Zjc2MTRlOGFlYWQ4OWE2M2QxZGFlNDEzZmQwMTUzYSIsInN1YiI6IjYwZmRhOWYyM2QzNTU3MDAyZDU0YzQ3YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OvEyG5d_V5KV9WQRMa3Fc4-6028PxGX5CsKyPaXjreQ
+
+
+
+https://developers.themoviedb.org/3/getting-started/introduction

@@ -7,17 +7,28 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <!--Custom dimens -->
+    <dimen name="padding_XXsmall">2dp</dimen>
+    <dimen name="padding_Xsmall">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">16dp</dimen>
     <dimen name="padding_large">32dp</dimen>
+    <dimen name="padding_Xlarge">48dp</dimen>
+
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_medium">16dp</dimen>
     <dimen name="margin_large">32dp</dimen>
+    <dimen name="margin_Xlarge">48dp</dimen>
+
     <dimen name="textSize_small">8sp</dimen>
     <dimen name="textSize_medium">16sp</dimen>
     <dimen name="textSize_large">32sp</dimen>
+
     <dimen name="imgSize_small">32dp</dimen>
     <dimen name="imgSize_medium">48dp</dimen>
     <dimen name="imgSize_large">64dp</dimen>
     <dimen name="imgSize_Xlarge">128dp</dimen>
+
+    <dimen name="elevation_medium">4dp</dimen>
+    <dimen name="corner_radius">4dp</dimen>
+
 </resources>

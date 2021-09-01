@@ -1,30 +1,27 @@
 package com.ashush.filmopoisk_raw.models.data.configuration
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-@Serializable
 data class DataConfigurationResponse(
-    @SerialName("images")
-    val images: Images,
-    @SerialName("change_keys")
-    val changeKeys: List<String>
-)
-
-@Serializable
-data class Images(
-    @SerialName("base_url")
-    val baseUrl: String,
-    @SerialName("secure_base_url")
-    val secureBaseUrl: String,
-    @SerialName("backdrop_sizes")
-    val backdropSizes: List<String>,
-    @SerialName("logo_sizes")
-    val logoSizes: List<String>,
-    @SerialName("poster_sizes")
-    val posterSizes: List<String>,
-    @SerialName("profile_sizes")
-    val profileSizes: List<String>,
-    @SerialName("still_sizes")
-    val stillSizes: List<String>
-)
+    @SerializedName("change_keys")
+    val changeKeys: List<String?>?,
+    @SerializedName("images")
+    val images: Images?
+) {
+    data class Images(
+        @SerializedName("backdrop_sizes")
+        val backdropSizes: List<String?>?,
+        @SerializedName("base_url")
+        val baseUrl: String?,
+        @SerializedName("logo_sizes")
+        val logoSizes: List<String?>?,
+        @SerializedName("poster_sizes")
+        val posterSizes: List<String?>?,
+        @SerializedName("profile_sizes")
+        val profileSizes: List<String?>?,
+        @SerializedName("secure_base_url")
+        val secureBaseUrl: String?,
+        @SerializedName("still_sizes")
+        val stillSizes: List<String?>?
+    )
+}

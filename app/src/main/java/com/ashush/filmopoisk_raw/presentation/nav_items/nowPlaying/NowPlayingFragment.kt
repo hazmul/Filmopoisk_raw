@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ashush.filmopoisk_raw.databinding.FragmentNowplayingBinding
 
 class NowPlayingFragment : Fragment() {
 
-    private lateinit var nowPlayingModel: NowPlayingModel
+    private lateinit var nowPlayingViewModel: NowPlayingViewModel
     private var _binding: FragmentNowplayingBinding? = null
 
     // This property is only valid between onCreateView and
@@ -24,14 +23,14 @@ class NowPlayingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        nowPlayingModel =
-            ViewModelProvider(this).get(NowPlayingModel::class.java)
+        nowPlayingViewModel =
+            ViewModelProvider(this).get(NowPlayingViewModel::class.java)
 
         _binding = FragmentNowplayingBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textSlideshow
-        nowPlayingModel.text.observe(viewLifecycleOwner, {
+        val textView: TextView = binding.textNowplaying
+        nowPlayingViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })
         return root
