@@ -36,6 +36,6 @@ https://developers.themoviedb.org/3/configuration/get-api-configuration
 
 -- ...
 
-Ключ API (v3 auth)  = 5f7614e8aead89a63d1dae413fd0153a
-Пример API-запроса = https://api.themoviedb.org/3/movie/550?api_key=5f7614e8aead89a63d1dae413fd0153a
-Ключ доступа к API (v4 auth) = eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1Zjc2MTRlOGFlYWQ4OWE2M2QxZGFlNDEzZmQwMTUzYSIsInN1YiI6IjYwZmRhOWYyM2QzNTU3MDAyZDU0YzQ3YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OvEyG5d_V5KV9WQRMa3Fc4-6028PxGX5CsKyPaXjreQ
+</br>Ключ API (v3 auth)  = 5f7614e8aead89a63d1dae413fd0153a
+</br>Пример API-запроса = https://api.themoviedb.org/3/movie/550?api_key=5f7614e8aead89a63d1dae413fd0153a
+</br>Ключ доступа к API (v4 auth) = eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1Zjc2MTRlOGFlYWQ4OWE2M2QxZGFlNDEzZmQwMTUzYSIsInN1YiI6IjYwZmRhOWYyM2QzNTU3MDAyZDU0YzQ3YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OvEyG5d_V5KV9WQRMa3Fc4-6028PxGX5CsKyPaXjreQ
