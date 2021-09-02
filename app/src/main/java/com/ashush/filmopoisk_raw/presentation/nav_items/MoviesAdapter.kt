@@ -3,15 +3,16 @@ package com.ashush.filmopoisk_raw.presentation.nav_items
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ashush.filmopoisk_raw.R
+import com.ashush.filmopoisk_raw.data.remote.APIRequests
 import com.ashush.filmopoisk_raw.databinding.RecyclerItemBinding
-import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesResponse
+import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
+import com.squareup.picasso.Picasso
 
 class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
-    private var movies: List<DataMoviesResponse.Movies?> = emptyList()
+    private var movies: List<DataMoviesModel.Movie?> = emptyList()
 
     lateinit var listener: IListener
 
@@ -23,15 +24,10 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
         private val binding = RecyclerItemBinding.bind(itemView)
 
-        fun bindView(movies: DataMoviesResponse.Movies) {
-            binding.cardViewTextView.text = movies.title
-            binding.cardViewIconImageView.setImageDrawable(
-                ResourcesCompat.getDrawable(
-                    itemView.resources,
-                    R.drawable.ic_launcher_foreground,
-                    null
-                )
-            )
+        fun bindView(movie: DataMoviesModel.Movie) {
+            binding.cardViewTextView.text = movie.title
+            Picasso.get().load(APIRequests.imageBaseURL + movie.posterPath)
+                .into(binding.cardViewIconImageView)
         }
     }
 
@@ -48,7 +44,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
         return movies.size
     }
 
-    fun update(movies: List<DataMoviesResponse.Movies?>) {
+    fun update(movies: List<DataMoviesModel.Movie?>) {
         this.movies = movies
         notifyDataSetChanged()
     }

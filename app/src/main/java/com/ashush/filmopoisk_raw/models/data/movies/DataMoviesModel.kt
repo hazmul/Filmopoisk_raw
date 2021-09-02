@@ -7,17 +7,17 @@ import com.google.gson.annotations.SerializedName
 //response for get now playing
 //response for get upcoming
 
-data class DataMoviesResponse(
+data class DataMoviesModel(
     @SerializedName("page")
     val page: Int?,
     @SerializedName("results")
-    val movies: List<Movies?>?,
+    val movies: List<Movie?>?,
     @SerializedName("total_pages")
     val totalPages: Int?,
     @SerializedName("total_results")
     val totalResults: Int?
 ) {
-    data class Movies(
+    data class Movie(
         @SerializedName("adult")
         val adult: Boolean?,
         @SerializedName("backdrop_path")

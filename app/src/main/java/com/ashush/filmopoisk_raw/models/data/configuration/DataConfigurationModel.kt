@@ -2,7 +2,7 @@ package com.ashush.filmopoisk_raw.models.data.configuration
 
 import com.google.gson.annotations.SerializedName
 
-data class DataConfigurationResponse(
+data class DataConfigurationModel(
     @SerializedName("change_keys")
     val changeKeys: List<String?>?,
     @SerializedName("images")

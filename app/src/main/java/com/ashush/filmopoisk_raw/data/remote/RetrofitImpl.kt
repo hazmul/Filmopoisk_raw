@@ -1,18 +1,22 @@
 package com.ashush.filmopoisk_raw.data.remote
 
+import com.ashush.filmopoisk_raw.data.config.DataConfig
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitImpl {
 
-    private val baseURl = "https://api.themoviedb.org/"
 
     private var retrofit: Retrofit? = null
 
     private fun getClient(): Retrofit {
         if (retrofit == null) {
             retrofit = Retrofit.Builder()
-                .baseUrl(baseURl)
+                .baseUrl(
+                    DataConfig.config?.images?.baseUrl
+                        ?: DataConfig.config?.images?.secureBaseUrl
+                        ?: DataConfig.baseURl
+                )
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }

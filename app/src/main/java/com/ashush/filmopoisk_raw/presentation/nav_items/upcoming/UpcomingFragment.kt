@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ashush.filmopoisk_raw.data.config.DataConfig.Companion.API_KEY
 import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.databinding.FragmentUpcomingBinding
-import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesResponse
+import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
 import com.ashush.filmopoisk_raw.presentation.nav_items.MoviesAdapter
 import retrofit2.Call
 import retrofit2.Callback
@@ -59,14 +59,14 @@ class UpcomingFragment : Fragment() {
         // Пробник запроса
         val retrofitImpl = RetrofitImpl().retrofitService
         retrofitImpl.getMoviesUpcoming(API_KEY).enqueue(
-            object : Callback<DataMoviesResponse> {
-                override fun onFailure(call: Call<DataMoviesResponse>, t: Throwable) {
+            object : Callback<DataMoviesModel> {
+                override fun onFailure(call: Call<DataMoviesModel>, t: Throwable) {
                     Toast.makeText(requireActivity(), t.toString(), Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onResponse(
-                    call: Call<DataMoviesResponse>,
-                    response: Response<DataMoviesResponse>
+                    call: Call<DataMoviesModel>,
+                    response: Response<DataMoviesModel>
                 ) {
                     response.body()?.movies?.let { adapter.update(it) }
                 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Network settings" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/download_images"
+        android:title="Download images" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:dependency="@string/download_images"
+        android:key="cache_images"
+        android:title="@string/Cache_images" />
+
+    <PreferenceCategory android:title="@string/Theme_settings" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="@string/theme_style"
+        android:summaryOff="@string/light"
+        android:summaryOn="@string/dark"
+        android:switchTextOff="@string/light"
+        android:switchTextOn="@string/dark" />
+    <PreferenceCategory android:title="@string/support" />
+    <Preference
+        android:key="@string/feedback_key"
+        android:summary="@string/feedback_summary"
+        android:title="@string/feedback_title" />
+    <Preference
+        android:key="@string/about"
+        android:summary="@string/app_version"
+        android:title="@string/About_app" />
+
+</PreferenceScreen>

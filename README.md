@@ -1,10 +1,10 @@
 Задачи:
-0) подготовить retrofit and okhttp
-1) запрос в сеть на configuration
-2) premain fragment с запросом
-3) запрос на поиск 
-4) search fragment с поисковой строкой
-5) подготовить все возможные запросы
+1) подготовить retrofit and okhttp
+2) запрос в сеть на configuration
+3) premain fragment с запросом
+4) запрос на поиск 
+5) search fragment с поисковой строкой
+6) подготовить все возможные запросы
 
 
 

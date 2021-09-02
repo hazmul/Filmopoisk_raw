@@ -4,14 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ashush.filmopoisk_raw.data.config.DataConfig
 import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.databinding.FragmentTopratedBinding
-import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesResponse
+import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
+import com.ashush.filmopoisk_raw.presentation.nav_items.MoviesAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,30 +36,38 @@ class TopRatedFragment : Fragment() {
             ViewModelProvider(this).get(TopRatedViewModel::class.java)
 
         _binding = FragmentTopratedBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        val textView: TextView = binding.textToprated
-        topRatedViewModel.text.observe(viewLifecycleOwner, {
-            textView.text = it
-        })
-        return root
+        return binding.root
     }
 
     override fun onStart() {
         super.onStart()
+
+        val adapter = MoviesAdapter()
+
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                requireActivity(),
+                LinearLayoutManager.VERTICAL
+            )
+        )
+
         // Пробник запроса
         val retrofitImpl = RetrofitImpl().retrofitService
         retrofitImpl.getMoviesTopRated(DataConfig.API_KEY).enqueue(
-            object : Callback<DataMoviesResponse> {
-                override fun onFailure(call: Call<DataMoviesResponse>, t: Throwable) {
-                    binding.textToprated.text = t.toString()
+            object : Callback<DataMoviesModel> {
+                override fun onFailure(call: Call<DataMoviesModel>, t: Throwable) {
+                    Toast.makeText(requireActivity(), t.toString(), Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onResponse(
-                    call: Call<DataMoviesResponse>,
-                    response: Response<DataMoviesResponse>
+                    call: Call<DataMoviesModel>,
+                    response: Response<DataMoviesModel>
                 ) {
-                    binding.textToprated.text = response.body().toString()
+                    response.body()?.movies?.let { adapter.update(it) }
                 }
 
             }
