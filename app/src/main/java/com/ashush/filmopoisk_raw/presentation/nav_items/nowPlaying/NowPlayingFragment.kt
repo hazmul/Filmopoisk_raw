@@ -20,6 +20,8 @@ import retrofit2.Response
 
 class NowPlayingFragment : Fragment() {
 
+
+
     private lateinit var nowPlayingViewModel: NowPlayingViewModel
     private var _binding: FragmentNowplayingBinding? = null
 

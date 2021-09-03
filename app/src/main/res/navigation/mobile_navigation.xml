@@ -3,35 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_upcoming">
+    app:startDestination="@+id/nav_mainPager">
 
     <fragment
-        android:id="@+id/nav_upcoming"
-        android:name="com.ashush.filmopoisk_raw.presentation.nav_items.upcoming.UpcomingFragment"
-        android:label="@string/menu_upcoming"
-        tools:layout="@layout/fragment_upcoming" />
-
-    <fragment
-        android:id="@+id/nav_topRated"
-        android:name="com.ashush.filmopoisk_raw.presentation.nav_items.topRated.TopRatedFragment"
-        android:label="@string/menu_top_rated"
-        tools:layout="@layout/fragment_toprated" />
-
-    <fragment
-        android:id="@+id/nav_nowPlaying"
-        android:name="com.ashush.filmopoisk_raw.presentation.nav_items.nowPlaying.NowPlayingFragment"
-        android:label="@string/menu_now_playing"
-        tools:layout="@layout/fragment_nowplaying" />
-
+        android:id="@+id/nav_mainPager"
+        android:name="com.ashush.filmopoisk_raw.presentation.nav_items.categories.MainPagerFragment"
+        android:label="@string/menu_categories"
+        tools:layout="@layout/fragment_main_pager" />
     <fragment
         android:id="@+id/nav_search"
         android:name="com.ashush.filmopoisk_raw.presentation.nav_items.search.SearchFragment"
         android:label="@string/menu_search"
-        tools:layout="@layout/fragment_nowplaying" />
+        tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/nav_settings"
         android:name="com.ashush.filmopoisk_raw.presentation.nav_items.settings.SettingsFragment"
         android:label="@string/action_settings"
-        tools:layout="@layout/fragment_nowplaying" />
+        tools:layout="@layout/fragment_settings" />
 </navigation>

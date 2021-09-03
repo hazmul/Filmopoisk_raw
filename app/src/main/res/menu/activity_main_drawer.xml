@@ -5,17 +5,9 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_upcoming"
+            android:id="@+id/nav_mainPager"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_upcoming" />
-        <item
-            android:id="@+id/nav_topRated"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_top_rated" />
-        <item
-            android:id="@+id/nav_nowPlaying"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_now_playing" />
+            android:title="@string/menu_categories" />
         <item
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_menu_slideshow"

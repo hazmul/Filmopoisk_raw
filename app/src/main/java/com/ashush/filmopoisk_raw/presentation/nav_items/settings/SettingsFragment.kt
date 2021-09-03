@@ -4,40 +4,43 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.ashush.filmopoisk_raw.databinding.FragmentSettingsBinding
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import com.ashush.filmopoisk_raw.R
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : PreferenceFragmentCompat() {
 
     private lateinit var settingsViewModel: SettingsViewModel
-    private var _binding: FragmentSettingsBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         settingsViewModel =
             ViewModelProvider(this).get(SettingsViewModel::class.java)
 
-        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textSettings
-        settingsViewModel.text.observe(viewLifecycleOwner, {
-            textView.text = it
-        })
-        return root
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.prefs_settings, rootKey)
+    }
+
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        when (preference.key) {
+            getString(R.string.feedback_key) -> {
+                Toast.makeText(
+                    requireActivity(),
+                    getString(R.string.feedback_summary),
+                    Toast.LENGTH_SHORT
+                ).show()
+                return true
+            }
+        }
+        return super.onPreferenceTreeClick(preference)
     }
 }
