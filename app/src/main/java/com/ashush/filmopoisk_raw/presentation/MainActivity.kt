@@ -3,6 +3,7 @@ package com.ashush.filmopoisk_raw.presentation
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -12,9 +13,16 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.ashush.filmopoisk_raw.R
+import com.ashush.filmopoisk_raw.data.config.DataConfig
+import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.databinding.ActivityMainBinding
+import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
+import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
 import com.ashush.filmopoisk_raw.presentation.nav_items.settings.SettingsFragment
 import com.google.android.material.navigation.NavigationView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,6 +60,7 @@ class MainActivity : AppCompatActivity() {
 //        menuInflater.inflate(R.menu.main, menu)
 //        return true
 //    }
+
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)

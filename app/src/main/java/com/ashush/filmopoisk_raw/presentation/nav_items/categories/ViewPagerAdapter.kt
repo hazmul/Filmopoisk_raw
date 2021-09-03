@@ -5,9 +5,9 @@ import androidx.fragment.app.FragmentActivity
 
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ashush.filmopoisk_raw.R
-import com.ashush.filmopoisk_raw.presentation.nav_items.nowPlaying.NowPlayingFragment
-import com.ashush.filmopoisk_raw.presentation.nav_items.topRated.TopRatedFragment
-import com.ashush.filmopoisk_raw.presentation.nav_items.upcoming.UpcomingFragment
+import com.ashush.filmopoisk_raw.presentation.nav_items.categories.nowPlaying.NowPlayingFragment
+import com.ashush.filmopoisk_raw.presentation.nav_items.categories.topRated.TopRatedFragment
+import com.ashush.filmopoisk_raw.presentation.nav_items.categories.upcoming.UpcomingFragment
 
 
 class ViewPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {

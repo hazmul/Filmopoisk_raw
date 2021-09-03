@@ -1,4 +1,4 @@
-package com.ashush.filmopoisk_raw.presentation.nav_items.nowPlaying
+package com.ashush.filmopoisk_raw.presentation.nav_items.categories.nowPlaying
 
 import android.os.Bundle
 import android.view.LayoutInflater

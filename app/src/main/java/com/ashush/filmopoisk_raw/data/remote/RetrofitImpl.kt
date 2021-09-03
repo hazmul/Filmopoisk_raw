@@ -12,11 +12,7 @@ class RetrofitImpl {
     private fun getClient(): Retrofit {
         if (retrofit == null) {
             retrofit = Retrofit.Builder()
-                .baseUrl(
-                    DataConfig.config?.images?.baseUrl
-                        ?: DataConfig.config?.images?.secureBaseUrl
-                        ?: DataConfig.baseURl
-                )
+                .baseUrl(DataConfig.baseURl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }

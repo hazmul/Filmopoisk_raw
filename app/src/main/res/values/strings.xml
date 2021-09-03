@@ -17,18 +17,25 @@
     <string name="write_a_search_query">Search</string>
 
     <!-- settings resources-->
+    <string name="support">Support</string>
     <string name="feedback_summary">Report technical issues or suggest new features</string>
     <string name="feedback_title">Send feedback</string>
     <string name="feedback_key">feedback</string>
-    <string name="support">Support</string>
-    <string name="download_images">download_images</string>
-    <string name="Cache_images">Cache images</string>
+    <string name="Download_images_title">Download images</string>
+    <string name="download_images_key">download_images_key</string>
+    <string name="Cache_images_title">Cache images</string>
+    <string name="cache_images_key">cache_images_key</string>
     <string name="Theme_settings">Theme settings</string>
-    <string name="theme_style">theme_style</string>
+    <string name="theme_style_key">theme_style</string>
     <string name="dark">Dark</string>
     <string name="light">Light</string>
     <string name="about">about</string>
     <string name="About_app">About app</string>
     <string name="app_version">app version 0.1</string>
+    <string name="languages">Languages</string>
+    <string name="languages_category">Languages</string>
+    <string name="Notification">Notification</string>
+    <string name="Notification_key">Notification_key</string>
+    <string name="Notification_title">Enable notification</string>
 
 </resources>

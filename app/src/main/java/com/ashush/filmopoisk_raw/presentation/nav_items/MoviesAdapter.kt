@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ashush.filmopoisk_raw.R
-import com.ashush.filmopoisk_raw.data.remote.APIRequests
+import com.ashush.filmopoisk_raw.data.config.DataConfig
 import com.ashush.filmopoisk_raw.databinding.RecyclerItemBinding
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
 import com.squareup.picasso.Picasso
@@ -26,7 +26,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
         fun bindView(movie: DataMoviesModel.Movie) {
             binding.cardViewTextView.text = movie.title
-            Picasso.get().load(APIRequests.imageBaseURL + movie.posterPath)
+            Picasso.get().load(DataConfig.posterBaseURL + movie.posterPath)
                 .into(binding.cardViewIconImageView)
         }
     }

@@ -1,4 +1,4 @@
-package com.ashush.filmopoisk_raw.presentation.nav_items.topRated
+package com.ashush.filmopoisk_raw.presentation.nav_items.watchlist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,17 +11,21 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ashush.filmopoisk_raw.data.config.DataConfig
 import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
-import com.ashush.filmopoisk_raw.databinding.FragmentTopratedBinding
+import com.ashush.filmopoisk_raw.databinding.FragmentFavoritesBinding
+import com.ashush.filmopoisk_raw.databinding.FragmentNowplayingBinding
+import com.ashush.filmopoisk_raw.databinding.FragmentWatchlistBinding
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
 import com.ashush.filmopoisk_raw.presentation.nav_items.MoviesAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class TopRatedFragment : Fragment() {
+class WatchlistFragment : Fragment() {
 
-    private lateinit var topRatedViewModel: TopRatedViewModel
-    private var _binding: FragmentTopratedBinding? = null
+
+
+    private lateinit var favoritesViewModel: WatchlistViewModel
+    private var _binding: FragmentWatchlistBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -32,13 +36,14 @@ class TopRatedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        topRatedViewModel =
-            ViewModelProvider(this).get(TopRatedViewModel::class.java)
+        favoritesViewModel =
+            ViewModelProvider(this).get(WatchlistViewModel::class.java)
 
-        _binding = FragmentTopratedBinding.inflate(inflater, container, false)
+        _binding = FragmentWatchlistBinding.inflate(inflater, container, false)
 
         return binding.root
     }
+
 
     override fun onStart() {
         super.onStart()
@@ -54,24 +59,8 @@ class TopRatedFragment : Fragment() {
                 LinearLayoutManager.VERTICAL
             )
         )
+        // Пробник запроса из бд
 
-        // Пробник запроса
-        val retrofitImpl = RetrofitImpl().retrofitService
-        retrofitImpl.getMoviesTopRated(DataConfig.API_KEY).enqueue(
-            object : Callback<DataMoviesModel> {
-                override fun onFailure(call: Call<DataMoviesModel>, t: Throwable) {
-                    Toast.makeText(requireActivity(), t.toString(), Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onResponse(
-                    call: Call<DataMoviesModel>,
-                    response: Response<DataMoviesModel>
-                ) {
-                    response.body()?.movies?.let { adapter.update(it) }
-                }
-
-            }
-        )
 
     }
 

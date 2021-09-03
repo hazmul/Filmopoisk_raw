@@ -3,22 +3,43 @@
     <PreferenceCategory android:title="Network settings" />
     <SwitchPreference
         android:defaultValue="true"
-        android:key="@string/download_images"
-        android:title="Download images" />
+        android:key="@string/download_images_key"
+        android:title="@string/Download_images_title" />
     <SwitchPreference
         android:defaultValue="true"
-        android:dependency="@string/download_images"
-        android:key="cache_images"
-        android:title="@string/Cache_images" />
+        android:dependency="@string/download_images_key"
+        android:key="@string/cache_images_key"
+        android:title="@string/Cache_images_title" />
 
     <PreferenceCategory android:title="@string/Theme_settings" />
     <SwitchPreference
         android:defaultValue="false"
-        android:key="@string/theme_style"
+        android:key="@string/theme_style_key"
         android:summaryOff="@string/light"
         android:summaryOn="@string/dark"
         android:switchTextOff="@string/light"
         android:switchTextOn="@string/dark" />
+
+    <PreferenceCategory android:title="@string/Notification" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/Notification_key"
+        android:title="@string/Notification_title" />
+    <!--     добавить язык и регион  https://medium.com/google-developer-experts/exploring-android-jetpack-preferences-8bcb0b7bdd14-->
+    <!--    <PreferenceCategory android:title="@string/languages_category" />-->
+    <!--    <DropDownPreference-->
+    <!--        android:key="@string/languages"-->
+    <!--        android:title="@string/languages"-->
+    <!--        android:entries="@array/entries"-->
+    <!--        app:useSimpleSummaryProvider="true"-->
+    <!--        android:entryValues="@array/entry_values"/>-->
+    <!--    <DropDownPreference-->
+    <!--        android:key="region"-->
+    <!--        android:title="Region"-->
+    <!--        android:entries="@array/entries"-->
+    <!--        app:useSimpleSummaryProvider="true"-->
+    <!--        android:entryValues="@array/entry_values"/>-->
+
     <PreferenceCategory android:title="@string/support" />
     <Preference
         android:key="@string/feedback_key"

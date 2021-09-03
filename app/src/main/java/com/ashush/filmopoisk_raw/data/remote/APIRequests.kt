@@ -10,9 +10,7 @@ import retrofit2.http.Query
 
 interface APIRequests {
 
-    companion object{
-        const val imageBaseURL = "https://image.tmdb.org/t/p/original/"
-    }
+
 
     @GET("/3/configuration")
     fun getConfiguration(@Query("api_key") api_key: String): Call<DataConfigurationModel>

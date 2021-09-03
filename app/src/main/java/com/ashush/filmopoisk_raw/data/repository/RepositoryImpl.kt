@@ -4,12 +4,8 @@ import com.ashush.filmopoisk_raw.data.config.DataConfig
 import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.data.storage.IStorage
 import com.ashush.filmopoisk_raw.domain.repository.IRepository
-import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
 import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class RepositoryImpl(private val storage: IStorage) : IRepository {
 
@@ -68,29 +64,16 @@ class RepositoryImpl(private val storage: IStorage) : IRepository {
         ).execute().body()
     }
 
-
     override fun getConfiguration() {
         val retrofitImpl = RetrofitImpl().retrofitService
-        retrofitImpl.getConfiguration(DataConfig.API_KEY).enqueue(
-            object : Callback<DataConfigurationModel> {
-                override fun onFailure(call: Call<DataConfigurationModel>, t: Throwable) {
-                    DataConfig.config = storage.getRemoteConfiguration()
-                }
-
-                override fun onResponse(
-                    call: Call<DataConfigurationModel>,
-                    response: Response<DataConfigurationModel>
-                ) {
-                    response.body()?.let {
-                        storage.storeRemoteConfiguration(it)
-                        DataConfig.config = it
-                    }
-
-                }
-
+        try {
+            retrofitImpl.getConfiguration(DataConfig.API_KEY).execute().body()?.let {
+                storage.storeRemoteConfiguration(it)
+                DataConfig.config = it
             }
-        )
+        } catch (e: Exception) {
+            DataConfig.config = storage.getRemoteConfiguration()
+        }
     }
-
 
 }

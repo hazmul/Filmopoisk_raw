@@ -1,4 +1,4 @@
-package com.ashush.filmopoisk_raw.presentation.nav_items.upcoming
+package com.ashush.filmopoisk_raw.presentation.nav_items.categories.upcoming
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

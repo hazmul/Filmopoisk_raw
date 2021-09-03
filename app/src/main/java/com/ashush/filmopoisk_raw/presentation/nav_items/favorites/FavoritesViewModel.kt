@@ -1,13 +1,13 @@
-package com.ashush.filmopoisk_raw.presentation.nav_items.topRated
+package com.ashush.filmopoisk_raw.presentation.nav_items.favorites
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class TopRatedViewModel : ViewModel() {
+class FavoritesViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is TopRated Fragment"
+        value = "This is favorites Fragment"
     }
     val text: LiveData<String> = _text
 }

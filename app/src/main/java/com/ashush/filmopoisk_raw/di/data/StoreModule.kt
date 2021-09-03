@@ -9,7 +9,7 @@ import dagger.Provides
 @Module
 class StoreModule {
     @Provides
-    fun provideStore(context: Context): IStorage {
-        return StorageImpl(context)
+    fun provideStore(applicationContext: Context): IStorage {
+        return StorageImpl(applicationContext)
     }
 }
