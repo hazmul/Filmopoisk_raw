@@ -9,6 +9,13 @@ class DataConfig {
         var config: DataConfigurationModel? = null
 //        использовать после добавления premain фрагмента с загрузкой конфига
 //        val posterBaseURL = "${config?.images?.baseUrl ?: config?.images?.secureBaseUrl}${config?.images?.posterSizes?.get(0)}/"
-        val posterBaseURL = "https://image.tmdb.org/t/p/w92/"
+        val posterBaseURL = "${config?.images?.baseUrl ?: config?.images?.secureBaseUrl}${config?.images?.posterSizes?.get(0)}/"
+        fun getBasePosterUrl(size: String?): String {
+            return if (size !=null) {
+                "https://image.tmdb.org/t/p/$size/"
+            } else {
+                "https://image.tmdb.org/t/p/original/"
+            }
+        }
     }
 }

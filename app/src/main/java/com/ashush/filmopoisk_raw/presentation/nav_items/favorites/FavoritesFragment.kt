@@ -16,6 +16,7 @@ import com.ashush.filmopoisk_raw.databinding.FragmentFavoritesBinding
 import com.ashush.filmopoisk_raw.databinding.FragmentNowplayingBinding
 import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
+import com.ashush.filmopoisk_raw.presentation.DetailActivity
 import com.ashush.filmopoisk_raw.presentation.nav_items.MoviesAdapter
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,6 +34,7 @@ class FavoritesFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private val adapter = MoviesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,15 +46,6 @@ class FavoritesFragment : Fragment() {
 
         _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
 
-        return binding.root
-    }
-
-
-    override fun onStart() {
-        super.onStart()
-
-        val adapter = MoviesAdapter()
-
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager =
             LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
@@ -62,12 +55,25 @@ class FavoritesFragment : Fragment() {
                 LinearLayoutManager.VERTICAL
             )
         )
+
+        adapter.listener = object : MoviesAdapter.IListener {
+            override fun onClick(movieId: Int) {
+                startActivity(DetailActivity.newIntent(this@FavoritesFragment.requireActivity(), movieId))
+            }
+        }
+
+        return binding.root
+    }
+
+
+    override fun onStart() {
+        super.onStart()
         // Пробник запроса из бд
         val favoritesDao = dbRoom.favoritesDao()
         val resultDB = favoritesDao.getAll()
         var resultHTTP: MutableList<DataMoviesModel.Movie?> = mutableListOf()
         for (movie in resultDB) {
-            val retrofitImpl = RetrofitImpl().retrofitService
+            val retrofitImpl = RetrofitImpl(requireContext()).retrofitService
             retrofitImpl.getMovieDetail(movie.movieId!!, DataConfig.API_KEY).enqueue(
                 object : Callback<DataMovieDetailModel> {
                     override fun onFailure(call: Call<DataMovieDetailModel>, t: Throwable) {

@@ -13,6 +13,7 @@ import com.ashush.filmopoisk_raw.data.config.DataConfig
 import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.databinding.FragmentNowplayingBinding
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
+import com.ashush.filmopoisk_raw.presentation.DetailActivity
 import com.ashush.filmopoisk_raw.presentation.nav_items.MoviesAdapter
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,14 +21,13 @@ import retrofit2.Response
 
 class NowPlayingFragment : Fragment() {
 
-
-
     private lateinit var nowPlayingViewModel: NowPlayingViewModel
     private var _binding: FragmentNowplayingBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private val adapter = MoviesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,15 +39,6 @@ class NowPlayingFragment : Fragment() {
 
         _binding = FragmentNowplayingBinding.inflate(inflater, container, false)
 
-        return binding.root
-    }
-
-
-    override fun onStart() {
-        super.onStart()
-
-        val adapter = MoviesAdapter()
-
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager =
             LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
@@ -57,8 +48,20 @@ class NowPlayingFragment : Fragment() {
                 LinearLayoutManager.VERTICAL
             )
         )
+
+        adapter.listener = object : MoviesAdapter.IListener {
+            override fun onClick(movieId: Int) {
+                startActivity(DetailActivity.newIntent(this@NowPlayingFragment.requireActivity(), movieId))
+            }
+        }
+        return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+
         // Пробник запроса
-        val retrofitImpl = RetrofitImpl().retrofitService
+        val retrofitImpl = RetrofitImpl(requireContext()).retrofitService
         retrofitImpl.getMoviesNowPlaying(DataConfig.API_KEY).enqueue(
             object : Callback<DataMoviesModel> {
                 override fun onFailure(call: Call<DataMoviesModel>, t: Throwable) {

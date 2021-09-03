@@ -1,8 +1,10 @@
 package com.ashush.filmopoisk_raw.presentation.nav_items
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.data.config.DataConfig
@@ -17,17 +19,18 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
     lateinit var listener: IListener
 
     interface IListener {
-        fun onClick()
+        fun onClick(movieId: Int)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val binding = RecyclerItemBinding.bind(itemView)
 
-        fun bindView(movie: DataMoviesModel.Movie) {
+        fun bindView(movie: DataMoviesModel.Movie, listener: IListener?) {
             binding.cardViewTextView.text = movie.title
-            Picasso.get().load(DataConfig.posterBaseURL + movie.posterPath)
+            Picasso.get().load(DataConfig.getBasePosterUrl(DataConfig.config?.images?.posterSizes?.firstOrNull()) + movie.posterPath)
                 .into(binding.cardViewIconImageView)
+           binding.cardViewRoot.setOnClickListener {listener?.onClick(movie.id!!)}
         }
     }
 
@@ -37,7 +40,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        movies[position]?.let { holder.bindView(it) }
+        movies[position]?.let { holder.bindView(it, listener) }
     }
 
     override fun getItemCount(): Int {

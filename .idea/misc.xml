@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/activity_detail.xml" value="0.16573033707865167" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/activity_main.xml" value="0.18614130434782608" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/app_bar_main.xml" value="0.18614130434782608" />
+        <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/content_detail.xml" value="0.2808988764044944" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/content_main.xml" value="0.2634245187436677" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/fragment_favorites.xml" value="0.5421875" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/fragment_nowplaying.xml" value="0.33" />
@@ -15,7 +17,7 @@
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/fragment_upcoming.xml" value="0.26570415400202635" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/fragment_watchlist.xml" value="0.37606837606837606" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/nav_header_main.xml" value="0.33" />
-        <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/recycler_item.xml" value="0.2564814814814815" />
+        <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/recycler_item.xml" value="0.19548872180451127" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/menu/activity_main_drawer.xml" value="0.5333333333333333" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/menu/main.xml" value="0.38055555555555554" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.4444444444444444" />

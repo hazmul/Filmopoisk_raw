@@ -33,13 +33,4 @@
 
     </LinearLayout>
 
-    <ImageButton
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true">
-
-    </ImageButton>
-
 </androidx.cardview.widget.CardView>

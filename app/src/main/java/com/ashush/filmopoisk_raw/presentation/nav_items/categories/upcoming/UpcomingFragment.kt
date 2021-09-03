@@ -13,6 +13,7 @@ import com.ashush.filmopoisk_raw.data.config.DataConfig.Companion.API_KEY
 import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.databinding.FragmentUpcomingBinding
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
+import com.ashush.filmopoisk_raw.presentation.DetailActivity
 import com.ashush.filmopoisk_raw.presentation.nav_items.MoviesAdapter
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,6 +27,7 @@ class UpcomingFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private val adapter = MoviesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,16 +38,6 @@ class UpcomingFragment : Fragment() {
             ViewModelProvider(this).get(UpcomingViewModel::class.java)
 
         _binding = FragmentUpcomingBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-
-
-
-    override fun onStart() {
-        super.onStart()
-
-        val adapter = MoviesAdapter()
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager =
@@ -56,8 +48,21 @@ class UpcomingFragment : Fragment() {
                 LinearLayoutManager.VERTICAL
             )
         )
+
+        adapter.listener = object : MoviesAdapter.IListener {
+            override fun onClick(movieId: Int) {
+                startActivity(DetailActivity.newIntent(this@UpcomingFragment.requireActivity(), movieId))
+            }
+        }
+
+        return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+
         // Пробник запроса
-        val retrofitImpl = RetrofitImpl().retrofitService
+        val retrofitImpl = RetrofitImpl(requireContext()).retrofitService
         retrofitImpl.getMoviesUpcoming(API_KEY).enqueue(
             object : Callback<DataMoviesModel> {
                 override fun onFailure(call: Call<DataMoviesModel>, t: Throwable) {
