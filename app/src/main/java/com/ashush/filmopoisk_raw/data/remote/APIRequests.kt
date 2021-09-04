@@ -3,6 +3,7 @@ package com.ashush.filmopoisk_raw.data.remote
 import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
 import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
+import com.ashush.filmopoisk_raw.utils.MyResult
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -54,7 +55,7 @@ interface APIRequests {
         @Query("region") region: String? = null
     ): Call<DataMoviesModel>
 
-    @GET("/search/movie")
+    @GET("/3/search/movie")
     fun getSearchResult(
         @Query("api_key") api_key: String,
         @Query("language") language: String? = null,

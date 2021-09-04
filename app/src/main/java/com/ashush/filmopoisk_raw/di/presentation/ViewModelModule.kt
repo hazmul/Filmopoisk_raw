@@ -3,6 +3,7 @@ package com.ashush.filmopoisk_raw.di.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ashush.filmopoisk_raw.presentation.nav_items.launch.LaunchViewModel
+import com.ashush.filmopoisk_raw.presentation.nav_items.search.SearchViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -17,8 +18,8 @@ abstract class ViewModelModule {
     @ViewModelKey(LaunchViewModel::class)
     internal abstract fun launchViewModel(viewModel: LaunchViewModel): ViewModel
 
-//    @Binds
-//    @IntoMap
-//    @ViewModelKey(DetailActivityViewModel::class)
-//    internal abstract fun detailActivityViewModel(viewModel: DetailActivityViewModel): ViewModel
+    @Binds
+    @IntoMap
+    @ViewModelKey(SearchViewModel::class)
+    internal abstract fun detailActivityViewModel(viewModel: SearchViewModel): ViewModel
 }

@@ -11,15 +11,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import com.ashush.filmopoisk_raw.MyApp
 import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.databinding.FragmentLaunchBinding
 import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
 import com.ashush.filmopoisk_raw.presentation.MainActivity
-import com.ashush.filmopoisk_raw.utils.ActionBarVisibilityDispatcher
-import javax.inject.Inject
 
 class LaunchFragment : Fragment() {
 
@@ -32,11 +28,11 @@ class LaunchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-
-
         viewModel = injectViewModel((requireActivity() as MainActivity).viewModelFactory)
 
-        requireActivity().findViewById<DrawerLayout>(R.id.drawer_layout).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        requireActivity().findViewById<DrawerLayout>(R.id.drawer_layout)
+            .setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        (activity as AppCompatActivity?)?.supportActionBar?.hide()
 
 
         _binding = FragmentLaunchBinding.inflate(inflater, container, false)
@@ -48,9 +44,9 @@ class LaunchFragment : Fragment() {
 
         animateLoading()
 
-        viewLifecycleOwner.lifecycle.addObserver(
-            ActionBarVisibilityDispatcher((activity as AppCompatActivity?)?.supportActionBar)
-        )
+//        viewLifecycleOwner.lifecycle.addObserver(
+//            ActionBarVisibilityDispatcher((activity as AppCompatActivity?)?.supportActionBar)
+//        )
         viewModel.requestResult.observe(viewLifecycleOwner) { result ->
             if (result) {
                 view.findNavController().navigate(R.id.action_launchFragment_to_nav_mainPager)
@@ -83,7 +79,9 @@ class LaunchFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        requireActivity().findViewById<DrawerLayout>(R.id.drawer_layout).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        requireActivity().findViewById<DrawerLayout>(R.id.drawer_layout)
+            .setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        (activity as AppCompatActivity?)?.supportActionBar?.show()
         super.onDestroyView()
     }
 }

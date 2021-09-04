@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/drawable/bg_launcher.xml" value="0.2833333333333333" />
+        <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/drawable/ic_baseline_replay_24.xml" value="0.5343589743589744" />
+        <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/drawable/outline_sync_24.xml" value="0.5343589743589744" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/activity_detail.xml" value="0.16573033707865167" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/activity_main.xml" value="0.18614130434782608" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/app_bar_main.xml" value="0.18614130434782608" />

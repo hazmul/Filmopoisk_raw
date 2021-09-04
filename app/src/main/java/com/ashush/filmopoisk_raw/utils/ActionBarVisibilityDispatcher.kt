@@ -1,9 +1,11 @@
 package com.ashush.filmopoisk_raw.utils
 
-import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+
+
+//может быть удален
 
 class ActionBarVisibilityDispatcher(
     private var actionBar: androidx.appcompat.app.ActionBar?,

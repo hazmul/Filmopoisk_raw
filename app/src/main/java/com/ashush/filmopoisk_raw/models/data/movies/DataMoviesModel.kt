@@ -15,7 +15,7 @@ data class DataMoviesModel(
     @SerializedName("total_pages")
     val totalPages: Int? = null,
     @SerializedName("total_results")
-    val totalResults: Int?
+    val totalResults: Int? = null
 ) {
     data class Movie(
         @SerializedName("adult")

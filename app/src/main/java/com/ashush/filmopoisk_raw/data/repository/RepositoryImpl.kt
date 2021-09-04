@@ -47,28 +47,28 @@ class RepositoryImpl (private val storage: IStorage) : IRepository {
         ).execute().body()
     }
 
-    override fun getSearchResult(
-        api_key: String,
-        language: String?,
-        query: String,
-        page: String?,
-        include_adult: Boolean?,
-        region: String?,
-        year: Int?,
-        primary_release_year: Int?
-    ): DataMoviesModel? {
-        val retrofitImpl = retrofit.retrofitService
-        return retrofitImpl.getSearchResult(
-            api_key,
-            language,
-            query,
-            page,
-            include_adult,
-            region,
-            year,
-            primary_release_year
-        ).execute().body()
-    }
+//    override fun getSearchResult(
+//        api_key: String,
+//        language: String?,
+//        query: String,
+//        page: String?,
+//        include_adult: Boolean?,
+//        region: String?,
+//        year: Int?,
+//        primary_release_year: Int?
+//    ): DataMoviesModel? {
+//        val retrofitImpl = retrofit.retrofitService
+//        return retrofitImpl.getSearchResult(
+//            api_key,
+//            language,
+//            query,
+//            page,
+//            include_adult,
+//            region,
+//            year,
+//            primary_release_year
+//        ).execute().body()
+//    }
 
     override fun getConfiguration() {
         val retrofitImpl = retrofit.retrofitService
