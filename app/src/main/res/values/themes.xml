@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@drawable/bg_launcher</item>
     </style>
 
     <style name="Theme.Filmopoisk_Raw.NoActionBar">
@@ -22,4 +23,8 @@
     <style name="Theme.Filmopoisk_Raw.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Filmopoisk_Raw.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.Launcher" parent="Theme.Filmopoisk_Raw.NoActionBar">
+        <item name="android:windowBackground">@drawable/bg_launcher</item>
+    </style>
 </resources>

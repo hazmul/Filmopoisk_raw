@@ -10,4 +10,7 @@
     <color name="Dark_blue">#0d253f</color>
     <color name="Light_blue">#01b4e4</color>
     <color name="Light_green">#90cea1</color>
+
+    <color name="launcher">#01b4e4</color>
+    <color name="main_background">#FFFFFF</color>
 </resources>

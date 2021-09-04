@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.data.config.DataConfig.Companion.API_KEY
 import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.databinding.FragmentUpcomingBinding
@@ -49,13 +51,23 @@ class UpcomingFragment : Fragment() {
             )
         )
 
-        adapter.listener = object : MoviesAdapter.IListener {
-            override fun onClick(movieId: Int) {
-                startActivity(DetailActivity.newIntent(this@UpcomingFragment.requireActivity(), movieId))
-            }
-        }
+
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        adapter.listener = object : MoviesAdapter.IListener {
+            override fun onClick(movieId: Int) {
+
+
+//                startActivity(DetailActivity.newIntent(this@UpcomingFragment.requireActivity(), movieId))
+                view.findNavController().navigate(R.id.action_nav_mainPager_to_blankFragment)
+
+            }
+        }
     }
 
     override fun onStart() {

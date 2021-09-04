@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_mainPager">
+    app:startDestination="@+id/launchFragment">
 
     <fragment
         android:id="@+id/nav_mainPager"
         android:name="com.ashush.filmopoisk_raw.presentation.nav_items.categories.MainPagerFragment"
         android:label="@string/menu_categories"
-        tools:layout="@layout/fragment_main_pager" />
+        tools:layout="@layout/fragment_main_pager" >
+        <action
+            android:id="@+id/action_nav_mainPager_to_blankFragment"
+            app:destination="@id/blankFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_search"
         android:name="com.ashush.filmopoisk_raw.presentation.nav_items.search.SearchFragment"
@@ -21,4 +25,18 @@
         android:name="com.ashush.filmopoisk_raw.presentation.nav_items.settings.SettingsFragment"
         android:label="@string/action_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/launchFragment"
+        android:name="com.ashush.filmopoisk_raw.presentation.nav_items.launch.LaunchFragment"
+        android:label="@string/fragment_launch_label"
+        tools:layout="@layout/fragment_launch" >
+        <action
+            android:id="@+id/action_launchFragment_to_nav_mainPager"
+            app:destination="@id/nav_mainPager" />
+    </fragment>
+    <fragment
+        android:id="@+id/blankFragment"
+        android:name="com.ashush.filmopoisk_raw.presentation.BlankFragment"
+        android:label="fragment_blank"
+        tools:layout="@layout/fragment_blank" />
 </navigation>
