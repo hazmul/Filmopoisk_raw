@@ -44,5 +44,15 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu_favorites">Favorites</string>
     <string name="menu_watchlist">Watchlist</string>
+    <string name="details">Details</string>
+    <string name="release_date">Release date</string>
+    <string name="genres">Genres</string>
+    <string name="tagline">Tagline</string>
+    <string name="countries_of_origin">Countries of origin</string>
+    <string name="official_site">Official site</string>
+    <string name="original_language">Original language</string>
+    <string name="production_companies">Production companies</string>
+    <string name="overview">Overview</string>
+    <string name="button_to_add_to_some_list">Button to add to some list</string>
 
 </resources>

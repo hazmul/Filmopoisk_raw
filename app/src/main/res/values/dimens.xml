@@ -14,6 +14,8 @@
     <dimen name="padding_large">32dp</dimen>
     <dimen name="padding_Xlarge">48dp</dimen>
 
+    <dimen name="margin_XXsmall">2dp</dimen>
+    <dimen name="margin_Xsmall">4dp</dimen>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_medium">16dp</dimen>
     <dimen name="margin_large">32dp</dimen>
@@ -22,6 +24,9 @@
     <dimen name="textSize_small">8sp</dimen>
     <dimen name="textSize_medium">16sp</dimen>
     <dimen name="textSize_large">32sp</dimen>
+
+    <dimen name="movie_detail_left">140dp</dimen>
+    <dimen name="movie_detail_right">180dp</dimen>
 
     <dimen name="imgSize_small">32dp</dimen>
     <dimen name="imgSize_medium">48dp</dimen>

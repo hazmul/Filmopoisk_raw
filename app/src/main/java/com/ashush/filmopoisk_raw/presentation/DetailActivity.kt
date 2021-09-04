@@ -3,10 +3,13 @@ package com.ashush.filmopoisk_raw.presentation
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.data.config.DataConfig
 import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.databinding.ActivityDetailBinding
@@ -15,6 +18,7 @@ import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 class DetailActivity : AppCompatActivity() {
 
@@ -66,14 +70,37 @@ class DetailActivity : AppCompatActivity() {
                     call: Call<DataMovieDetailModel>,
                     response: Response<DataMovieDetailModel>
                 ) {
-                    val movie = response.body()!!
+                    val movie = response.body()
                     Log.d("TAG", "onResponse() called with: call = $call, movie = $movie")
-                    Picasso.get().load(DataConfig.getBasePosterUrl(DataConfig.config?.images?.posterSizes?.lastOrNull()) + movie.posterPath)
+                    Picasso.get()
+                        .load(DataConfig.getBasePosterUrl(DataConfig.config?.images?.posterSizes?.lastOrNull()) + movie?.posterPath)
                         .into(binding.toolbarImg)
-                    binding.contentDetail.textView1.text = movie.title
-                    binding.contentDetail.textView2.text = movie.tagline
-                    binding.contentDetail.textView3.text = movie.releaseDate
-                    binding.contentDetail.textView4.text = movie.overview
+                    binding.contentDetail.movieCountriesText.text = movie?.productionCountries?.map { it -> it?.name }?.reduce {str, item -> "$str, $item"}
+                    binding.contentDetail.movieGenresText.text = movie?.genres?.map { it -> it?.name }?.reduce {str, item -> "$str, $item"}?.lowercase(Locale.getDefault())
+                    if (movie != null) {
+                        binding.contentDetail.movieHomepageText.text = Html.fromHtml("<a href=\"${movie.homepage}\">${getString(R.string.official_site)}</a>")
+                        binding.contentDetail.movieHomepageText.isClickable = true
+                        binding.contentDetail.movieHomepageText.movementMethod = LinkMovementMethod.getInstance()
+                    }
+                    binding.contentDetail.movieOriginalLanguageText.text = movie?.originalLanguage
+                    binding.contentDetail.movieOverviewText.text = movie?.overview
+                    binding.contentDetail.movieReleaseDateText.text = movie?.releaseDate
+                    binding.contentDetail.movieTaglineText.text = movie?.tagline
+                    binding.contentDetail.movieProductionCompaniesText.text = movie?.productionCountries?.map { it -> it?.name }?.reduce {str, item -> "$str, $item"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 }
 
             }

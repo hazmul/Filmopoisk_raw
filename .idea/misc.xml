@@ -6,10 +6,12 @@
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/drawable/bg_launcher.xml" value="0.2833333333333333" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/drawable/ic_baseline_replay_24.xml" value="0.5343589743589744" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/drawable/outline_sync_24.xml" value="0.5343589743589744" />
-        <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/activity_detail.xml" value="0.16573033707865167" />
+        <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/activity_detail.xml" value="0.18" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/activity_main.xml" value="0.18614130434782608" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/app_bar_main.xml" value="0.18614130434782608" />
-        <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/content_detail.xml" value="0.2808988764044944" />
+        <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/content_detail.xml" value="0.25" />
+        <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/content_detail2.xml" value="0.370018115942029" />
+        <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/content_detail3.xml" value="0.3229166666666667" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/content_main.xml" value="0.2634245187436677" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/fragment_blank.xml" value="0.20380434782608695" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/fragment_favorites.xml" value="0.5421875" />
