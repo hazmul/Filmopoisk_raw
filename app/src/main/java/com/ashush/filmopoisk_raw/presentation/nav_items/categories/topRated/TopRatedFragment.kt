@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ashush.filmopoisk_raw.data.config.DataConfig
 import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.databinding.FragmentTopratedBinding
+import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
 import com.ashush.filmopoisk_raw.presentation.DetailActivity
+import com.ashush.filmopoisk_raw.presentation.MainActivity
 import com.ashush.filmopoisk_raw.presentation.nav_items.MoviesAdapter
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,11 +23,8 @@ import retrofit2.Response
 
 class TopRatedFragment : Fragment() {
 
-    private lateinit var topRatedViewModel: TopRatedViewModel
+    private lateinit var viewModel: TopRatedViewModel
     private var _binding: FragmentTopratedBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
     private val adapter = MoviesAdapter()
 
@@ -34,8 +33,7 @@ class TopRatedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        topRatedViewModel =
-            ViewModelProvider(this).get(TopRatedViewModel::class.java)
+        viewModel = injectViewModel((requireActivity() as MainActivity).viewModelFactory)
 
         _binding = FragmentTopratedBinding.inflate(inflater, container, false)
 
@@ -57,27 +55,18 @@ class TopRatedFragment : Fragment() {
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
 
-        // Пробник запроса
-        val retrofitImpl = RetrofitImpl(requireContext()).retrofitService
-        retrofitImpl.getMoviesTopRated(DataConfig.API_KEY).enqueue(
-            object : Callback<DataMoviesModel> {
-                override fun onFailure(call: Call<DataMoviesModel>, t: Throwable) {
-                    Toast.makeText(requireActivity(), t.toString(), Toast.LENGTH_SHORT).show()
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-                override fun onResponse(
-                    call: Call<DataMoviesModel>,
-                    response: Response<DataMoviesModel>
-                ) {
-                    response.body()?.movies?.let { adapter.update(it) }
-                }
+        viewModel.requestResult.observe(viewLifecycleOwner) { result ->
+            result.movies?.let { adapter.update(it) }
+        }
+        viewModel.requestError.observe(viewLifecycleOwner) { result ->
+            Toast.makeText(requireActivity(), result, Toast.LENGTH_SHORT).show()
+        }
 
-            }
-        )
-
+        viewModel.doRequest()
     }
 
     override fun onDestroyView() {

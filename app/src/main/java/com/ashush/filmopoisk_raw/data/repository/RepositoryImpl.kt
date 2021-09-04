@@ -1,85 +1,98 @@
 package com.ashush.filmopoisk_raw.data.repository
 
-import android.content.Context
-import androidx.lifecycle.ViewModelProvider
 import com.ashush.filmopoisk_raw.data.config.DataConfig
 import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.data.storage.IStorage
 import com.ashush.filmopoisk_raw.domain.repository.IRepository
+import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
 import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
+import retrofit2.Response
 import javax.inject.Inject
 
-class RepositoryImpl (private val storage: IStorage) : IRepository {
+class RepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl, private val storage: IStorage) :
+    IRepository {
 
-    @Inject
-    lateinit var retrofit: RetrofitImpl
-
-    override fun getMoviesUpcoming(): DataMoviesModel? {
-        val retrofitImpl = retrofit.retrofitService
-        return retrofitImpl.getMoviesUpcoming(DataConfig.API_KEY).execute().body()
-    }
-
-    override fun getMoviesPopular(): DataMoviesModel? {
-        val retrofitImpl = retrofit.retrofitService
-        return retrofitImpl.getMoviesPopular(DataConfig.API_KEY).execute().body()
-    }
-
-    override fun getMoviesTopRated(): DataMoviesModel? {
-        val retrofitImpl = retrofit.retrofitService
-        return retrofitImpl.getMoviesTopRated(DataConfig.API_KEY).execute().body()
-    }
-
-    override fun getMoviesNowPlaying(): DataMoviesModel? {
-        val retrofitImpl = retrofit.retrofitService
-        return retrofitImpl.getMoviesNowPlaying(DataConfig.API_KEY).execute().body()
+    override fun getConfiguration(api_key: String): Response<DataConfigurationModel> {
+        val result = retrofit.retrofitService.getConfiguration(DataConfig.API_KEY).execute()
+        when {
+            result.isSuccessful -> {
+                result.body()?.let {
+                    storage.storeRemoteConfiguration(it)
+                    DataConfig.config = it
+                }
+            }
+            !result.isSuccessful -> {
+                DataConfig.config = storage.getRemoteConfiguration()
+            }
+        }
+        return result
     }
 
     override fun getMovieDetail(
-        id: Int,
+        movie_id: Int,
+        api_key: String,
         append_to_response: String?
-    ): DataMovieDetailModel? {
-        val retrofitImpl = retrofit.retrofitService
-        return retrofitImpl.getMovieDetail(
-            id,
-            DataConfig.API_KEY,
-            append_to_response
-        ).execute().body()
+    ): Response<DataMovieDetailModel> {
+        return retrofit.retrofitService.getMovieDetail(movie_id, api_key, append_to_response).execute()
     }
 
-//    override fun getSearchResult(
-//        api_key: String,
-//        language: String?,
-//        query: String,
-//        page: String?,
-//        include_adult: Boolean?,
-//        region: String?,
-//        year: Int?,
-//        primary_release_year: Int?
-//    ): DataMoviesModel? {
-//        val retrofitImpl = retrofit.retrofitService
-//        return retrofitImpl.getSearchResult(
-//            api_key,
-//            language,
-//            query,
-//            page,
-//            include_adult,
-//            region,
-//            year,
-//            primary_release_year
-//        ).execute().body()
-//    }
+    override fun getMoviesPopular(
+        api_key: String,
+        language: String?,
+        page: String?,
+        region: String?
+    ): Response<DataMoviesModel> {
+        return retrofit.retrofitService.getMoviesPopular(api_key, language, page, region).execute()
+    }
 
-    override fun getConfiguration() {
-        val retrofitImpl = retrofit.retrofitService
-        try {
-            retrofitImpl.getConfiguration(DataConfig.API_KEY).execute().body()?.let {
-                storage.storeRemoteConfiguration(it)
-                DataConfig.config = it
-            }
-        } catch (e: Exception) {
-            DataConfig.config = storage.getRemoteConfiguration()
-        }
+    override fun getMoviesTopRated(
+        api_key: String,
+        language: String?,
+        page: String?,
+        region: String?
+    ): Response<DataMoviesModel> {
+        return retrofit.retrofitService.getMoviesTopRated(api_key, language, page, region).execute()
+    }
+
+    override fun getMoviesUpcoming(
+        api_key: String,
+        language: String?,
+        page: String?,
+        region: String?
+    ): Response<DataMoviesModel> {
+        return retrofit.retrofitService.getMoviesUpcoming(api_key, language, page, region).execute()
+    }
+
+    override fun getMoviesNowPlaying(
+        api_key: String,
+        language: String?,
+        page: String?,
+        region: String?
+    ): Response<DataMoviesModel> {
+        return retrofit.retrofitService.getMoviesNowPlaying(api_key, language, page, region).execute()
+    }
+
+    override fun getSearchResult(
+        api_key: String,
+        language: String?,
+        query: String,
+        page: String?,
+        include_adult: Boolean?,
+        region: String?,
+        year: Int?,
+        primary_release_year: Int?
+    ): Response<DataMoviesModel> {
+        return retrofit.retrofitService.getSearchResult(
+            api_key,
+            language,
+            query,
+            page,
+            include_adult,
+            region,
+            year,
+            primary_release_year
+        ).execute()
     }
 
 }

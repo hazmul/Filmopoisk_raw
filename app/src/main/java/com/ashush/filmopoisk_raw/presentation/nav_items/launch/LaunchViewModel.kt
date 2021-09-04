@@ -4,18 +4,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ashush.filmopoisk_raw.data.config.DataConfig
-import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
-import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
+import com.ashush.filmopoisk_raw.domain.interactor.Interactor
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
-class LaunchViewModel @Inject constructor(private var retrofitImpl: RetrofitImpl) : ViewModel() {
+class LaunchViewModel @Inject constructor(private var interactor: Interactor) : ViewModel() {
 
     val requestResult = MutableLiveData(false)
     val requestError = MutableLiveData<String>()
@@ -23,24 +18,15 @@ class LaunchViewModel @Inject constructor(private var retrofitImpl: RetrofitImpl
     fun doRequest() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val retrofitImpl = retrofitImpl.retrofitService
-                retrofitImpl.getConfiguration(DataConfig.API_KEY).enqueue(
-                    object : Callback<DataConfigurationModel> {
-                        override fun onFailure(call: Call<DataConfigurationModel>, t: Throwable) {
-                            requestError.value = t.toString()
-                            requestResult.value = true
-                        }
-
-                        override fun onResponse(
-                            call: Call<DataConfigurationModel>,
-                            response: Response<DataConfigurationModel>
-                        ) {
-                            DataConfig.config = response.body()
-                            requestResult.value = true
-                        }
-
+                val result = interactor.getConfiguration(api_key = DataConfig.API_KEY)
+                when {
+                    result.isSuccessful -> {
+                        requestResult.postValue(true)
                     }
-                )
+                    !result.isSuccessful -> {
+                        requestError.value = result.message()
+                    }
+                }
             }
         }
     }

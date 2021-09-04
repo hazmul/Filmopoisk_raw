@@ -14,7 +14,7 @@ internal class DebouncingQueryTextListener(
     lifecycle: Lifecycle,
     private val onDebouncingQueryTextChange: (String?) -> Unit
 ) : TextWatcher, LifecycleObserver {
-    private var debouncePeriod: Long = 1000
+    private var debouncePeriod: Long = 500
 
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 

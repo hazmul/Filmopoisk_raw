@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ashush.filmopoisk_raw.data.config.DataConfig
-import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
+import com.ashush.filmopoisk_raw.domain.interactor.Interactor
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class SearchViewModel @Inject constructor(private var retrofitImpl: RetrofitImpl) : ViewModel() {
+class SearchViewModel @Inject constructor(private var interactor: Interactor) : ViewModel() {
 
     val requestResult = MutableLiveData<DataMoviesModel>()
     val requestError = MutableLiveData<String>()
@@ -21,8 +21,7 @@ class SearchViewModel @Inject constructor(private var retrofitImpl: RetrofitImpl
         viewModelScope.launch {
             delay(1000)
             withContext(Dispatchers.IO) {
-                val retrofitImpl = retrofitImpl.retrofitService
-                val result = retrofitImpl.getSearchResult(api_key = DataConfig.API_KEY, query = query).execute()
+                val result = interactor.getSearchResult(api_key = DataConfig.API_KEY, query = query)
                 when {
                     result.isSuccessful -> {
                         requestResult.postValue(result.body())

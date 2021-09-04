@@ -6,26 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ashush.filmopoisk_raw.data.config.DataConfig
-import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.databinding.FragmentNowplayingBinding
-import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
+import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
 import com.ashush.filmopoisk_raw.presentation.DetailActivity
+import com.ashush.filmopoisk_raw.presentation.MainActivity
 import com.ashush.filmopoisk_raw.presentation.nav_items.MoviesAdapter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class NowPlayingFragment : Fragment() {
 
-    private lateinit var nowPlayingViewModel: NowPlayingViewModel
+    private lateinit var viewModel: NowPlayingViewModel
     private var _binding: FragmentNowplayingBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
     private val adapter = MoviesAdapter()
 
@@ -34,8 +27,7 @@ class NowPlayingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        nowPlayingViewModel =
-            ViewModelProvider(this).get(NowPlayingViewModel::class.java)
+        viewModel = injectViewModel((requireActivity() as MainActivity).viewModelFactory)
 
         _binding = FragmentNowplayingBinding.inflate(inflater, container, false)
 
@@ -57,27 +49,17 @@ class NowPlayingFragment : Fragment() {
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        // Пробник запроса
-        val retrofitImpl = RetrofitImpl(requireContext()).retrofitService
-        retrofitImpl.getMoviesNowPlaying(DataConfig.API_KEY).enqueue(
-            object : Callback<DataMoviesModel> {
-                override fun onFailure(call: Call<DataMoviesModel>, t: Throwable) {
-                    Toast.makeText(requireActivity(), t.toString(), Toast.LENGTH_SHORT).show()
-                }
+        viewModel.requestResult.observe(viewLifecycleOwner) { result ->
+            result.movies?.let { adapter.update(it) }
+        }
+        viewModel.requestError.observe(viewLifecycleOwner) { result ->
+            Toast.makeText(requireActivity(), result, Toast.LENGTH_SHORT).show()
+        }
 
-                override fun onResponse(
-                    call: Call<DataMoviesModel>,
-                    response: Response<DataMoviesModel>
-                ) {
-                    response.body()?.movies?.let { adapter.update(it) }
-                }
-
-            }
-        )
-
+        viewModel.doRequest()
     }
 
     override fun onDestroyView() {

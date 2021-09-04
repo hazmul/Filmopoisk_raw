@@ -22,9 +22,6 @@ class SearchFragment : Fragment() {
 
     private lateinit var viewModel: SearchViewModel
     private var _binding: FragmentSearchBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
     private val adapter = MoviesAdapter()
 
@@ -34,8 +31,6 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewModel = injectViewModel((requireActivity() as MainActivity).viewModelFactory)
-
-
 
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
@@ -59,11 +54,10 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.editTextSearchQuery.addTextChangedListener(DebouncingQueryTextListener(lifecycle) { query ->
             query?.let { viewModel.doRequest(it) }
         })
-
-
 
         viewModel.requestResult.observe(viewLifecycleOwner) { result ->
             result.movies?.let { adapter.update(it) }

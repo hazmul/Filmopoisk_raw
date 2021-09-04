@@ -44,9 +44,6 @@ class LaunchFragment : Fragment() {
 
         animateLoading()
 
-//        viewLifecycleOwner.lifecycle.addObserver(
-//            ActionBarVisibilityDispatcher((activity as AppCompatActivity?)?.supportActionBar)
-//        )
         viewModel.requestResult.observe(viewLifecycleOwner) { result ->
             if (result) {
                 view.findNavController().navigate(R.id.action_launchFragment_to_nav_mainPager)

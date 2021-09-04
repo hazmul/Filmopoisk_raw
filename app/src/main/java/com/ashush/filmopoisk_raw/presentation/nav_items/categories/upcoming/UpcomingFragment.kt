@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,8 +13,9 @@ import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.data.config.DataConfig.Companion.API_KEY
 import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.databinding.FragmentUpcomingBinding
+import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
-import com.ashush.filmopoisk_raw.presentation.DetailActivity
+import com.ashush.filmopoisk_raw.presentation.MainActivity
 import com.ashush.filmopoisk_raw.presentation.nav_items.MoviesAdapter
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,11 +23,8 @@ import retrofit2.Response
 
 class UpcomingFragment : Fragment() {
 
-    private lateinit var upcomingViewModel: UpcomingViewModel
+    private lateinit var viewModel: UpcomingViewModel
     private var _binding: FragmentUpcomingBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
     private val adapter = MoviesAdapter()
 
@@ -36,8 +33,7 @@ class UpcomingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        upcomingViewModel =
-            ViewModelProvider(this).get(UpcomingViewModel::class.java)
+        viewModel = injectViewModel((requireActivity() as MainActivity).viewModelFactory)
 
         _binding = FragmentUpcomingBinding.inflate(inflater, container, false)
 
@@ -51,8 +47,6 @@ class UpcomingFragment : Fragment() {
             )
         )
 
-
-
         return binding.root
     }
 
@@ -62,35 +56,19 @@ class UpcomingFragment : Fragment() {
         adapter.listener = object : MoviesAdapter.IListener {
             override fun onClick(movieId: Int) {
 
-
 //                startActivity(DetailActivity.newIntent(this@UpcomingFragment.requireActivity(), movieId))
                 view.findNavController().navigate(R.id.action_nav_mainPager_to_blankFragment)
 
             }
         }
-    }
+        viewModel.requestResult.observe(viewLifecycleOwner) { result ->
+            result.movies?.let { adapter.update(it) }
+        }
+        viewModel.requestError.observe(viewLifecycleOwner) { result ->
+            Toast.makeText(requireActivity(), result, Toast.LENGTH_SHORT).show()
+        }
 
-    override fun onStart() {
-        super.onStart()
-
-        // Пробник запроса
-        val retrofitImpl = RetrofitImpl(requireContext()).retrofitService
-        retrofitImpl.getMoviesUpcoming(API_KEY).enqueue(
-            object : Callback<DataMoviesModel> {
-                override fun onFailure(call: Call<DataMoviesModel>, t: Throwable) {
-                    Toast.makeText(requireActivity(), t.toString(), Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onResponse(
-                    call: Call<DataMoviesModel>,
-                    response: Response<DataMoviesModel>
-                ) {
-                    response.body()?.movies?.let { adapter.update(it) }
-                }
-
-            }
-        )
-
+        viewModel.doRequest()
     }
 
     override fun onDestroyView() {
