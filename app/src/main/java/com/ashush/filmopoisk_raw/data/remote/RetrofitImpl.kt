@@ -31,6 +31,6 @@ class RetrofitImpl @Inject constructor(context: Context) {
         return retrofit!!
     }
 
-    val retrofitService: APIRequests
-        get() = getClient().create(APIRequests::class.java)
+    val retrofitService: RetrofitService
+        get() = getClient().create(RetrofitService::class.java)
 }

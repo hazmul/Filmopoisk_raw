@@ -8,43 +8,43 @@ import retrofit2.Response
 
 interface IRepository {
 
-    fun getConfiguration(api_key: String): Response<DataConfigurationModel>
+    suspend fun getConfiguration(api_key: String): Response<DataConfigurationModel>
 
-    fun getMovieDetail(
+    suspend fun getMovieDetail(
         movie_id: Int,
         api_key: String,
         append_to_response: String? = null,
     ): Response<DataMovieDetailModel>
 
-    fun getMoviesPopular(
+    suspend fun getMoviesPopular(
         api_key: String,
         language: String? = null,
         page: String? = null,
         region: String? = null
     ): Response<DataMoviesModel>
 
-    fun getMoviesTopRated(
+    suspend fun getMoviesTopRated(
         api_key: String,
         language: String? = null,
         page: String? = null,
         region: String? = null
     ): Response<DataMoviesModel>
 
-    fun getMoviesUpcoming(
+    suspend fun getMoviesUpcoming(
         api_key: String,
         language: String? = null,
         page: String? = null,
         region: String? = null
     ): Response<DataMoviesModel>
 
-    fun getMoviesNowPlaying(
+    suspend fun getMoviesNowPlaying(
         api_key: String,
         language: String? = null,
         page: String? = null,
         region: String? = null
     ): Response<DataMoviesModel>
 
-    fun getSearchResult(
+    suspend fun getSearchResult(
         api_key: String,
         language: String? = null,
         query: String,

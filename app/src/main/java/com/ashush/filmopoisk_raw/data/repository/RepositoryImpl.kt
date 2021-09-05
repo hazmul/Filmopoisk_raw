@@ -13,8 +13,8 @@ import javax.inject.Inject
 class RepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl, private val storage: IStorage) :
     IRepository {
 
-    override fun getConfiguration(api_key: String): Response<DataConfigurationModel> {
-        val result = retrofit.retrofitService.getConfiguration(DataConfig.API_KEY).execute()
+    override suspend fun getConfiguration(api_key: String): Response<DataConfigurationModel> {
+        val result = retrofit.retrofitService.getConfiguration(DataConfig.API_KEY)
         when {
             result.isSuccessful -> {
                 result.body()?.let {
@@ -29,51 +29,51 @@ class RepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl, pri
         return result
     }
 
-    override fun getMovieDetail(
+    override suspend fun getMovieDetail(
         movie_id: Int,
         api_key: String,
         append_to_response: String?
     ): Response<DataMovieDetailModel> {
-        return retrofit.retrofitService.getMovieDetail(movie_id, api_key, append_to_response).execute()
+        return retrofit.retrofitService.getMovieDetail(movie_id, api_key, append_to_response)
     }
 
-    override fun getMoviesPopular(
+    override suspend fun getMoviesPopular(
         api_key: String,
         language: String?,
         page: String?,
         region: String?
     ): Response<DataMoviesModel> {
-        return retrofit.retrofitService.getMoviesPopular(api_key, language, page, region).execute()
+        return retrofit.retrofitService.getMoviesPopular(api_key, language, page, region)
     }
 
-    override fun getMoviesTopRated(
+    override suspend fun getMoviesTopRated(
         api_key: String,
         language: String?,
         page: String?,
         region: String?
     ): Response<DataMoviesModel> {
-        return retrofit.retrofitService.getMoviesTopRated(api_key, language, page, region).execute()
+        return retrofit.retrofitService.getMoviesTopRated(api_key, language, page, region)
     }
 
-    override fun getMoviesUpcoming(
+    override suspend  fun getMoviesUpcoming(
         api_key: String,
         language: String?,
         page: String?,
         region: String?
     ): Response<DataMoviesModel> {
-        return retrofit.retrofitService.getMoviesUpcoming(api_key, language, page, region).execute()
+        return retrofit.retrofitService.getMoviesUpcoming(api_key, language, page, region)
     }
 
-    override fun getMoviesNowPlaying(
+    override suspend fun getMoviesNowPlaying(
         api_key: String,
         language: String?,
         page: String?,
         region: String?
     ): Response<DataMoviesModel> {
-        return retrofit.retrofitService.getMoviesNowPlaying(api_key, language, page, region).execute()
+        return retrofit.retrofitService.getMoviesNowPlaying(api_key, language, page, region)
     }
 
-    override fun getSearchResult(
+    override suspend fun getSearchResult(
         api_key: String,
         language: String?,
         query: String,
@@ -92,7 +92,7 @@ class RepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl, pri
             region,
             year,
             primary_release_year
-        ).execute()
+        )
     }
 
 }

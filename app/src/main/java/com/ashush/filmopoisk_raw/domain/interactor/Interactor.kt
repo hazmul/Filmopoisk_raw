@@ -11,11 +11,11 @@ class Interactor @Inject constructor(
     private val repository: IRepository
 ) {
 
-    fun getConfiguration(api_key: String): Response<DataConfigurationModel> {
+    suspend fun getConfiguration(api_key: String): Response<DataConfigurationModel> {
         return repository.getConfiguration(api_key)
     }
 
-    fun getMovieDetail(
+    suspend fun getMovieDetail(
         movie_id: Int,
         api_key: String,
         append_to_response: String? = null,
@@ -23,7 +23,7 @@ class Interactor @Inject constructor(
         return repository.getMovieDetail(movie_id, api_key, append_to_response)
     }
 
-    fun getMoviesPopular(
+    suspend fun getMoviesPopular(
         api_key: String,
         language: String? = null,
         page: String? = null,
@@ -32,7 +32,7 @@ class Interactor @Inject constructor(
         return repository.getMoviesPopular(api_key, language, page, region)
     }
 
-    fun getMoviesTopRated(
+    suspend fun getMoviesTopRated(
         api_key: String,
         language: String? = null,
         page: String? = null,
@@ -41,7 +41,7 @@ class Interactor @Inject constructor(
         return repository.getMoviesTopRated(api_key, language, page, region)
     }
 
-    fun getMoviesUpcoming(
+    suspend fun getMoviesUpcoming(
         api_key: String,
         language: String? = null,
         page: String? = null,
@@ -50,7 +50,7 @@ class Interactor @Inject constructor(
         return repository.getMoviesUpcoming(api_key, language, page, region)
     }
 
-    fun getMoviesNowPlaying(
+    suspend fun getMoviesNowPlaying(
         api_key: String,
         language: String? = null,
         page: String? = null,
@@ -59,7 +59,7 @@ class Interactor @Inject constructor(
         return repository.getMoviesNowPlaying(api_key, language, page, region)
     }
 
-    fun getSearchResult(
+    suspend fun getSearchResult(
         api_key: String,
         language: String? = null,
         query: String,
