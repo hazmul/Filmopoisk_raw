@@ -5,6 +5,7 @@ import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.data.storage.IStorage
 import com.ashush.filmopoisk_raw.domain.repository.IRepository
 import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
+import com.ashush.filmopoisk_raw.models.data.configuration.DataGenresInfo
 import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
 import retrofit2.Response
@@ -24,6 +25,18 @@ class RepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl, pri
             }
             !result.isSuccessful -> {
                 DataConfig.config = storage.getRemoteConfiguration()
+            }
+        }
+        return result
+    }
+
+    override suspend fun getGenresInfo(api_key: String): Response<DataGenresInfo> {
+        val result = retrofit.retrofitService.getGenresInfo(DataConfig.API_KEY)
+        when {
+            result.isSuccessful -> {
+                result.body()?.let {
+                    DataConfig.genres = it
+                }
             }
         }
         return result

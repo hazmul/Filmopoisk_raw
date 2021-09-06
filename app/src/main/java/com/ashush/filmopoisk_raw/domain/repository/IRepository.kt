@@ -1,6 +1,7 @@
 package com.ashush.filmopoisk_raw.domain.repository
 
 import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
+import com.ashush.filmopoisk_raw.models.data.configuration.DataGenresInfo
 import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
 import retrofit2.Call
@@ -9,6 +10,7 @@ import retrofit2.Response
 interface IRepository {
 
     suspend fun getConfiguration(api_key: String): Response<DataConfigurationModel>
+    suspend fun getGenresInfo(api_key: String): Response<DataGenresInfo>
 
     suspend fun getMovieDetail(
         movie_id: Int,

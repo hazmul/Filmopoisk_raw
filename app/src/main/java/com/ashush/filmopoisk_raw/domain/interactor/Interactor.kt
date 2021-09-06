@@ -2,6 +2,7 @@ package com.ashush.filmopoisk_raw.domain.interactor
 
 import com.ashush.filmopoisk_raw.domain.repository.IRepository
 import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
+import com.ashush.filmopoisk_raw.models.data.configuration.DataGenresInfo
 import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
 import retrofit2.Response
@@ -13,6 +14,9 @@ class Interactor @Inject constructor(
 
     suspend fun getConfiguration(api_key: String): Response<DataConfigurationModel> {
         return repository.getConfiguration(api_key)
+    }
+    suspend fun getGenresInfo(api_key: String): Response<DataGenresInfo> {
+        return repository.getGenresInfo(api_key)
     }
 
     suspend fun getMovieDetail(

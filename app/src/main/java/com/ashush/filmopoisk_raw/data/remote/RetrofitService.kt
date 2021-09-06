@@ -1,10 +1,9 @@
 package com.ashush.filmopoisk_raw.data.remote
 
 import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
+import com.ashush.filmopoisk_raw.models.data.configuration.DataGenresInfo
 import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
-import com.ashush.filmopoisk_raw.utils.MyResult
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -15,7 +14,15 @@ interface RetrofitService {
 
 
     @GET("/3/configuration")
-    suspend fun getConfiguration(@Query("api_key") api_key: String): Response<DataConfigurationModel>
+    suspend fun getConfiguration(
+        @Query("api_key") api_key: String
+    ): Response<DataConfigurationModel>
+
+    @GET("/3/genre/movie/list")
+    suspend fun getGenresInfo(
+        @Query("api_key") api_key: String,
+        @Query("language") language: String? = null,
+    ): Response<DataGenresInfo>
 
     @GET("/3/movie/{movie_id}")
     suspend fun getMovieDetail(
