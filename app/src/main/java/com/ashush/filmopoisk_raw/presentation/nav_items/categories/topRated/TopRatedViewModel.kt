@@ -26,7 +26,7 @@ class TopRatedViewModel @Inject constructor(private var interactor: Interactor) 
                         requestResult.postValue(result.body())
                     }
                     !result.isSuccessful -> {
-                        requestError.value = result.message()
+                        requestError.postValue(result.message())
                     }
 
                 }

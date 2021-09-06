@@ -26,7 +26,7 @@ class DetailActivityViewModel @Inject constructor(private var interactor: Intera
                         requestResult.postValue(result.body())
                     }
                     !result.isSuccessful -> {
-                        requestError.value = result.message()
+                        requestError.postValue(result.message())
                     }
                 }
             }

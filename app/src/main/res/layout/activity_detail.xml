@@ -25,7 +25,7 @@
             android:fitsSystemWindows="true">
 
             <ImageView
-                android:id="@+id/toolbar_img"
+                android:id="@+id/toolbar_img_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/movie_poster_desc"
@@ -47,7 +47,7 @@
 
     <include
         android:id="@+id/content_detail"
-        layout="@layout/content_detail" />
+        layout="@layout/fragment_detail" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

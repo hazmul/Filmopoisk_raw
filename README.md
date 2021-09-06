@@ -1,11 +1,11 @@
 Задачи:
-1) Разобратся с suspend functions
+1) 
    https://medium.com/android-beginners/mvvm-with-kotlin-coroutines-and-retrofit-example-d3f5f3b09050
    ^
    в статье разобраться с exceptionHandler
    вставить swipeRefreshLayout по примеру из статьи
 2) Довести до ума разметку Detail activity
-   - координато
+   - вставить постер
    - сделать кнопку "добавить в favorites, watchlist"
    - картинки с возможностью зума
    - видео?

@@ -34,7 +34,8 @@ class DetailActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: DetailActivityViewModel
-    private lateinit var binding: ActivityDetailBinding
+    private var _binding: ActivityDetailBinding? = null
+    private val binding get() = _binding!!
     private var movieId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +44,7 @@ class DetailActivity : AppCompatActivity() {
         (this.application as MyApp).application.inject(this)
         viewModel = injectViewModel(this.viewModelFactory)
 
-        binding = ActivityDetailBinding.inflate(layoutInflater)
+        _binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         movieId = intent.getIntExtra(MOVIE_ID_KEY, 0)
@@ -68,7 +69,7 @@ class DetailActivity : AppCompatActivity() {
     private fun updateUI(movie: DataMovieDetailModel?) {
         Picasso.get()
             .load(DataConfig.getBasePosterUrl(DataConfig.config?.images?.posterSizes?.lastOrNull()) + movie?.posterPath)
-            .into(binding.toolbarImg)
+            .into(binding.toolbarImgMain)
         binding.contentDetail.movieCountriesText.text = movie?.productionCountries?.map { it -> it?.name }?.reduce {str, item -> "$str, $item"}
         binding.contentDetail.movieGenresText.text = movie?.genres?.map { it -> it?.name }?.reduce {str, item -> "$str, $item"}?.lowercase(
             Locale.getDefault())

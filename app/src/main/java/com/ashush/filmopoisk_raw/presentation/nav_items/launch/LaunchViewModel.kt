@@ -16,18 +16,35 @@ class LaunchViewModel @Inject constructor(private var interactor: Interactor) : 
     val requestError = MutableLiveData<String>()
 
     fun doRequest() {
+        val resultList = mutableListOf<Boolean>()
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val result = interactor.getConfiguration(api_key = DataConfig.API_KEY)
                 when {
                     result.isSuccessful -> {
-                        requestResult.postValue(true)
+                        resultList.add(true)
                     }
                     !result.isSuccessful -> {
-                        requestError.value = result.message()
+                        requestError.postValue(result.message())
                     }
                 }
             }
+        }
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val result = interactor.getGenresInfo(api_key = DataConfig.API_KEY)
+                when {
+                    result.isSuccessful -> {
+                        resultList.add(true)
+                    }
+                    !result.isSuccessful -> {
+                        requestError.postValue(result.message())
+                    }
+                }
+            }
+        }
+        if (resultList.all { it }) {
+            requestResult.postValue(true)
         }
     }
 }
