@@ -2,9 +2,7 @@ package com.ashush.filmopoisk_raw.di.data
 
 import android.content.Context
 import androidx.room.Room
-import com.ashush.filmopoisk_raw.data.db.DBRoom
-import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
-import com.ashush.filmopoisk_raw.data.storage.IStorage
+import com.ashush.filmopoisk_raw.data.storage.db.DBRoom
 import dagger.Module
 import dagger.Provides
 

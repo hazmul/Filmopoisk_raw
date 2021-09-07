@@ -65,42 +65,30 @@ class DetailFragment : Fragment() {
     }
 
     private fun handleFab() {
-        Log.d("TAG", "handleFab() called")
         val fabFf = requireActivity().findViewById<FloatingActionButton>(R.id.add_favorites_fab)
-        val fabFft = requireActivity().findViewById<TextView>(R.id.add_favorites_text)
         val fabFw = requireActivity().findViewById<FloatingActionButton>(R.id.add_watchlist_fab)
-        val fabFwt = requireActivity().findViewById<TextView>(R.id.add_watchlist_text)
         val fabRoot = requireActivity().findViewById<ExtendedFloatingActionButton>(R.id.add_fab)
         fabFf.visibility = View.GONE
-        fabFft.visibility = View.GONE
         fabFw.visibility = View.GONE
-        fabFwt.visibility = View.GONE
         isAllFabsVisible = false
         fabRoot.shrink()
         fabRoot.setOnClickListener {
-            Log.d("TAG", "setOnClickListener() called isAllFabsVisible = " + isAllFabsVisible)
             if (!isAllFabsVisible) {
                 fabFf.show()
                 fabFw.show()
-                fabFft.visibility = View.VISIBLE
-                fabFwt.visibility = View.VISIBLE
                 fabRoot.extend()
                 isAllFabsVisible = true
             } else {
                 fabFf.hide()
                 fabFw.hide()
-                fabFft.visibility = View.GONE
-                fabFwt.visibility = View.GONE
                 fabRoot.shrink()
                 isAllFabsVisible = false
             }
         }
         fabFf.setOnClickListener {
-            Log.d("TAG", "setOnClickListener() called addWatchlistFab = ")
             Toast.makeText(requireActivity(), "addWatchlistFab clicked", Toast.LENGTH_SHORT).show();
         }
         fabFw.setOnClickListener {
-            Log.d("TAG", "setOnClickListener() called addWatchlistFab = " )
             Toast.makeText(requireActivity(), "addFavoritesFab clicked", Toast.LENGTH_SHORT).show();
         }
     }

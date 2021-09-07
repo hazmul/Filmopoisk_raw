@@ -3,6 +3,7 @@ package com.ashush.filmopoisk_raw.data.repository
 import com.ashush.filmopoisk_raw.data.config.DataConfig
 import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.data.storage.IStorage
+import com.ashush.filmopoisk_raw.data.storage.db.entity.BaseEntity
 import com.ashush.filmopoisk_raw.domain.repository.IRepository
 import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
 import com.ashush.filmopoisk_raw.models.data.configuration.DataGenresInfo
@@ -68,7 +69,7 @@ class RepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl, pri
         return retrofit.retrofitService.getMoviesTopRated(api_key, language, page, region)
     }
 
-    override suspend  fun getMoviesUpcoming(
+    override suspend fun getMoviesUpcoming(
         api_key: String,
         language: String?,
         page: String?,
@@ -108,4 +109,27 @@ class RepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl, pri
         )
     }
 
+    override fun <T : BaseEntity> getAll(): List<BaseEntity>? {
+        return storage.getAll<T>()
+    }
+
+    override fun <T : BaseEntity> getAllByIds(moviesId: List<Int>): List<BaseEntity>? {
+        return storage.getAllByIds<T>(moviesId)
+    }
+
+    override fun <T : BaseEntity> updateMovies(moviesList: List<BaseEntity>) {
+       storage.updateMovies<T>(moviesList)
+    }
+
+    override fun <T : BaseEntity> getById(movieId: Int): BaseEntity? {
+        return storage.getById<T>(movieId)
+    }
+
+    override fun <T : BaseEntity> delete(movieList: BaseEntity) {
+        storage.delete<T>(movieList)
+    }
+
+    override fun <T : BaseEntity> insertAll(moviesList: List<T>) {
+        storage.insertAll(moviesList)
+    }
 }

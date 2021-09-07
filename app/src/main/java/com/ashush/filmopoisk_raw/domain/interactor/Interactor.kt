@@ -1,5 +1,6 @@
 package com.ashush.filmopoisk_raw.domain.interactor
 
+import com.ashush.filmopoisk_raw.data.storage.db.entity.BaseEntity
 import com.ashush.filmopoisk_raw.domain.repository.IRepository
 import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
 import com.ashush.filmopoisk_raw.models.data.configuration.DataGenresInfo
@@ -83,5 +84,29 @@ class Interactor @Inject constructor(
             year,
             primary_release_year
         )
+    }
+
+    fun <T : BaseEntity> getAll(): List<BaseEntity>? {
+        return repository.getAll<T>()
+    }
+
+    fun <T : BaseEntity> getAllByIds(moviesId: List<Int>): List<BaseEntity>? {
+        return repository.getAllByIds<T>(moviesId)
+    }
+
+    fun <T : BaseEntity> updateMovies(moviesList: List<BaseEntity>) {
+        repository.updateMovies<T>(moviesList)
+    }
+
+    fun <T : BaseEntity> getById(movieId: Int): BaseEntity? {
+        return repository.getById<T>(movieId)
+    }
+
+    fun <T : BaseEntity> delete(movieList: BaseEntity) {
+        repository.delete<T>(movieList)
+    }
+
+    fun <T : BaseEntity> insertAll(moviesList: List<T>) {
+        repository.insertAll(moviesList)
     }
 }

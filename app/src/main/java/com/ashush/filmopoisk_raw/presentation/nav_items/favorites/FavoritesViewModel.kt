@@ -4,8 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ashush.filmopoisk_raw.data.config.DataConfig
-import com.ashush.filmopoisk_raw.data.db.DBRoom
-import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
+import com.ashush.filmopoisk_raw.data.storage.db.entity.Favorites
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +14,6 @@ import javax.inject.Inject
 
 class FavoritesViewModel
 @Inject constructor(
-    private var dbRoom: DBRoom,
     private var interactor: Interactor
 ) :
     ViewModel() {
@@ -26,29 +24,18 @@ class FavoritesViewModel
     fun doRequest() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val favoritesDao = dbRoom.favoritesDao()
-                val resultDB = favoritesDao.getAll()
-                val resultHTTP: MutableList<DataMoviesModel.Movie?> = mutableListOf()
-                for (movie in resultDB) {
-                    val result = interactor.getMovieDetail(movie.movieId!!, DataConfig.API_KEY)
-                    when {
-                        result.isSuccessful -> {
-                            resultHTTP.add(
-                                DataMoviesModel.Movie(
-                                    title = result.body()?.title,
-                                    posterPath = result.body()?.posterPath
-                                )
-                            )
-                            requestResult.value = DataMoviesModel(movies = resultHTTP)
-                        }
-                        !result.isSuccessful -> {
-                            requestError.value = result.errorBody().toString()
-                        }
-                    }
-                }
-
+                val result = DataMoviesModel(movies = interactor.getAll<Favorites>()?.map {
+                    DataMoviesModel.Movie(
+                        id = it.movieId,
+                        title = it.title,
+                        popularity = it.popularity,
+                        releaseDate = it.releaseDate,
+                        overview = it.overview,
+                        posterPath = it.posterPath
+                    )
+                })
+                requestResult.postValue(result)
             }
         }
     }
-
 }
