@@ -15,9 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmopoisk_Raw">
         <activity
-            android:name=".presentation.DetailActivity"
-            android:exported="true" />
-        <activity
             android:name=".presentation.MainActivity"
             android:exported="true"
             android:label="@string/app_name"

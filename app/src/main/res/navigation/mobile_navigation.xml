@@ -21,7 +21,7 @@
         android:label="@string/menu_categories"
         tools:layout="@layout/fragment_main_pager">
         <action
-            android:id="@+id/action_nav_mainPager_to_blankFragment"
+            android:id="@+id/action_nav_mainPager_to_detailFragment"
             app:destination="@id/blankFragment" />
     </fragment>
 

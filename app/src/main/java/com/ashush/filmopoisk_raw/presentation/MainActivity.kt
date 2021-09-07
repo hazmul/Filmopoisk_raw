@@ -1,9 +1,6 @@
 package com.ashush.filmopoisk_raw.presentation
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
@@ -15,16 +12,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.ashush.filmopoisk_raw.MyApp
 import com.ashush.filmopoisk_raw.R
-import com.ashush.filmopoisk_raw.data.config.DataConfig
-import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.databinding.ActivityMainBinding
-import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
-import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
-import com.ashush.filmopoisk_raw.presentation.nav_items.settings.SettingsFragment
 import com.google.android.material.navigation.NavigationView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -58,13 +47,16 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_mainPager, R.id.nav_search, R.id.nav_favorites, R.id.nav_watchlist, R.id.nav_settings
+                R.id.nav_mainPager,
+                R.id.nav_search,
+                R.id.nav_favorites,
+                R.id.nav_watchlist,
+                R.id.nav_settings
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
-
 
 
     override fun onSupportNavigateUp(): Boolean {

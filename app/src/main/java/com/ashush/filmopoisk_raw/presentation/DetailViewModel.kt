@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class DetailActivityViewModel @Inject constructor(private var interactor: Interactor) : ViewModel() {
+class DetailViewModel @Inject constructor(private var interactor: Interactor) : ViewModel() {
 
     val requestResult = MutableLiveData<DataMovieDetailModel>()
     val requestError = MutableLiveData<String>()

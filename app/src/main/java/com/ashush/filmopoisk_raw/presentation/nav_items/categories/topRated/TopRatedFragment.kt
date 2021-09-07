@@ -5,21 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ashush.filmopoisk_raw.data.config.DataConfig
-import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
+import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.databinding.FragmentTopratedBinding
 import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
-import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
-import com.ashush.filmopoisk_raw.presentation.DetailActivity
+import com.ashush.filmopoisk_raw.presentation.DetailFragment
 import com.ashush.filmopoisk_raw.presentation.MainActivity
 import com.ashush.filmopoisk_raw.presentation.nav_items.MoviesAdapter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class TopRatedFragment : Fragment() {
 
@@ -46,19 +42,18 @@ class TopRatedFragment : Fragment() {
                 LinearLayoutManager.VERTICAL
             )
         )
-
-        adapter.listener = object : MoviesAdapter.IListener {
-            override fun onClick(movieId: Int) {
-                startActivity(DetailActivity.newIntent(this@TopRatedFragment.requireActivity(), movieId))
-            }
-        }
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        adapter.listener = object : MoviesAdapter.IListener {
+            override fun onClick(movieId: Int) {
+                val bundle = bundleOf(DetailFragment.MOVIE_ID_KEY to movieId)
+                view.findNavController().navigate(R.id.action_nav_mainPager_to_detailFragment, bundle)
+            }
+        }
         viewModel.requestResult.observe(viewLifecycleOwner) { result ->
             result.movies?.let { adapter.update(it) }
         }

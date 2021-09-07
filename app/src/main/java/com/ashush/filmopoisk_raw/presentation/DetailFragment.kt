@@ -8,17 +8,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.data.config.DataConfig
+import com.ashush.filmopoisk_raw.databinding.ActivityMainBinding
 import com.ashush.filmopoisk_raw.databinding.FragmentDetailBinding
 import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
 import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 import java.util.*
@@ -26,11 +28,16 @@ import javax.inject.Inject
 
 class DetailFragment : Fragment() {
 
+    companion object {
+        const val MOVIE_ID_KEY = "MOVIE_ID_KEY"
+    }
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: DetailActivityViewModel
+    private lateinit var viewModel: DetailViewModel
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
+    private var isAllFabsVisible = false
     private var movieId: Int = 0
 
     override fun onCreateView(
@@ -38,7 +45,7 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
-        movieId = arguments?.getInt(getString(R.string.movieId_navData))!!
+        movieId = arguments?.getInt(MOVIE_ID_KEY, 0)!!
 
         viewModel = injectViewModel((requireActivity() as MainActivity).viewModelFactory)
         viewModel.requestResult.observe(viewLifecycleOwner) { result ->
@@ -49,15 +56,58 @@ class DetailFragment : Fragment() {
         }
         viewModel.doRequest(movieId)
 
-
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        handleFab()
+    }
+
+    private fun handleFab() {
+        Log.d("TAG", "handleFab() called")
+        val fabFf = requireActivity().findViewById<FloatingActionButton>(R.id.add_favorites_fab)
+        val fabFft = requireActivity().findViewById<TextView>(R.id.add_favorites_text)
+        val fabFw = requireActivity().findViewById<FloatingActionButton>(R.id.add_watchlist_fab)
+        val fabFwt = requireActivity().findViewById<TextView>(R.id.add_watchlist_text)
+        val fabRoot = requireActivity().findViewById<ExtendedFloatingActionButton>(R.id.add_fab)
+        fabFf.visibility = View.GONE
+        fabFft.visibility = View.GONE
+        fabFw.visibility = View.GONE
+        fabFwt.visibility = View.GONE
+        isAllFabsVisible = false
+        fabRoot.shrink()
+        fabRoot.setOnClickListener {
+            Log.d("TAG", "setOnClickListener() called isAllFabsVisible = " + isAllFabsVisible)
+            if (!isAllFabsVisible) {
+                fabFf.show()
+                fabFw.show()
+                fabFft.visibility = View.VISIBLE
+                fabFwt.visibility = View.VISIBLE
+                fabRoot.extend()
+                isAllFabsVisible = true
+            } else {
+                fabFf.hide()
+                fabFw.hide()
+                fabFft.visibility = View.GONE
+                fabFwt.visibility = View.GONE
+                fabRoot.shrink()
+                isAllFabsVisible = false
+            }
+        }
+        fabFf.setOnClickListener {
+            Log.d("TAG", "setOnClickListener() called addWatchlistFab = ")
+            Toast.makeText(requireActivity(), "addWatchlistFab clicked", Toast.LENGTH_SHORT).show();
+        }
+        fabFw.setOnClickListener {
+            Log.d("TAG", "setOnClickListener() called addWatchlistFab = " )
+            Toast.makeText(requireActivity(), "addFavoritesFab clicked", Toast.LENGTH_SHORT).show();
+        }
     }
 
     override fun onDestroyView() {
         restoreMainToolbar()
         super.onDestroyView()
-
     }
 
     private fun updateUI(movie: DataMovieDetailModel?) {
@@ -77,7 +127,8 @@ class DetailFragment : Fragment() {
         binding.movieProductionCompaniesText.text = movie?.productionCompanies?.map { it -> it?.name }?.reduce {str, item -> "$str, $item"}
     }
     private fun setDetailToolbar(movie: DataMovieDetailModel?) {
-        requireActivity().findViewById<FloatingActionButton>(R.id.fab_main)?.visibility = View.VISIBLE
+        requireActivity().findViewById<ExtendedFloatingActionButton>(R.id.add_fab)?.visibility = View.VISIBLE
+        requireActivity().findViewById<ConstraintLayout>(R.id.add_fab_content)?.visibility = View.VISIBLE
         requireActivity().findViewById<ImageView>(R.id.toolbar_img_main)?.visibility = View.VISIBLE
         requireActivity().findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar).title = ("${movie?.originalTitle} (${"\\d{4}".toRegex().find(movie?.releaseDate!!)?.value})")
 
@@ -86,7 +137,8 @@ class DetailFragment : Fragment() {
             .into(requireActivity().findViewById<ImageView>(R.id.toolbar_img_main))
     }
     private fun restoreMainToolbar() {
-        requireActivity().findViewById<FloatingActionButton>(R.id.fab_main)?.visibility = View.GONE
+        requireActivity().findViewById<ExtendedFloatingActionButton>(R.id.add_fab)?.visibility = View.GONE
+        requireActivity().findViewById<ConstraintLayout>(R.id.add_fab_content)?.visibility = View.GONE
         requireActivity().findViewById<ImageView>(R.id.toolbar_img_main)?.visibility = View.GONE
         requireActivity().findViewById<ImageView>(R.id.toolbar_img_main)?.setImageDrawable(null)
         requireActivity().findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar).title = ""

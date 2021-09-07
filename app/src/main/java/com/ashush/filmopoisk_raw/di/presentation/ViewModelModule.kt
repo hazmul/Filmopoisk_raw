@@ -2,8 +2,7 @@ package com.ashush.filmopoisk_raw.di.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.ashush.filmopoisk_raw.data.db.entity.Watchlist
-import com.ashush.filmopoisk_raw.presentation.DetailActivityViewModel
+import com.ashush.filmopoisk_raw.presentation.DetailViewModel
 import com.ashush.filmopoisk_raw.presentation.nav_items.categories.nowPlaying.NowPlayingViewModel
 import com.ashush.filmopoisk_raw.presentation.nav_items.categories.topRated.TopRatedViewModel
 import com.ashush.filmopoisk_raw.presentation.nav_items.categories.upcoming.UpcomingViewModel
@@ -22,8 +21,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(DetailActivityViewModel::class)
-    internal abstract fun detailActivityViewModel(viewModel: DetailActivityViewModel): ViewModel
+    @ViewModelKey(DetailViewModel::class)
+    internal abstract fun detailActivityViewModel(viewModel: DetailViewModel): ViewModel
 
     @Binds
     @IntoMap

@@ -7,7 +7,6 @@ import com.ashush.filmopoisk_raw.di.data.StoreModule
 import com.ashush.filmopoisk_raw.di.domain.InteractorModule
 import com.ashush.filmopoisk_raw.di.presentation.ViewModelModule
 import com.ashush.filmopoisk_raw.di.utils.SchedulersProviderModule
-import com.ashush.filmopoisk_raw.presentation.DetailActivity
 import com.ashush.filmopoisk_raw.presentation.MainActivity
 import dagger.BindsInstance
 import dagger.Component
@@ -15,7 +14,6 @@ import dagger.Component
 @Component(
     modules =
     [
-        SchedulersProviderModule::class,
         ViewModelModule::class,
         StoreModule::class,
         DBModule::class,
@@ -35,7 +33,6 @@ interface AppComponent {
     }
 
     fun inject(mainActivity: MainActivity)
-    fun inject(detailActivity: DetailActivity)
 }
 
 

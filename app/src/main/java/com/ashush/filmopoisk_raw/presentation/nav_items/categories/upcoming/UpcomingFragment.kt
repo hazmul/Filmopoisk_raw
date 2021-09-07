@@ -11,16 +11,11 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ashush.filmopoisk_raw.R
-import com.ashush.filmopoisk_raw.data.config.DataConfig.Companion.API_KEY
-import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.databinding.FragmentUpcomingBinding
 import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
-import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
+import com.ashush.filmopoisk_raw.presentation.DetailFragment
 import com.ashush.filmopoisk_raw.presentation.MainActivity
 import com.ashush.filmopoisk_raw.presentation.nav_items.MoviesAdapter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class UpcomingFragment : Fragment() {
 
@@ -56,11 +51,8 @@ class UpcomingFragment : Fragment() {
 
         adapter.listener = object : MoviesAdapter.IListener {
             override fun onClick(movieId: Int) {
-
-//                startActivity(DetailActivity.newIntent(this@UpcomingFragment.requireActivity(), movieId))
-                val bundle = bundleOf(getString(R.string.movieId_navData) to movieId)
-                view.findNavController().navigate(R.id.action_nav_mainPager_to_blankFragment, bundle)
-
+                val bundle = bundleOf(DetailFragment.MOVIE_ID_KEY to movieId)
+                view.findNavController().navigate(R.id.action_nav_mainPager_to_detailFragment, bundle)
             }
         }
         viewModel.requestResult.observe(viewLifecycleOwner) { result ->

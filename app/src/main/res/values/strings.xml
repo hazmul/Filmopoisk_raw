@@ -54,6 +54,6 @@
     <string name="production_companies">Production companies</string>
     <string name="overview">Overview</string>
     <string name="button_to_add_to_some_list">Button to add to some list</string>
-    <string name="movieId_navData">movieId</string>
+    <string name="add_to_fab">Add to</string>
 
 </resources>

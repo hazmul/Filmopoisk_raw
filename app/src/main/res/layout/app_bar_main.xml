@@ -17,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:collapsedTitleTextAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            app:expandedTitleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:contentScrim="@color/colorPrimary"
+            app:expandedTitleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@id/toolbar_main">
 
@@ -26,8 +26,8 @@
                 android:id="@+id/toolbar_img_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxHeight="400dp"
                 android:contentDescription="@string/movie_poster_desc"
+                android:maxHeight="300dp"
                 android:scaleType="centerCrop"
                 android:visibility="gone"
                 app:layout_collapseMode="parallax"
@@ -48,16 +48,26 @@
     <include layout="@layout/content_main" />
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_main"
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/add_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:contentDescription="@string/button_to_add_to_some_list"
-        android:src="@drawable/ic_menu_camera"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:backgroundTint="@color/colorSecondary"
+        android:text="@string/add_to_fab"
         android:visibility="gone"
+        app:icon="@drawable/baseline_add_circle_outline_24"
         app:layout_anchor="@id/main_appBar"
         app:layout_anchorGravity="bottom|right|end"
+        app:tint="@android:color/white"
         tools:visibility="visible" />
+
+    <include layout="@layout/fab_extended_layout"
+        android:id="@+id/add_fab_content"
+        app:layout_anchor="@id/add_fab"
+        app:layout_anchorGravity="bottom|right|end"/>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
