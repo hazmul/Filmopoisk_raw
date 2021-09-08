@@ -1,14 +1,16 @@
 package com.ashush.filmopoisk_raw.data.storage
 
 import android.content.Context
-import com.ashush.filmopoisk_raw.data.storage.db.DBRoom
+import com.ashush.filmopoisk_raw.data.storage.db.MovieDatabase
+import com.ashush.filmopoisk_raw.data.storage.db.dao.FavoritesDao
+import com.ashush.filmopoisk_raw.data.storage.db.dao.WatchlistDao
 import com.ashush.filmopoisk_raw.data.storage.db.entity.BaseEntity
 import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
 import com.google.gson.Gson
+import javax.inject.Inject
 
-class StorageImpl(
+class StorageImpl @Inject constructor(
     private val context: Context,
-    private var dbRoom: DBRoom,
 ) : IStorage {
 
     companion object {
@@ -31,33 +33,14 @@ class StorageImpl(
         return gson.fromJson(json, DataConfigurationModel::class.java)
     }
 
-    override fun <T: BaseEntity> getAll(): List<BaseEntity>? {
-        val dao = dbRoom.baseDao<T>()
-        return dao.getAll()
+    override fun getFavoriteDao(): FavoritesDao {
+        return MovieDatabase.getInstance(context).favoritesDao()
     }
 
-    override fun <T: BaseEntity> getAllByIds(moviesId: List<Int>): List<BaseEntity>? {
-        val dao = dbRoom.baseDao<T>()
-        return dao.getAllByIds(moviesId)
+    override fun getWatchlistDao(): WatchlistDao {
+        return MovieDatabase.getInstance(context).watchlistDao()
     }
 
-    override fun <T: BaseEntity> getById(movieId: Int): BaseEntity? {
-        val dao = dbRoom.baseDao<T>()
-        return dao.getById(movieId)
-    }
 
-    override fun <T: BaseEntity> delete(movieList: BaseEntity) {
-        val dao = dbRoom.baseDao<T>()
-        dao.delete(movieList)
-    }
 
-    override fun <T: BaseEntity> updateMovies(moviesList: List<BaseEntity>) {
-        val dao = dbRoom.baseDao<T>()
-        dao.updateMovies(moviesList)
-    }
-
-    override fun <T: BaseEntity> insertAll(moviesList: List<T>) {
-        val dao = dbRoom.baseDao<T>()
-        dao.insertAll(moviesList)
-    }
 }

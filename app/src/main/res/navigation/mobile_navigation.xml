@@ -22,11 +22,11 @@
         tools:layout="@layout/fragment_main_pager">
         <action
             android:id="@+id/action_nav_mainPager_to_detailFragment"
-            app:destination="@id/blankFragment" />
+            app:destination="@id/detailFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/blankFragment"
+        android:id="@+id/detailFragment"
         android:name="com.ashush.filmopoisk_raw.presentation.DetailFragment"
         android:label="fragment_blank"
         tools:layout="@layout/fragment_detail">
@@ -39,7 +39,11 @@
         android:id="@+id/nav_search"
         android:name="com.ashush.filmopoisk_raw.presentation.nav_items.search.SearchFragment"
         android:label="@string/menu_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_nav_search_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_settings"
         android:name="com.ashush.filmopoisk_raw.presentation.nav_items.settings.SettingsFragment"
@@ -49,11 +53,19 @@
         android:id="@+id/nav_favorites"
         android:name="com.ashush.filmopoisk_raw.presentation.nav_items.favorites.FavoritesFragment"
         android:label="fragment_favorites"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_favorites" >
+        <action
+            android:id="@+id/action_nav_favorites_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_watchlist"
         android:name="com.ashush.filmopoisk_raw.presentation.nav_items.watchlist.WatchlistFragment"
         android:label="fragment_watchlist"
-        tools:layout="@layout/fragment_watchlist" />
+        tools:layout="@layout/fragment_watchlist" >
+        <action
+            android:id="@+id/action_nav_watchlist_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
 
 </navigation>

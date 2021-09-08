@@ -4,11 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ashush.filmopoisk_raw.data.config.DataConfig
-import com.ashush.filmopoisk_raw.data.storage.db.entity.Favorites
-import com.ashush.filmopoisk_raw.data.storage.db.entity.Watchlist
+import com.ashush.filmopoisk_raw.domain.interactor.DataType
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
 import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
-import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -21,32 +19,32 @@ class DetailViewModel @Inject constructor(private var interactor: Interactor) : 
 
     fun doRequest(movieId: Int) {
         viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            val result = interactor.getMovieDetail(movieId, DataConfig.API_KEY)
-            when {
-                result.isSuccessful -> {
-                    requestResult.postValue(result.body())
-                }
-                !result.isSuccessful -> {
-                    requestError.postValue(result.message())
+            withContext(Dispatchers.IO) {
+                val result = interactor.getMovieDetail(movieId, DataConfig.API_KEY)
+                when {
+                    result.isSuccessful -> {
+                        requestResult.postValue(result.body())
+                    }
+                    !result.isSuccessful -> {
+                        requestError.postValue(result.message())
+                    }
                 }
             }
         }
     }
-}
 
-    fun addToFavorite() {
+    fun addToFavorite(movie: DataMovieDetailModel) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-//                interactor.insertAll<Favorites>()
+                interactor.insert(DataType.FAVORITES, movie)
             }
         }
     }
 
-    fun addToWatchlist(movieId: Int) {
+    fun addToWatchlist(movie: DataMovieDetailModel) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-//                interactor.insertAll<Watchlist>()
+                interactor.insert(DataType.WATCHLIST, movie)
             }
         }
     }

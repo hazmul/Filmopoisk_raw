@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 
 @Fts4
 @Entity(tableName = "watchlist")
-data class Watchlist(
+class Watchlist(
     @PrimaryKey(autoGenerate = true)
     override val rowid: Int,
     @ColumnInfo(name = "movie_id") override val movieId: Int?,
@@ -17,4 +17,5 @@ data class Watchlist(
     @ColumnInfo(name = "overview") override val overview: String?,
     @ColumnInfo(name = "tagline") override val tagline: String?,
     @ColumnInfo(name = "poster_path") override val posterPath: String?,
-) : BaseEntity()
+)
+    : BaseEntity(rowid, movieId, title, popularity, releaseDate, overview, tagline, posterPath)

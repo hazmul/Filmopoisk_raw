@@ -3,19 +3,16 @@ package com.ashush.filmopoisk_raw.presentation
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.data.config.DataConfig
-import com.ashush.filmopoisk_raw.databinding.ActivityMainBinding
 import com.ashush.filmopoisk_raw.databinding.FragmentDetailBinding
 import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
 import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
@@ -86,10 +83,10 @@ class DetailFragment : Fragment() {
             }
         }
         fabFf.setOnClickListener {
-            Toast.makeText(requireActivity(), "addWatchlistFab clicked", Toast.LENGTH_SHORT).show();
+            viewModel.requestResult.value?.let { viewModel.addToFavorite(it) }
         }
         fabFw.setOnClickListener {
-            Toast.makeText(requireActivity(), "addFavoritesFab clicked", Toast.LENGTH_SHORT).show();
+            viewModel.requestResult.value?.let { viewModel.addToWatchlist(it) }
         }
     }
 
@@ -100,11 +97,15 @@ class DetailFragment : Fragment() {
 
     private fun updateUI(movie: DataMovieDetailModel?) {
         setDetailToolbar(movie)
-        binding.movieCountriesText.text = movie?.productionCountries?.map { it -> it?.name }?.reduce {str, item -> "$str, $item"}
-        binding.movieGenresText.text = movie?.genres?.map { it -> it?.name }?.reduce {str, item -> "$str, $item"}?.lowercase(
-            Locale.getDefault())
+        binding.movieCountriesText.text =
+            movie?.productionCountries?.map { it -> it?.name }?.reduce { str, item -> "$str, $item" }
+        binding.movieGenresText.text =
+            movie?.genres?.map { it -> it?.name }?.reduce { str, item -> "$str, $item" }?.lowercase(
+                Locale.getDefault()
+            )
         if (movie != null) {
-            binding.movieHomepageText.text = Html.fromHtml("<a href=\"${movie.homepage}\">${getString(R.string.official_site)}</a>")
+            binding.movieHomepageText.text =
+                Html.fromHtml("<a href=\"${movie.homepage}\">${getString(R.string.official_site)}</a>")
             binding.movieHomepageText.isClickable = true
             binding.movieHomepageText.movementMethod = LinkMovementMethod.getInstance()
         }
@@ -112,18 +113,22 @@ class DetailFragment : Fragment() {
         binding.movieOverviewText.text = movie?.overview
         binding.movieReleaseDateText.text = movie?.releaseDate
         binding.movieTaglineText.text = movie?.tagline
-        binding.movieProductionCompaniesText.text = movie?.productionCompanies?.map { it -> it?.name }?.reduce {str, item -> "$str, $item"}
+        binding.movieProductionCompaniesText.text =
+            movie?.productionCompanies?.map { it -> it?.name }?.reduce { str, item -> "$str, $item" }
     }
+
     private fun setDetailToolbar(movie: DataMovieDetailModel?) {
         requireActivity().findViewById<ExtendedFloatingActionButton>(R.id.add_fab)?.visibility = View.VISIBLE
         requireActivity().findViewById<ConstraintLayout>(R.id.add_fab_content)?.visibility = View.VISIBLE
         requireActivity().findViewById<ImageView>(R.id.toolbar_img_main)?.visibility = View.VISIBLE
-        requireActivity().findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar).title = ("${movie?.originalTitle} (${"\\d{4}".toRegex().find(movie?.releaseDate!!)?.value})")
+        requireActivity().findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar).title =
+            ("${movie?.originalTitle} (${"\\d{4}".toRegex().find(movie?.releaseDate!!)?.value})")
 
         Picasso.get()
             .load(DataConfig.getBasePosterUrl(DataConfig.config?.images?.posterSizes?.lastOrNull()) + movie.backdropPath)
             .into(requireActivity().findViewById<ImageView>(R.id.toolbar_img_main))
     }
+
     private fun restoreMainToolbar() {
         requireActivity().findViewById<ExtendedFloatingActionButton>(R.id.add_fab)?.visibility = View.GONE
         requireActivity().findViewById<ConstraintLayout>(R.id.add_fab_content)?.visibility = View.GONE

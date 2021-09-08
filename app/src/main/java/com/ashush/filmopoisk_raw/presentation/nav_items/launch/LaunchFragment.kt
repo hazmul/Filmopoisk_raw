@@ -1,6 +1,7 @@
 package com.ashush.filmopoisk_raw.presentation.nav_items.launch
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

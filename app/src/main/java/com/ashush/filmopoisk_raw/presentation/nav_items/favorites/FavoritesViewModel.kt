@@ -3,8 +3,7 @@ package com.ashush.filmopoisk_raw.presentation.nav_items.favorites
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ashush.filmopoisk_raw.data.config.DataConfig
-import com.ashush.filmopoisk_raw.data.storage.db.entity.Favorites
+import com.ashush.filmopoisk_raw.domain.interactor.DataType
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
 import kotlinx.coroutines.Dispatchers
@@ -24,9 +23,9 @@ class FavoritesViewModel
     fun doRequest() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val result = DataMoviesModel(movies = interactor.getAll<Favorites>()?.map {
+                val result = DataMoviesModel(movies = interactor.getAll(DataType.FAVORITES)?.map {
                     DataMoviesModel.Movie(
-                        id = it.movieId,
+                        id = it.id,
                         title = it.title,
                         popularity = it.popularity,
                         releaseDate = it.releaseDate,

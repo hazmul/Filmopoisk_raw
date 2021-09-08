@@ -41,7 +41,7 @@ class WatchlistFragment : Fragment() {
         adapter.listener = object : MoviesAdapter.IListener {
             override fun onClick(movieId: Int) {
                 val bundle = bundleOf(DetailFragment.MOVIE_ID_KEY to movieId)
-                view.findNavController().navigate(R.id.action_nav_mainPager_to_detailFragment, bundle)
+                view.findNavController().navigate(R.id.action_nav_watchlist_to_detailFragment, bundle)
             }
         }
 
@@ -61,7 +61,7 @@ class WatchlistFragment : Fragment() {
                 LinearLayoutManager.VERTICAL
             )
         )
-        viewModel.doRequest()
+        viewModel.getAll()
     }
 
     override fun onDestroyView() {

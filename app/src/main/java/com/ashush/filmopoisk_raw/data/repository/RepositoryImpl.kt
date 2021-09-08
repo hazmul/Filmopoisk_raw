@@ -1,10 +1,15 @@
 package com.ashush.filmopoisk_raw.data.repository
 
 import com.ashush.filmopoisk_raw.data.config.DataConfig
+import com.ashush.filmopoisk_raw.data.mapper.MapperDB
 import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.data.storage.IStorage
 import com.ashush.filmopoisk_raw.data.storage.db.entity.BaseEntity
-import com.ashush.filmopoisk_raw.domain.repository.IRepository
+import com.ashush.filmopoisk_raw.data.storage.db.entity.Favorites
+import com.ashush.filmopoisk_raw.data.storage.db.entity.Watchlist
+import com.ashush.filmopoisk_raw.domain.data_interfaces.IDBHandler
+import com.ashush.filmopoisk_raw.domain.data_interfaces.IRepository
+import com.ashush.filmopoisk_raw.domain.interactor.DataType
 import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
 import com.ashush.filmopoisk_raw.models.data.configuration.DataGenresInfo
 import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
@@ -109,27 +114,44 @@ class RepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl, pri
         )
     }
 
-    override fun <T : BaseEntity> getAll(): List<BaseEntity>? {
-        return storage.getAll<T>()
+    override suspend fun getDBHandler(dataType: DataType): IDBHandler {
+        val dao =
+            when (dataType) {
+                DataType.FAVORITES -> storage.getFavoriteDao()
+                DataType.WATCHLIST -> storage.getWatchlistDao()
+            }
+        return object : IDBHandler {
+            override suspend fun getAll(): List<DataMovieDetailModel>? {
+                return dao.getAll()?.map { it -> MapperDB.mapToDataMovieDetail(it) }
+            }
+
+            override suspend fun getById(movieId: Int): DataMovieDetailModel? {
+                return dao.getById(movieId)?.let { it -> MapperDB.mapToDataMovieDetail(it) }
+            }
+
+            override suspend fun insert(movie: DataMovieDetailModel) {
+                when (dataType) {
+                    DataType.FAVORITES -> storage.getFavoriteDao().insert(MapperDB.mapToFavorites(movie))
+                    DataType.WATCHLIST -> storage.getWatchlistDao().insert(MapperDB.mapToWatchlist(movie))
+                }
+            }
+
+            override suspend fun delete(movie: DataMovieDetailModel) {
+                when (dataType) {
+                    DataType.FAVORITES -> storage.getFavoriteDao().delete(MapperDB.mapToFavorites(movie))
+                    DataType.WATCHLIST -> storage.getWatchlistDao().delete(MapperDB.mapToWatchlist(movie))
+                }
+            }
+
+            override suspend fun updateMovie(movie: DataMovieDetailModel) {
+                when (dataType) {
+                    DataType.FAVORITES -> storage.getFavoriteDao().update(MapperDB.mapToFavorites(movie))
+                    DataType.WATCHLIST -> storage.getWatchlistDao().update(MapperDB.mapToWatchlist(movie))
+                }
+            }
+
+        }
     }
 
-    override fun <T : BaseEntity> getAllByIds(moviesId: List<Int>): List<BaseEntity>? {
-        return storage.getAllByIds<T>(moviesId)
-    }
-
-    override fun <T : BaseEntity> updateMovies(moviesList: List<BaseEntity>) {
-       storage.updateMovies<T>(moviesList)
-    }
-
-    override fun <T : BaseEntity> getById(movieId: Int): BaseEntity? {
-        return storage.getById<T>(movieId)
-    }
-
-    override fun <T : BaseEntity> delete(movieList: BaseEntity) {
-        storage.delete<T>(movieList)
-    }
-
-    override fun <T : BaseEntity> insertAll(moviesList: List<T>) {
-        storage.insertAll(moviesList)
-    }
 }
+

@@ -51,7 +51,7 @@ class FavoritesFragment : Fragment() {
         adapter.listener = object : MoviesAdapter.IListener {
             override fun onClick(movieId: Int) {
                 val bundle = bundleOf(DetailFragment.MOVIE_ID_KEY to movieId)
-                view.findNavController().navigate(R.id.action_nav_mainPager_to_detailFragment, bundle)
+                view.findNavController().navigate(R.id.action_nav_favorites_to_detailFragment, bundle)
             }
         }
 
