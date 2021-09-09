@@ -23,20 +23,21 @@ abstract class BaseDao<T>(private val tableName: String) {
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insert(moviesList: List<T>)
+    abstract fun insert(moviesList: List<T>): List<Long>
 
     @Delete
-    abstract fun delete(movieList: List<T>)
+    abstract fun delete(movieList: List<T>): Int
 
     @Update
-    abstract fun update(moviesList: List<T>)
+    abstract fun update(moviesList: List<T>): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insert(moviesList: T)
+    abstract fun insert(moviesList: T): Long
 
     @Delete
-    abstract fun delete(movieList: T)
+    abstract fun delete(movieList: T): Int
 
     @Update
-    abstract fun update(moviesList: T)
+    abstract fun update(moviesList: T): Int
 }
+

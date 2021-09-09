@@ -20,7 +20,7 @@ class TopRatedViewModel @Inject constructor(private var interactor: Interactor) 
     fun doRequest() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val result = interactor.getMoviesTopRated(api_key = DataConfig.API_KEY)
+                val result = interactor.getMoviesTopRated()
                 when {
                     result.isSuccessful -> {
                         requestResult.postValue(result.body())

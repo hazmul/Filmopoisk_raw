@@ -22,7 +22,7 @@ class LaunchViewModel @Inject constructor(private var interactor: Interactor) : 
         val resultList = mutableListOf<Boolean>()
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val result = interactor.getConfiguration(api_key = DataConfig.API_KEY)
+                val result = interactor.getConfiguration()
                 when {
                     result.isSuccessful -> {
                         resultList.add(true)
@@ -36,7 +36,7 @@ class LaunchViewModel @Inject constructor(private var interactor: Interactor) : 
         }
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val result = interactor.getGenresInfo(api_key = DataConfig.API_KEY)
+                val result = interactor.getGenresInfo()
                 when {
                     result.isSuccessful -> {
                         resultList.add(true)

@@ -35,10 +35,16 @@
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.4444444444444444" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.4444444444444444" />
         <entry key="..\:/Users/Alex/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/xml/prefs_settings.xml" value="0.5" />
+        <entry key="..\:/Users/woooo/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/drawable/baseline_add_circle_outline_24.xml" value="0.19054054054054054" />
+        <entry key="..\:/Users/woooo/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/drawable/baseline_favorite_24.xml" value="0.19054054054054054" />
+        <entry key="..\:/Users/woooo/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/drawable/baseline_favorite_border_24.xml" value="0.19054054054054054" />
+        <entry key="..\:/Users/woooo/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/drawable/baseline_watch_later_24.xml" value="0.19054054054054054" />
         <entry key="..\:/Users/woooo/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/drawable/side_nav_bar.xml" value="0.188" />
         <entry key="..\:/Users/woooo/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/woooo/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/app_bar_main.xml" value="0.17657657657657658" />
         <entry key="..\:/Users/woooo/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/content_main.xml" value="0.19010416666666666" />
+        <entry key="..\:/Users/woooo/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/fab_extended_layout.xml" value="0.5" />
+        <entry key="..\:/Users/woooo/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/fragment_detail.xml" value="0.17657657657657658" />
         <entry key="..\:/Users/woooo/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/fragment_gallery.xml" value="0.17657657657657658" />
         <entry key="..\:/Users/woooo/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/fragment_home.xml" value="0.17657657657657658" />
         <entry key="..\:/Users/woooo/AndroidStudioProjects/Filmopoisk_Raw/app/src/main/res/layout/fragment_nowPlaying.xml" value="0.17657657657657658" />

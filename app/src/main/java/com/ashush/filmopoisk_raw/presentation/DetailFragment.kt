@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ashush.filmopoisk_raw.R
@@ -37,12 +38,29 @@ class DetailFragment : Fragment() {
     private var isAllFabsVisible = false
     private var movieId: Int = 0
 
+    private var favoriteFAB: FloatingActionButton? = null
+    private var watchlistFAB: FloatingActionButton? = null
+    private var expandedFAB: ExtendedFloatingActionButton? = null
+    private var rootFAB: ConstraintLayout? = null
+    private var toolBarImg: ImageView? = null
+    private var collapsingToolbar: CollapsingToolbarLayout? = null
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         movieId = arguments?.getInt(MOVIE_ID_KEY, 0)!!
+
+        activity?.let {
+            favoriteFAB = it.findViewById(R.id.add_favorites_fab)
+            watchlistFAB = it.findViewById(R.id.add_watchlist_fab)
+            expandedFAB = it.findViewById(R.id.add_fab)
+            rootFAB = it.findViewById(R.id.add_fab_content)
+            toolBarImg = it.findViewById(R.id.toolbar_img_main)
+            collapsingToolbar = it.findViewById(R.id.collapsing_toolbar)
+        }
 
         viewModel = injectViewModel((requireActivity() as MainActivity).viewModelFactory)
         viewModel.requestResult.observe(viewLifecycleOwner) { result ->
@@ -51,43 +69,17 @@ class DetailFragment : Fragment() {
         viewModel.requestError.observe(viewLifecycleOwner) { result ->
             Toast.makeText(requireActivity(), result, Toast.LENGTH_SHORT).show()
         }
-        viewModel.doRequest(movieId)
+        viewModel.inFavorite.observe(viewLifecycleOwner) { result ->
+            handleFavoriteStatusInFab(result)
+        }
+        viewModel.inWatchlist.observe(viewLifecycleOwner) { result ->
+            handleWatchlistStatusInFab(result)
+        }
 
-        return binding.root
-    }
+        viewModel.getMovieInfo(movieId)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         handleFab()
-    }
-
-    private fun handleFab() {
-        val fabFf = requireActivity().findViewById<FloatingActionButton>(R.id.add_favorites_fab)
-        val fabFw = requireActivity().findViewById<FloatingActionButton>(R.id.add_watchlist_fab)
-        val fabRoot = requireActivity().findViewById<ExtendedFloatingActionButton>(R.id.add_fab)
-        fabFf.visibility = View.GONE
-        fabFw.visibility = View.GONE
-        isAllFabsVisible = false
-        fabRoot.shrink()
-        fabRoot.setOnClickListener {
-            if (!isAllFabsVisible) {
-                fabFf.show()
-                fabFw.show()
-                fabRoot.extend()
-                isAllFabsVisible = true
-            } else {
-                fabFf.hide()
-                fabFw.hide()
-                fabRoot.shrink()
-                isAllFabsVisible = false
-            }
-        }
-        fabFf.setOnClickListener {
-            viewModel.requestResult.value?.let { viewModel.addToFavorite(it) }
-        }
-        fabFw.setOnClickListener {
-            viewModel.requestResult.value?.let { viewModel.addToWatchlist(it) }
-        }
+        return binding.root
     }
 
     override fun onDestroyView() {
@@ -95,34 +87,75 @@ class DetailFragment : Fragment() {
         super.onDestroyView()
     }
 
+    private fun handleFab() {
+        favoriteFAB?.visibility = View.GONE
+        watchlistFAB?.visibility = View.GONE
+        isAllFabsVisible = false
+        expandedFAB?.shrink()
+        expandedFAB?.setOnClickListener {
+            if (!isAllFabsVisible) {
+                favoriteFAB?.show()
+                watchlistFAB?.show()
+                expandedFAB?.extend()
+                isAllFabsVisible = true
+            } else {
+                favoriteFAB?.hide()
+                watchlistFAB?.hide()
+                expandedFAB?.shrink()
+                isAllFabsVisible = false
+            }
+        }
+        favoriteFAB?.setOnClickListener {
+            viewModel.requestResult.value?.let { viewModel.toFavoriteClicked(it) }
+        }
+        watchlistFAB?.setOnClickListener {
+            viewModel.requestResult.value?.let { viewModel.toWatchlistClicked(it) }
+        }
+    }
+
+    private fun handleFavoriteStatusInFab(result: Boolean?) {
+        if (result == true) {
+            favoriteFAB?.drawable?.setTint(getColor(resources, R.color.in_favorite, activity?.theme))
+        } else {
+            favoriteFAB?.drawable?.setTint(getColor(resources, R.color.not_favorite, activity?.theme))
+        }
+    }
+
+    private fun handleWatchlistStatusInFab(result: Boolean?) {
+        if (result == true) {
+            watchlistFAB?.drawable?.setTint(getColor(resources, R.color.in_watchlist, activity?.theme))
+        } else {
+            watchlistFAB?.drawable?.setTint(getColor(resources, R.color.not_watchlist, activity?.theme))
+        }
+    }
+
     private fun updateUI(movie: DataMovieDetailModel?) {
         setDetailToolbar(movie)
-        binding.movieCountriesText.text =
-            movie?.productionCountries?.map { it -> it?.name }?.reduce { str, item -> "$str, $item" }
-        binding.movieGenresText.text =
-            movie?.genres?.map { it -> it?.name }?.reduce { str, item -> "$str, $item" }?.lowercase(
-                Locale.getDefault()
-            )
-        if (movie != null) {
-            binding.movieHomepageText.text =
-                Html.fromHtml("<a href=\"${movie.homepage}\">${getString(R.string.official_site)}</a>")
-            binding.movieHomepageText.isClickable = true
-            binding.movieHomepageText.movementMethod = LinkMovementMethod.getInstance()
+        binding.apply {
+            movieCountriesText.text =
+                movie?.productionCountries?.map { it -> it?.name }?.reduce { str, item -> "$str, $item" }
+            movieGenresText.text = movie?.genres?.map { it -> it?.name }?.reduce { str, item -> "$str, $item" }
+                ?.lowercase(Locale.getDefault())
+            if (movie != null) {
+                movieHomepageText.text =
+                    Html.fromHtml("<a href=\"${movie.homepage}\">${getString(R.string.official_site)}</a>")
+                movieHomepageText.isClickable = true
+                movieHomepageText.movementMethod = LinkMovementMethod.getInstance()
+            }
+            movieOriginalLanguageText.text = movie?.originalLanguage
+            movieOverviewText.text = movie?.overview
+            movieReleaseDateText.text = movie?.releaseDate
+            movieTaglineText.text = movie?.tagline
+            movieProductionCompaniesText.text =
+                movie?.productionCompanies?.map { it -> it?.name }?.reduce { str, item -> "$str, $item" }
         }
-        binding.movieOriginalLanguageText.text = movie?.originalLanguage
-        binding.movieOverviewText.text = movie?.overview
-        binding.movieReleaseDateText.text = movie?.releaseDate
-        binding.movieTaglineText.text = movie?.tagline
-        binding.movieProductionCompaniesText.text =
-            movie?.productionCompanies?.map { it -> it?.name }?.reduce { str, item -> "$str, $item" }
     }
 
     private fun setDetailToolbar(movie: DataMovieDetailModel?) {
-        requireActivity().findViewById<ExtendedFloatingActionButton>(R.id.add_fab)?.visibility = View.VISIBLE
-        requireActivity().findViewById<ConstraintLayout>(R.id.add_fab_content)?.visibility = View.VISIBLE
-        requireActivity().findViewById<ImageView>(R.id.toolbar_img_main)?.visibility = View.VISIBLE
-        requireActivity().findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar).title =
-            ("${movie?.originalTitle} (${"\\d{4}".toRegex().find(movie?.releaseDate!!)?.value})")
+        expandedFAB?.visibility = View.VISIBLE
+        rootFAB?.visibility = View.VISIBLE
+        toolBarImg?.visibility = View.VISIBLE
+        collapsingToolbar?.title = ("${movie?.originalTitle} (${"\\d{4}".toRegex().find(movie?.releaseDate!!)?.value})")
 
         Picasso.get()
             .load(DataConfig.getBasePosterUrl(DataConfig.config?.images?.posterSizes?.lastOrNull()) + movie.backdropPath)
@@ -130,10 +163,10 @@ class DetailFragment : Fragment() {
     }
 
     private fun restoreMainToolbar() {
-        requireActivity().findViewById<ExtendedFloatingActionButton>(R.id.add_fab)?.visibility = View.GONE
-        requireActivity().findViewById<ConstraintLayout>(R.id.add_fab_content)?.visibility = View.GONE
-        requireActivity().findViewById<ImageView>(R.id.toolbar_img_main)?.visibility = View.GONE
-        requireActivity().findViewById<ImageView>(R.id.toolbar_img_main)?.setImageDrawable(null)
-        requireActivity().findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar).title = ""
+        expandedFAB?.visibility = View.GONE
+        rootFAB?.visibility = View.GONE
+        toolBarImg?.visibility = View.GONE
+        toolBarImg?.setImageDrawable(null)
+        collapsingToolbar?.title = ""
     }
 }

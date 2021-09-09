@@ -9,45 +9,39 @@ import retrofit2.Response
 
 interface IRepository {
 
-    suspend fun getConfiguration(api_key: String): Response<DataConfigurationModel>
-    suspend fun getGenresInfo(api_key: String): Response<DataGenresInfo>
+    suspend fun getConfiguration(): Response<DataConfigurationModel>
+    suspend fun getGenresInfo(): Response<DataGenresInfo>
 
     suspend fun getMovieDetail(
         movie_id: Int,
-        api_key: String,
         append_to_response: String? = null,
     ): Response<DataMovieDetailModel>
 
     suspend fun getMoviesPopular(
-        api_key: String,
         language: String? = null,
         page: String? = null,
         region: String? = null
     ): Response<DataMoviesModel>
 
     suspend fun getMoviesTopRated(
-        api_key: String,
         language: String? = null,
         page: String? = null,
         region: String? = null
     ): Response<DataMoviesModel>
 
     suspend fun getMoviesUpcoming(
-        api_key: String,
         language: String? = null,
         page: String? = null,
         region: String? = null
     ): Response<DataMoviesModel>
 
     suspend fun getMoviesNowPlaying(
-        api_key: String,
         language: String? = null,
         page: String? = null,
         region: String? = null
     ): Response<DataMoviesModel>
 
     suspend fun getSearchResult(
-        api_key: String,
         language: String? = null,
         query: String,
         page: String? = null,

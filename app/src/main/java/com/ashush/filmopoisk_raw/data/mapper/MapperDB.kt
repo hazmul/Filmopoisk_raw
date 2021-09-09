@@ -20,7 +20,6 @@ class MapperDB {
         }
         fun  mapToFavorites(movie: DataMovieDetailModel) : Favorites {
             return Favorites(
-                rowid = 0,
                 movieId = movie.id,
                 title = movie.title,
                 popularity = movie.popularity,
@@ -32,7 +31,6 @@ class MapperDB {
         }
         fun mapToWatchlist(movie: DataMovieDetailModel) : Watchlist {
             return Watchlist(
-                rowid = 0,
                 movieId = movie.id,
                 title = movie.title,
                 popularity = movie.popularity,

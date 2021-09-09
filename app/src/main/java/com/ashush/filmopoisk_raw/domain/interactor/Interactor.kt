@@ -12,60 +12,54 @@ class Interactor @Inject constructor(
     private val repository: IRepository
 ) {
 
-    suspend fun getConfiguration(api_key: String): Response<DataConfigurationModel> {
-        return repository.getConfiguration(api_key)
+    suspend fun getConfiguration(): Response<DataConfigurationModel> {
+        return repository.getConfiguration()
     }
 
-    suspend fun getGenresInfo(api_key: String): Response<DataGenresInfo> {
-        return repository.getGenresInfo(api_key)
+    suspend fun getGenresInfo(): Response<DataGenresInfo> {
+        return repository.getGenresInfo()
     }
 
     suspend fun getMovieDetail(
         movie_id: Int,
-        api_key: String,
         append_to_response: String? = null,
     ): Response<DataMovieDetailModel> {
-        return repository.getMovieDetail(movie_id, api_key, append_to_response)
+        return repository.getMovieDetail(movie_id, append_to_response)
     }
 
     suspend fun getMoviesPopular(
-        api_key: String,
         language: String? = null,
         page: String? = null,
         region: String? = null
     ): Response<DataMoviesModel> {
-        return repository.getMoviesPopular(api_key, language, page, region)
+        return repository.getMoviesPopular(language, page, region)
     }
 
     suspend fun getMoviesTopRated(
-        api_key: String,
         language: String? = null,
         page: String? = null,
         region: String? = null
     ): Response<DataMoviesModel> {
-        return repository.getMoviesTopRated(api_key, language, page, region)
+        return repository.getMoviesTopRated(language, page, region)
     }
 
     suspend fun getMoviesUpcoming(
-        api_key: String,
         language: String? = null,
         page: String? = null,
         region: String? = null
     ): Response<DataMoviesModel> {
-        return repository.getMoviesUpcoming(api_key, language, page, region)
+        return repository.getMoviesUpcoming(language, page, region)
     }
 
     suspend fun getMoviesNowPlaying(
-        api_key: String,
         language: String? = null,
         page: String? = null,
         region: String? = null
     ): Response<DataMoviesModel> {
-        return repository.getMoviesNowPlaying(api_key, language, page, region)
+        return repository.getMoviesNowPlaying(language, page, region)
     }
 
     suspend fun getSearchResult(
-        api_key: String,
         language: String? = null,
         query: String,
         page: String? = null,
@@ -75,7 +69,6 @@ class Interactor @Inject constructor(
         primary_release_year: Int? = null
     ): Response<DataMoviesModel> {
         return repository.getSearchResult(
-            api_key,
             language,
             query,
             page,
@@ -98,12 +91,12 @@ class Interactor @Inject constructor(
         repository.getDBHandler(dataType).insert(movie)
     }
 
-    suspend fun delete(dataType: DataType, movie: DataMovieDetailModel) {
-        repository.getDBHandler(dataType).delete(movie)
+    suspend fun delete(dataType: DataType, movie: DataMovieDetailModel): Int {
+        return repository.getDBHandler(dataType).delete(movie)
     }
 
-    suspend fun updateMovie(dataType: DataType, movie: DataMovieDetailModel) {
-        repository.getDBHandler(dataType).updateMovie(movie)
+    suspend fun updateMovie(dataType: DataType, movie: DataMovieDetailModel): Int {
+        return repository.getDBHandler(dataType).updateMovie(movie)
     }
 
 }

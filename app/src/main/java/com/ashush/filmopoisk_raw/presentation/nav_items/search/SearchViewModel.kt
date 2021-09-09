@@ -21,7 +21,7 @@ class SearchViewModel @Inject constructor(private var interactor: Interactor) : 
         viewModelScope.launch {
             delay(1000)
             withContext(Dispatchers.IO) {
-                val result = interactor.getSearchResult(api_key = DataConfig.API_KEY, query = query)
+                val result = interactor.getSearchResult(query = query)
                 when {
                     result.isSuccessful -> {
                         requestResult.postValue(result.body())

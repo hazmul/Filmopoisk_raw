@@ -20,7 +20,7 @@ import javax.inject.Inject
 class RepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl, private val storage: IStorage) :
     IRepository {
 
-    override suspend fun getConfiguration(api_key: String): Response<DataConfigurationModel> {
+    override suspend fun getConfiguration(): Response<DataConfigurationModel> {
         val result = retrofit.retrofitService.getConfiguration(DataConfig.API_KEY)
         when {
             result.isSuccessful -> {
@@ -36,7 +36,7 @@ class RepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl, pri
         return result
     }
 
-    override suspend fun getGenresInfo(api_key: String): Response<DataGenresInfo> {
+    override suspend fun getGenresInfo(): Response<DataGenresInfo> {
         val result = retrofit.retrofitService.getGenresInfo(DataConfig.API_KEY)
         when {
             result.isSuccessful -> {
@@ -50,50 +50,44 @@ class RepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl, pri
 
     override suspend fun getMovieDetail(
         movie_id: Int,
-        api_key: String,
         append_to_response: String?
     ): Response<DataMovieDetailModel> {
-        return retrofit.retrofitService.getMovieDetail(movie_id, api_key, append_to_response)
+        return retrofit.retrofitService.getMovieDetail(movie_id, DataConfig.API_KEY, append_to_response)
     }
 
     override suspend fun getMoviesPopular(
-        api_key: String,
         language: String?,
         page: String?,
         region: String?
     ): Response<DataMoviesModel> {
-        return retrofit.retrofitService.getMoviesPopular(api_key, language, page, region)
+        return retrofit.retrofitService.getMoviesPopular(DataConfig.API_KEY, language, page, region)
     }
 
     override suspend fun getMoviesTopRated(
-        api_key: String,
         language: String?,
         page: String?,
         region: String?
     ): Response<DataMoviesModel> {
-        return retrofit.retrofitService.getMoviesTopRated(api_key, language, page, region)
+        return retrofit.retrofitService.getMoviesTopRated(DataConfig.API_KEY, language, page, region)
     }
 
     override suspend fun getMoviesUpcoming(
-        api_key: String,
         language: String?,
         page: String?,
         region: String?
     ): Response<DataMoviesModel> {
-        return retrofit.retrofitService.getMoviesUpcoming(api_key, language, page, region)
+        return retrofit.retrofitService.getMoviesUpcoming(DataConfig.API_KEY, language, page, region)
     }
 
     override suspend fun getMoviesNowPlaying(
-        api_key: String,
         language: String?,
         page: String?,
         region: String?
     ): Response<DataMoviesModel> {
-        return retrofit.retrofitService.getMoviesNowPlaying(api_key, language, page, region)
+        return retrofit.retrofitService.getMoviesNowPlaying(DataConfig.API_KEY, language, page, region)
     }
 
     override suspend fun getSearchResult(
-        api_key: String,
         language: String?,
         query: String,
         page: String?,
@@ -103,7 +97,7 @@ class RepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl, pri
         primary_release_year: Int?
     ): Response<DataMoviesModel> {
         return retrofit.retrofitService.getSearchResult(
-            api_key,
+            DataConfig.API_KEY,
             language,
             query,
             page,
@@ -136,15 +130,15 @@ class RepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl, pri
                 }
             }
 
-            override suspend fun delete(movie: DataMovieDetailModel) {
-                when (dataType) {
+            override suspend fun delete(movie: DataMovieDetailModel): Int {
+                return when (dataType) {
                     DataType.FAVORITES -> storage.getFavoriteDao().delete(MapperDB.mapToFavorites(movie))
-                    DataType.WATCHLIST -> storage.getWatchlistDao().delete(MapperDB.mapToWatchlist(movie))
+                     DataType.WATCHLIST -> storage.getWatchlistDao().delete(MapperDB.mapToWatchlist(movie))
                 }
             }
 
-            override suspend fun updateMovie(movie: DataMovieDetailModel) {
-                when (dataType) {
+            override suspend fun updateMovie(movie: DataMovieDetailModel): Int {
+                return when (dataType) {
                     DataType.FAVORITES -> storage.getFavoriteDao().update(MapperDB.mapToFavorites(movie))
                     DataType.WATCHLIST -> storage.getWatchlistDao().update(MapperDB.mapToWatchlist(movie))
                 }

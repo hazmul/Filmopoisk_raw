@@ -20,7 +20,7 @@ class UpcomingViewModel @Inject constructor(private var interactor: Interactor) 
     fun doRequest() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val result = interactor.getMoviesUpcoming(api_key = DataConfig.API_KEY)
+                val result = interactor.getMoviesUpcoming()
                 when {
                     result.isSuccessful -> {
                         requestResult.postValue(result.body())
