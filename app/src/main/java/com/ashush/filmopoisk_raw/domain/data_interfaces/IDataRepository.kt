@@ -7,7 +7,7 @@ import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
 import retrofit2.Response
 
-interface IRepository {
+interface IDataRepository {
 
     suspend fun getConfiguration(): Response<DataConfigurationModel>
     suspend fun getGenresInfo(): Response<DataGenresInfo>

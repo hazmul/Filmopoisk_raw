@@ -4,11 +4,8 @@ import com.ashush.filmopoisk_raw.data.config.DataConfig
 import com.ashush.filmopoisk_raw.data.mapper.MapperDB
 import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.data.storage.IStorage
-import com.ashush.filmopoisk_raw.data.storage.db.entity.BaseEntity
-import com.ashush.filmopoisk_raw.data.storage.db.entity.Favorites
-import com.ashush.filmopoisk_raw.data.storage.db.entity.Watchlist
 import com.ashush.filmopoisk_raw.domain.data_interfaces.IDBHandler
-import com.ashush.filmopoisk_raw.domain.data_interfaces.IRepository
+import com.ashush.filmopoisk_raw.domain.data_interfaces.IDataRepository
 import com.ashush.filmopoisk_raw.domain.interactor.DataType
 import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
 import com.ashush.filmopoisk_raw.models.data.configuration.DataGenresInfo
@@ -17,8 +14,8 @@ import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
 import retrofit2.Response
 import javax.inject.Inject
 
-class RepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl, private val storage: IStorage) :
-    IRepository {
+class DataRepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl, private val storage: IStorage) :
+    IDataRepository {
 
     override suspend fun getConfiguration(): Response<DataConfigurationModel> {
         val result = retrofit.retrofitService.getConfiguration(DataConfig.API_KEY)

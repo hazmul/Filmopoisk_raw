@@ -6,7 +6,6 @@
    вставить swipeRefreshLayout по примеру из статьи
 2) Довести до ума разметку Detail fragment
    - вставить постер
-   - сделать кнопку "добавить в favorites, watchlist"
    - картинки с возможностью зума
    - видео?
 3) Добавить кнопку смены типа layout manager у RecyclerView в toolbar

@@ -14,15 +14,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private lateinit var settingsViewModel: SettingsViewModel
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        settingsViewModel =
-            ViewModelProvider(this).get(SettingsViewModel::class.java)
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -33,11 +26,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         when (preference.key) {
             getString(R.string.feedback_key) -> {
-                Toast.makeText(
-                    requireActivity(),
-                    getString(R.string.feedback_summary),
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(requireActivity(), getString(R.string.feedback_summary), Toast.LENGTH_SHORT).show()
                 return true
             }
         }

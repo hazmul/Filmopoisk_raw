@@ -1,17 +1,13 @@
 package com.ashush.filmopoisk_raw.presentation.nav_items.launch
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ashush.filmopoisk_raw.data.config.DataConfig
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.math.log
 
 class LaunchViewModel @Inject constructor(private var interactor: Interactor) : ViewModel() {
 
@@ -22,7 +18,7 @@ class LaunchViewModel @Inject constructor(private var interactor: Interactor) : 
         val resultList = mutableListOf<Boolean>()
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val result = interactor.getConfiguration()
+                val result = interactor.getRemoteConfiguration()
                 when {
                     result.isSuccessful -> {
                         resultList.add(true)

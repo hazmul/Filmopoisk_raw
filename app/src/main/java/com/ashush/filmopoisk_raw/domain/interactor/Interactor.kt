@@ -1,6 +1,8 @@
 package com.ashush.filmopoisk_raw.domain.interactor
 
-import com.ashush.filmopoisk_raw.domain.data_interfaces.IRepository
+import com.ashush.filmopoisk_raw.domain.config.DomainConfig
+import com.ashush.filmopoisk_raw.domain.data_interfaces.IConfigRepository
+import com.ashush.filmopoisk_raw.domain.data_interfaces.IDataRepository
 import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
 import com.ashush.filmopoisk_raw.models.data.configuration.DataGenresInfo
 import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
@@ -9,22 +11,29 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class Interactor @Inject constructor(
-    private val repository: IRepository
+    private val dataRepository: IDataRepository,
+    private val configRepository: IConfigRepository
 ) {
 
-    suspend fun getConfiguration(): Response<DataConfigurationModel> {
-        return repository.getConfiguration()
+    suspend fun getRemoteConfiguration(): Response<DataConfigurationModel> {
+        return dataRepository.getConfiguration()
+    }
+    fun getDomainConfiguration(): DomainConfig {
+        return DomainConfig.getInstance(configRepository)
+    }
+    fun changeDomainConfiguration(config: DomainConfig) {
+        configRepository.saveConfiguration(config)
     }
 
     suspend fun getGenresInfo(): Response<DataGenresInfo> {
-        return repository.getGenresInfo()
+        return dataRepository.getGenresInfo()
     }
 
     suspend fun getMovieDetail(
         movie_id: Int,
         append_to_response: String? = null,
     ): Response<DataMovieDetailModel> {
-        return repository.getMovieDetail(movie_id, append_to_response)
+        return dataRepository.getMovieDetail(movie_id, append_to_response)
     }
 
     suspend fun getMoviesPopular(
@@ -32,7 +41,7 @@ class Interactor @Inject constructor(
         page: String? = null,
         region: String? = null
     ): Response<DataMoviesModel> {
-        return repository.getMoviesPopular(language, page, region)
+        return dataRepository.getMoviesPopular(language, page, region)
     }
 
     suspend fun getMoviesTopRated(
@@ -40,7 +49,7 @@ class Interactor @Inject constructor(
         page: String? = null,
         region: String? = null
     ): Response<DataMoviesModel> {
-        return repository.getMoviesTopRated(language, page, region)
+        return dataRepository.getMoviesTopRated(language, page, region)
     }
 
     suspend fun getMoviesUpcoming(
@@ -48,7 +57,7 @@ class Interactor @Inject constructor(
         page: String? = null,
         region: String? = null
     ): Response<DataMoviesModel> {
-        return repository.getMoviesUpcoming(language, page, region)
+        return dataRepository.getMoviesUpcoming(language, page, region)
     }
 
     suspend fun getMoviesNowPlaying(
@@ -56,7 +65,7 @@ class Interactor @Inject constructor(
         page: String? = null,
         region: String? = null
     ): Response<DataMoviesModel> {
-        return repository.getMoviesNowPlaying(language, page, region)
+        return dataRepository.getMoviesNowPlaying(language, page, region)
     }
 
     suspend fun getSearchResult(
@@ -68,7 +77,7 @@ class Interactor @Inject constructor(
         year: Int? = null,
         primary_release_year: Int? = null
     ): Response<DataMoviesModel> {
-        return repository.getSearchResult(
+        return dataRepository.getSearchResult(
             language,
             query,
             page,
@@ -80,23 +89,23 @@ class Interactor @Inject constructor(
     }
 
     suspend fun getAll(dataType: DataType): List<DataMovieDetailModel>? {
-        return repository.getDBHandler(dataType).getAll()
+        return dataRepository.getDBHandler(dataType).getAll()
     }
 
     suspend fun getById(dataType: DataType, movieId: Int): DataMovieDetailModel? {
-        return repository.getDBHandler(dataType).getById(movieId)
+        return dataRepository.getDBHandler(dataType).getById(movieId)
     }
 
     suspend fun insert(dataType: DataType, movie: DataMovieDetailModel) {
-        repository.getDBHandler(dataType).insert(movie)
+        dataRepository.getDBHandler(dataType).insert(movie)
     }
 
     suspend fun delete(dataType: DataType, movie: DataMovieDetailModel): Int {
-        return repository.getDBHandler(dataType).delete(movie)
+        return dataRepository.getDBHandler(dataType).delete(movie)
     }
 
     suspend fun updateMovie(dataType: DataType, movie: DataMovieDetailModel): Int {
-        return repository.getDBHandler(dataType).updateMovie(movie)
+        return dataRepository.getDBHandler(dataType).updateMovie(movie)
     }
 
 }

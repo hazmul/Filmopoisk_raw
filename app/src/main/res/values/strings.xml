@@ -55,5 +55,10 @@
     <string name="overview">Overview</string>
     <string name="button_to_add_to_some_list">Button to add to some list</string>
     <string name="add_to_fab">Add to</string>
+    <string name="change_items_view">Change items view</string>
+    <string name="Invisible_Settings">InvisibleSettings</string>
+    <string name="recyclerViewType_key">recyclerViewType_key</string>
+    <string name="recyclerViewType_summary">recyclerViewType_summary</string>
+    <string name="recyclerViewType_title">recyclerViewType_title</string>
 
 </resources>

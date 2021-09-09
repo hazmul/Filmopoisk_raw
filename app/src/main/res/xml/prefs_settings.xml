@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="Network settings" />
     <SwitchPreference
         android:defaultValue="true"
@@ -49,5 +50,13 @@
         android:key="@string/about"
         android:summary="@string/app_version"
         android:title="@string/About_app" />
+
+    <PreferenceCategory android:title="@string/Invisible_Settings" />
+    <Preference
+        app:isPreferenceVisible="false"
+        android:defaultValue="false"
+        android:key="@string/recyclerViewType_key"
+        android:summary="@string/recyclerViewType_summary"
+        android:title="@string/recyclerViewType_title" />
 
 </PreferenceScreen>

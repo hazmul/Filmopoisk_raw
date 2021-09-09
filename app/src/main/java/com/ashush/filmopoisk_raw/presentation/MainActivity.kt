@@ -1,6 +1,8 @@
 package com.ashush.filmopoisk_raw.presentation
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +12,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ashush.filmopoisk_raw.MyApp
 import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.databinding.ActivityMainBinding
@@ -25,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var viewModel: MainActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_Filmopoisk_Raw_NoActionBar)
@@ -32,14 +38,25 @@ class MainActivity : AppCompatActivity() {
 
         (this.application as MyApp).application.inject(this)
 
+        initUI()
+        initNav()
+        initDefaultDomainConfig()
+    }
+
+    private fun initDefaultDomainConfig() {
+        PreferenceManager.setDefaultValues(this, R.xml.prefs_settings, false)
+        viewModel.getDomainConfiguration()
+    }
+
+    private fun initUI() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.appBarMain.toolbarMain)
+    }
 
+    private fun initNav() {
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
-
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         val navController = navHostFragment.navController
@@ -58,28 +75,30 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
-
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    // убрал кнопку с настройками в верхнем правом углу
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        menuInflater.inflate(R.menu.main, menu)
-//        return true
-//    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.pencil).setVisible(false);
+        return super.onPrepareOptionsMenu(menu)
+    }
 
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        return when (item.itemId) {
-//            R.id.action_settings -> {
-//                (supportFragmentManager
-//                    .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment).navController.navigate(R.id.nav_settings)
-//                true
-//            }
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.toolbar_menu_recyclerLayoutButton -> {
+                findViewById<RecyclerView>(R.id.recycler_view).layoutManager = GridLayoutManager(this, 2)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 }

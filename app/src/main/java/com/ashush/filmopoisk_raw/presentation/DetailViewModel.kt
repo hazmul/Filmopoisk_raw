@@ -96,9 +96,9 @@ class DetailViewModel @Inject constructor(private var interactor: Interactor) : 
         } else {
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
-                    val result = interactor.delete(DataType.FAVORITES, movie)
-                    Log.d("TAG", "toFavoriteClicked() called delete = $result")
-                    checkIsFavorite()
+                    val result = interactor.delete(DataType.WATCHLIST, movie)
+                    Log.d("TAG", "toWatchlistClicked() called delete = $result")
+                    checkIsWatchlist()
                 }
             }
 
