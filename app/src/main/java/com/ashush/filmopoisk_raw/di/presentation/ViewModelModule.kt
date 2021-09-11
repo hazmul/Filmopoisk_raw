@@ -10,6 +10,7 @@ import com.ashush.filmopoisk_raw.presentation.nav_items.categories.upcoming.Upco
 import com.ashush.filmopoisk_raw.presentation.nav_items.favorites.FavoritesViewModel
 import com.ashush.filmopoisk_raw.presentation.nav_items.launch.LaunchViewModel
 import com.ashush.filmopoisk_raw.presentation.nav_items.search.SearchViewModel
+import com.ashush.filmopoisk_raw.presentation.nav_items.settings.SettingsViewModel
 import com.ashush.filmopoisk_raw.presentation.nav_items.watchlist.WatchlistViewModel
 import dagger.Binds
 import dagger.Module
@@ -24,6 +25,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(DetailViewModel::class)
     internal abstract fun detailFragmentViewModel(viewModel: DetailViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SettingsViewModel::class)
+    internal abstract fun settingsFragmentViewModel(viewModel: SettingsViewModel): ViewModel
 
     @Binds
     @IntoMap

@@ -5,17 +5,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.ashush.filmopoisk_raw.R
+import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
+import com.ashush.filmopoisk_raw.presentation.MainActivity
+import com.ashush.filmopoisk_raw.presentation.MainActivityViewModel
+import javax.inject.Inject
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
-    private lateinit var settingsViewModel: SettingsViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var viewModel: SettingsViewModel
+    private val sharedViewModel: MainActivityViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
+
+        viewModel = injectViewModel((requireActivity() as MainActivity).viewModelFactory)
+
+        sharedViewModel.optionMenuIsNeeded.value = false
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -31,5 +43,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         }
         return super.onPreferenceTreeClick(preference)
+    }
+
+    override fun onDestroyView() {
+        sharedViewModel.optionMenuIsNeeded.value = true
+        super.onDestroyView()
     }
 }

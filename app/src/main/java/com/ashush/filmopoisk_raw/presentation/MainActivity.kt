@@ -43,10 +43,11 @@ class MainActivity : AppCompatActivity() {
         (this.application as MyApp).application.inject(this)
 
         viewModel = injectViewModel(this.viewModelFactory)
-
+        viewModel.optionMenuIsNeeded.observe(this) { result ->
+            invalidateOptionsMenu()
+        }
         initUI()
         initNav()
-
     }
 
     private fun initUI() {
@@ -87,6 +88,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.toolbar_menu_recyclerLayoutButton)?.isVisible = viewModel.optionMenuIsNeeded.value ?: true
+
         val customPreferences = getSharedPreferences(DOMAIN_CONFIG_PREFS_KEY, Context.MODE_PRIVATE)
         when (customPreferences.getString(DOMAIN_CONFIG_VIEWTYPE_KEY, DomainConfig.ViewType.LISTVIEW.name)) {
             DomainConfig.ViewType.LISTVIEW.name -> {

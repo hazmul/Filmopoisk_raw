@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.data.config.DataConfig
@@ -33,6 +34,7 @@ class DetailFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: DetailViewModel
+    private val sharedViewModel: MainActivityViewModel by activityViewModels()
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
     private var isAllFabsVisible = false
@@ -77,12 +79,14 @@ class DetailFragment : Fragment() {
         }
 
         viewModel.getMovieInfo(movieId)
+        sharedViewModel.optionMenuIsNeeded.value = false
 
         handleFab()
         return binding.root
     }
 
     override fun onDestroyView() {
+        sharedViewModel.optionMenuIsNeeded.value = true
         restoreMainToolbar()
         super.onDestroyView()
     }

@@ -13,6 +13,7 @@ import javax.inject.Inject
 class MainActivityViewModel @Inject constructor(private val interactor: Interactor) : ViewModel() {
 
     val viewTypeLiveData = MutableLiveData<DomainConfig.ViewType>()
+    val optionMenuIsNeeded = MutableLiveData<Boolean>()
 
     fun setAppSettings(
         downloadImageAllowed: Boolean? = null,
