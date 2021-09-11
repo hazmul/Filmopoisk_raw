@@ -3,8 +3,10 @@ package com.ashush.filmopoisk_raw.presentation.nav_items.launch
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ashush.filmopoisk_raw.domain.config.DomainConfig
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -14,7 +16,11 @@ class LaunchViewModel @Inject constructor(private var interactor: Interactor) : 
     val requestResult = MutableLiveData<Boolean>()
     val requestError = MutableLiveData<String>()
 
-    fun doRequest() {
+    init {
+        loadRemoteConfiguration()
+    }
+
+    private fun loadRemoteConfiguration() {
         val resultList = mutableListOf<Boolean>()
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -51,4 +57,5 @@ class LaunchViewModel @Inject constructor(private var interactor: Interactor) : 
             requestResult.postValue(true)
         }
     }
+
 }

@@ -7,37 +7,37 @@ import androidx.sqlite.db.SupportSQLiteQuery
 abstract class BaseDao<T>(private val tableName: String) {
 
     @RawQuery
-    protected abstract fun getAll(query: SupportSQLiteQuery): List<T>?
+    protected abstract suspend fun getAll(query: SupportSQLiteQuery): List<T>?
 
-    fun getAll(): List<T>? {
+    suspend fun getAll(): List<T>? {
         val query = SimpleSQLiteQuery("SELECT *, rowid FROM $tableName")
         return getAll(query)
     }
 
     @RawQuery
-    protected abstract fun getById(query: SupportSQLiteQuery): T?
+    protected abstract suspend fun getById(query: SupportSQLiteQuery): T?
 
-    fun getById(movieId: Int): T? {
+    suspend fun getById(movieId: Int): T? {
         val query = SimpleSQLiteQuery("SELECT *, rowid FROM $tableName WHERE movie_id LIKE $movieId LIMIT 1")
         return getById(query)
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insert(moviesList: List<T>): List<Long>
+    abstract suspend fun insert(moviesList: List<T>): List<Long>
 
     @Delete
-    abstract fun delete(movieList: List<T>): Int
+    abstract suspend fun delete(movieList: List<T>): Int
 
     @Update
-    abstract fun update(moviesList: List<T>): Int
+    abstract suspend fun update(moviesList: List<T>): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insert(moviesList: T): Long
+    abstract suspend fun insert(moviesList: T): Long
 
     @Delete
-    abstract fun delete(movieList: T): Int
+    abstract suspend fun delete(movieList: T): Int
 
     @Update
-    abstract fun update(moviesList: T): Int
+    abstract suspend fun update(moviesList: T): Int
 }
 

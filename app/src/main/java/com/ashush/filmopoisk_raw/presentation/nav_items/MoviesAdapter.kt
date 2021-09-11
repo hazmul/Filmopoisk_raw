@@ -1,10 +1,8 @@
 package com.ashush.filmopoisk_raw.presentation.nav_items
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.data.config.DataConfig
@@ -28,9 +26,10 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
         fun bindView(movie: DataMoviesModel.Movie, listener: IListener?) {
             binding.cardViewTextView.text = movie.title
-            Picasso.get().load(DataConfig.getBasePosterUrl(DataConfig.config?.images?.posterSizes?.firstOrNull()) + movie.posterPath)
+            Picasso.get()
+                .load(DataConfig.getBasePosterUrl(DataConfig.config?.images?.posterSizes?.firstOrNull()) + movie.posterPath)
                 .into(binding.cardViewIconImageView)
-           binding.cardViewRoot.setOnClickListener {listener?.onClick(movie.id!!)}
+            binding.cardViewRoot.setOnClickListener { listener?.onClick(movie.id!!) }
         }
     }
 

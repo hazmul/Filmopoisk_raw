@@ -1,29 +1,25 @@
 package com.ashush.filmopoisk_raw.domain.config
 
-import com.ashush.filmopoisk_raw.domain.data_interfaces.IConfigRepository
+object DomainConfig {
+    @Volatile
+    private var instance: DomainConfig? = null
 
-class DomainConfig(
-    val downloadImageAllowed: Boolean,
-    val cacheImageAllowed: Boolean,
-    val themeType: Boolean,
-    val enableNotification: Boolean,
-    val recyclerViewType: Boolean
-) {
-
-    companion object {
-        @Volatile
-        private var instance: DomainConfig? = null
-
-        fun getInstance(configRepository: IConfigRepository): DomainConfig {
-            return instance ?: synchronized(this) {
-                val result = configRepository.getConfiguration()
-                instance = result
-                return result
-            }
+    fun getInstance(): DomainConfig {
+        return instance ?: synchronized(this) {
+            val result = this
+            instance = result
+            return result
         }
     }
 
-//                            true     false
-//    enum class ViewType { GRIDVIEW, LISTVIEW }
+    var downloadImageAllowed: Boolean = true
+    var cacheImageAllowed: Boolean = true
+    var themeType: Boolean = false
+    var enableNotification: Boolean = true
+    var recyclerViewType: ViewType = ViewType.GRIDVIEW
+
+    enum class ViewType { GRIDVIEW, LISTVIEW }
+//                          true     false
 //    enum class ThemeType { DARK, LIGHT }
 }
+

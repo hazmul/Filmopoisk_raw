@@ -12,13 +12,25 @@ import javax.inject.Inject
 
 class MainActivityViewModel @Inject constructor(private val interactor: Interactor) : ViewModel() {
 
-    val recyclerViewType = MutableLiveData<Boolean>()
+    val viewTypeLiveData = MutableLiveData<DomainConfig.ViewType>()
 
-
-    fun getDomainConfiguration() {
+    fun setAppSettings(
+        downloadImageAllowed: Boolean? = null,
+        cacheImageAllowed: Boolean? = null,
+        themeType: Boolean? = null,
+        enableNotification: Boolean? = null,
+        recyclerViewType: DomainConfig.ViewType? = null,
+    ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                interactor.getDomainConfiguration()
+                val config = interactor.getDomainConfiguration()
+                downloadImageAllowed?.let { config.downloadImageAllowed = downloadImageAllowed }
+                cacheImageAllowed?.let { config.cacheImageAllowed = cacheImageAllowed }
+                themeType?.let { config.themeType = themeType }
+                enableNotification?.let { config.enableNotification = enableNotification }
+                recyclerViewType?.let { config.recyclerViewType = recyclerViewType }
+
+                viewTypeLiveData.postValue(interactor.getDomainConfiguration().recyclerViewType)
             }
         }
     }

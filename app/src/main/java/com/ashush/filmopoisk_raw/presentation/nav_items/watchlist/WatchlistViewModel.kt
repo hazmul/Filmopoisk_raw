@@ -19,7 +19,7 @@ class WatchlistViewModel @Inject constructor(
     val requestResult = MutableLiveData<DataMoviesModel>()
     val requestError = MutableLiveData<String>()
 
-    fun getAll() {
+    fun doRequest() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val result = DataMoviesModel(movies = interactor.getAll(DataType.WATCHLIST)?.map {

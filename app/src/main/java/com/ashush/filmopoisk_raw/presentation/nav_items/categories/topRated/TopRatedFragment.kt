@@ -7,19 +7,25 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.databinding.FragmentTopratedBinding
 import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
+import com.ashush.filmopoisk_raw.domain.config.DomainConfig
 import com.ashush.filmopoisk_raw.presentation.DetailFragment
 import com.ashush.filmopoisk_raw.presentation.MainActivity
+import com.ashush.filmopoisk_raw.presentation.MainActivityViewModel
 import com.ashush.filmopoisk_raw.presentation.nav_items.MoviesAdapter
+import com.ashush.filmopoisk_raw.utils.RVLayoutManager
 
 class TopRatedFragment : Fragment() {
 
     private lateinit var viewModel: TopRatedViewModel
+    private val sharedViewModel: MainActivityViewModel by activityViewModels()
     private var _binding: FragmentTopratedBinding? = null
     private val binding get() = _binding!!
     private val adapter = MoviesAdapter()
@@ -34,8 +40,7 @@ class TopRatedFragment : Fragment() {
         _binding = FragmentTopratedBinding.inflate(inflater, container, false)
 
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager =
-            LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.layoutManager = RVLayoutManager.getLayout(requireActivity(), sharedViewModel.viewTypeLiveData.value)
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireActivity(),
@@ -59,6 +64,9 @@ class TopRatedFragment : Fragment() {
         }
         viewModel.requestError.observe(viewLifecycleOwner) { result ->
             Toast.makeText(requireActivity(), result, Toast.LENGTH_SHORT).show()
+        }
+        sharedViewModel.viewTypeLiveData.observe(viewLifecycleOwner) { result ->
+            binding.recyclerView.layoutManager = RVLayoutManager.getLayout(requireActivity(), result)
         }
 
         viewModel.doRequest()

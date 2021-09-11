@@ -1,7 +1,6 @@
 package com.ashush.filmopoisk_raw.domain.interactor
 
 import com.ashush.filmopoisk_raw.domain.config.DomainConfig
-import com.ashush.filmopoisk_raw.domain.data_interfaces.IConfigRepository
 import com.ashush.filmopoisk_raw.domain.data_interfaces.IDataRepository
 import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
 import com.ashush.filmopoisk_raw.models.data.configuration.DataGenresInfo
@@ -11,18 +10,15 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class Interactor @Inject constructor(
-    private val dataRepository: IDataRepository,
-    private val configRepository: IConfigRepository
+    private val dataRepository: IDataRepository
 ) {
 
     suspend fun getRemoteConfiguration(): Response<DataConfigurationModel> {
         return dataRepository.getConfiguration()
     }
+
     fun getDomainConfiguration(): DomainConfig {
-        return DomainConfig.getInstance(configRepository)
-    }
-    fun changeDomainConfiguration(config: DomainConfig) {
-        configRepository.saveConfiguration(config)
+        return DomainConfig.getInstance()
     }
 
     suspend fun getGenresInfo(): Response<DataGenresInfo> {

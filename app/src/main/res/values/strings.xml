@@ -34,9 +34,9 @@
     <string name="app_version">app version 0.1</string>
     <string name="languages">Languages</string>
     <string name="languages_category">Languages</string>
-    <string name="Notification">Notification</string>
-    <string name="Notification_key">Notification_key</string>
-    <string name="Notification_title">Enable notification</string>
+    <string name="notification">Notification</string>
+    <string name="notification_key">Notification_key</string>
+    <string name="notification_title">Enable notification</string>
     <string name="movie_poster_desc">movie poster</string>
     <string name="fragment_launch_label">fragment_launch</string>
 

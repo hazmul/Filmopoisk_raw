@@ -2,18 +2,19 @@
     <!-- Base application theme. -->
     <style name="Theme.Filmopoisk_Raw" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
-        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorPrimary">@color/pr1</item>
+        <item name="colorPrimaryVariant">@color/pr3</item>
+        <item name="colorOnPrimary">@color/pr2</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/colorSecondary</item>
-        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
-        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <item name="colorSecondary">@color/sec1</item>
+        <item name="colorSecondaryVariant">@color/sec3</item>
+        <item name="colorOnSecondary">@color/sec2</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@drawable/bg_launcher</item>
     </style>
+
 
     <style name="Theme.Filmopoisk_Raw.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -23,5 +24,21 @@
     <style name="Theme.Filmopoisk_Raw.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Filmopoisk_Raw.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+
+    <style name="Base_ToolbarStyle">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="android:theme">@style/Base_ToolbarTheme</item>
+        <item name="contentScrim">@color/pr1</item>
+        <item name="iconTint">@android:color/white</item>
+    </style>
+
+    <style name="Base_ToolbarTheme">
+        <!-- Color used for the title of the Toolbar - as long as not overridden -->
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <!-- Used to color back button and three dots -->
+        <item name="android:textColorSecondary">@android:color/white</item>
+    </style>
 
 </resources>

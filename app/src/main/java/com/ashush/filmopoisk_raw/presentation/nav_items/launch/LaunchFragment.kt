@@ -1,5 +1,6 @@
 package com.ashush.filmopoisk_raw.presentation.nav_items.launch
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,15 +13,20 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.preference.PreferenceManager
 import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.databinding.FragmentLaunchBinding
 import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
+import com.ashush.filmopoisk_raw.domain.config.DomainConfig
 import com.ashush.filmopoisk_raw.presentation.MainActivity
+import com.ashush.filmopoisk_raw.presentation.MainActivityViewModel
 
 class LaunchFragment : Fragment() {
 
     lateinit var viewModel: LaunchViewModel
+    private val sharedViewModel: MainActivityViewModel by activityViewModels()
     private var _binding: FragmentLaunchBinding? = null
     private val binding get() = _binding!!
 
@@ -53,12 +59,11 @@ class LaunchFragment : Fragment() {
         viewModel.requestError.observe(viewLifecycleOwner) { result ->
             Toast.makeText(requireActivity(), result, Toast.LENGTH_SHORT).show()
         }
+
+        loadAppSettings()
     }
 
-    override fun onStart() {
-        viewModel.doRequest()
-        super.onStart()
-    }
+
 
     private fun animateLoading() {
         val animation = RotateAnimation(
@@ -82,4 +87,18 @@ class LaunchFragment : Fragment() {
         (activity as AppCompatActivity?)?.supportActionBar?.show()
         super.onDestroyView()
     }
+
+    private fun loadAppSettings() {
+        val sp = PreferenceManager.getDefaultSharedPreferences(requireActivity().applicationContext)
+        val downloadImage = sp.getBoolean(getString(R.string.download_images_key), true)
+        val cacheImage = sp.getBoolean(getString(R.string.cache_images_key), true)
+        val themeStyle = sp.getBoolean(getString(R.string.theme_style_key), false)
+        val notificationStatus = sp.getBoolean(getString(R.string.notification_key), false)
+
+        val customPreferences = requireActivity().getSharedPreferences(MainActivity.DOMAIN_CONFIG_PREFS_KEY, Context.MODE_PRIVATE)
+        val recyclerViewType: DomainConfig.ViewType =
+            DomainConfig.ViewType.valueOf(customPreferences.getString(MainActivity.DOMAIN_CONFIG_VIEWTYPE_KEY, DomainConfig.ViewType.LISTVIEW.name)!!)
+        sharedViewModel.setAppSettings(downloadImage, cacheImage, themeStyle, notificationStatus, recyclerViewType)
+    }
+
 }

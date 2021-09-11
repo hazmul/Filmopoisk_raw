@@ -130,7 +130,7 @@ class DataRepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl,
             override suspend fun delete(movie: DataMovieDetailModel): Int {
                 return when (dataType) {
                     DataType.FAVORITES -> storage.getFavoriteDao().delete(MapperDB.mapToFavorites(movie))
-                     DataType.WATCHLIST -> storage.getWatchlistDao().delete(MapperDB.mapToWatchlist(movie))
+                    DataType.WATCHLIST -> storage.getWatchlistDao().delete(MapperDB.mapToWatchlist(movie))
                 }
             }
 

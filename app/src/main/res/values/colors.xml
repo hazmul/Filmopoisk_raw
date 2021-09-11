@@ -12,15 +12,14 @@
     <color name="Light_green">#90cea1</color>
 
     <!--primary colors-->
-    colorPrimaryVariant
-    <color name="colorPrimary">#0d253f</color>
-    <color name="colorOnPrimary">#394d6a</color>
-    <color name="colorPrimaryVariant">#00001a</color>
+    <color name="pr1">#0d253f</color>
+    <color name="pr2">#394d6a</color>
+    <color name="pr3">#00001a</color>
     <!--secondary colors-->
 
-    <color name="colorSecondary">#01b4e4</color>
-    <color name="colorOnSecondary">#64e6ff</color>
-    <color name="colorSecondaryVariant">#0084b2</color>
+    <color name="sec1">#01b4e4</color>
+    <color name="sec2">#64e6ff</color>
+    <color name="sec3">#0084b2</color>
 
 
     <!--utils colors-->

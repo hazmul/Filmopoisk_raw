@@ -1,6 +1,5 @@
 package com.ashush.filmopoisk_raw.presentation
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,7 +17,6 @@ class DetailViewModel @Inject constructor(private var interactor: Interactor) : 
     val requestError = MutableLiveData<String>()
     val inFavorite = MutableLiveData<Boolean>()
     val inWatchlist = MutableLiveData<Boolean>()
-
 
     fun getMovieInfo(movieId: Int) {
         viewModelScope.launch {
@@ -47,7 +45,6 @@ class DetailViewModel @Inject constructor(private var interactor: Interactor) : 
                 } else {
                     inFavorite.postValue(false)
                 }
-                Log.d("TAG", "checkIsFavorite() called result = $result")
             }
         }
     }
@@ -76,8 +73,7 @@ class DetailViewModel @Inject constructor(private var interactor: Interactor) : 
         } else {
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
-                    val result = interactor.delete(DataType.FAVORITES, movie)
-                    Log.d("TAG", "toFavoriteClicked() called delete = $result")
+                    interactor.delete(DataType.FAVORITES, movie)
                     checkIsFavorite()
                 }
             }
@@ -96,8 +92,7 @@ class DetailViewModel @Inject constructor(private var interactor: Interactor) : 
         } else {
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
-                    val result = interactor.delete(DataType.WATCHLIST, movie)
-                    Log.d("TAG", "toWatchlistClicked() called delete = $result")
+                    interactor.delete(DataType.WATCHLIST, movie)
                     checkIsWatchlist()
                 }
             }
