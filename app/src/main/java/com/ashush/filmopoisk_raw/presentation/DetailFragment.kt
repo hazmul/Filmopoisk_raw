@@ -3,6 +3,7 @@ package com.ashush.filmopoisk_raw.presentation
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat.getColor
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
@@ -136,13 +138,12 @@ class DetailFragment : Fragment() {
     private fun updateUI(movie: DataMovieDetailModel?) {
         setDetailToolbar(movie)
         binding.apply {
-            movieCountriesText.text =
-                movie?.productionCountries?.map { it -> it?.name }?.reduce { str, item -> "$str, $item" }
-            movieGenresText.text = movie?.genres?.map { it -> it?.name }?.reduce { str, item -> "$str, $item" }
-                ?.lowercase(Locale.getDefault())
+            if (movie?.productionCountries?.isNotEmpty() == true) {
+            movieCountriesText.text = movie.productionCountries.map { it -> it?.name }.reduce { str, item -> "$str, $item" }}
+            if (movie?.genres?.isNotEmpty() == true) {
+            movieGenresText.text = movie.genres.map { it -> it?.name }.reduce { str, item -> "$str, $item" }?.lowercase(Locale.getDefault())}
             if (movie != null) {
-                movieHomepageText.text =
-                    Html.fromHtml("<a href=\"${movie.homepage}\">${getString(R.string.official_site)}</a>")
+                movieHomepageText.text = HtmlCompat.fromHtml("<a href=\"${movie.homepage}\">${getString(R.string.official_site)}</a>", HtmlCompat.FROM_HTML_MODE_LEGACY)
                 movieHomepageText.isClickable = true
                 movieHomepageText.movementMethod = LinkMovementMethod.getInstance()
             }
@@ -150,8 +151,8 @@ class DetailFragment : Fragment() {
             movieOverviewText.text = movie?.overview
             movieReleaseDateText.text = movie?.releaseDate
             movieTaglineText.text = movie?.tagline
-            movieProductionCompaniesText.text =
-                movie?.productionCompanies?.map { it -> it?.name }?.reduce { str, item -> "$str, $item" }
+            if (movie?.productionCompanies?.isNotEmpty() == true) {
+            movieProductionCompaniesText.text = movie.productionCompanies.map { it -> it?.name }.reduce { str, item -> "$str, $item" }}
         }
     }
 

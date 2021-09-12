@@ -60,5 +60,14 @@
     <string name="recyclerViewType_key">recyclerViewType_key</string>
     <string name="recyclerViewType_summary">recyclerViewType_summary</string>
     <string name="recyclerViewType_title">recyclerViewType_title</string>
+    <string name="movie_genres">Movie Genres</string>
+    <string name="release_year">Release Year</string>
+    <string name="from">from</string>
+    <string name="to">to</string>
+    <string name="average_vote">Average Vote</string>
+    <string name="back">Back</string>
+    <string name="apply_filter">Apply filter</string>
+    <string name="add_filters">Add filters</string>
+    <string name="adult_year">18+</string>
 
 </resources>

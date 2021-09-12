@@ -18,6 +18,7 @@ import com.ashush.filmopoisk_raw.presentation.DetailFragment
 import com.ashush.filmopoisk_raw.presentation.MainActivity
 import com.ashush.filmopoisk_raw.presentation.MainActivityViewModel
 import com.ashush.filmopoisk_raw.presentation.nav_items.MoviesAdapter
+import com.ashush.filmopoisk_raw.presentation.nav_items.search.dialogsearchfilter.showSearchFilterDialog
 import com.ashush.filmopoisk_raw.utils.DebouncingQueryTextListener
 import com.ashush.filmopoisk_raw.utils.RVLayoutManager
 
@@ -65,14 +66,22 @@ class SearchFragment : Fragment() {
             query?.let { viewModel.doRequest(it) }
         })
 
-        viewModel.requestResult.observe(viewLifecycleOwner) { result ->
-            result.movies?.let { adapter.update(it) }
+        binding.fragmentSearchFilters.setOnClickListener(::filtersAction)
+
+        viewModel.movies.observe(viewLifecycleOwner) { movies ->
+            movies?.let { adapter.update(it) }
         }
         viewModel.requestError.observe(viewLifecycleOwner) { result ->
             Toast.makeText(requireActivity(), result, Toast.LENGTH_SHORT).show()
         }
         sharedViewModel.viewTypeLiveData.observe(viewLifecycleOwner) { result ->
             binding.recyclerView.layoutManager = RVLayoutManager.getLayout(requireActivity(), result)
+        }
+    }
+
+    private fun filtersAction(view: View?) {
+        requireContext().showSearchFilterDialog(viewModel.filter) { filter ->
+            viewModel.applyFilter(filter)
         }
     }
 
