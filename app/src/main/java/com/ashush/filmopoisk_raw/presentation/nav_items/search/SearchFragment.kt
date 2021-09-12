@@ -17,7 +17,7 @@ import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
 import com.ashush.filmopoisk_raw.presentation.DetailFragment
 import com.ashush.filmopoisk_raw.presentation.MainActivity
 import com.ashush.filmopoisk_raw.presentation.MainActivityViewModel
-import com.ashush.filmopoisk_raw.presentation.nav_items.MoviesAdapter
+import com.ashush.filmopoisk_raw.presentation.nav_items.PagedMoviesAdapter
 import com.ashush.filmopoisk_raw.presentation.nav_items.search.dialogsearchfilter.showSearchFilterDialog
 import com.ashush.filmopoisk_raw.utils.DebouncingQueryTextListener
 import com.ashush.filmopoisk_raw.utils.RVLayoutManager
@@ -28,7 +28,7 @@ class SearchFragment : Fragment() {
     private val sharedViewModel: MainActivityViewModel by activityViewModels()
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private val adapter = MoviesAdapter()
+    private val adapter = PagedMoviesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +55,7 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter.listener = object : MoviesAdapter.IListener {
+        adapter.listener = object : PagedMoviesAdapter.IListener {
             override fun onClick(movieId: Int) {
                 val bundle = bundleOf(DetailFragment.MOVIE_ID_KEY to movieId)
                 view.findNavController().navigate(R.id.action_nav_search_to_detailFragment, bundle)
@@ -63,14 +63,24 @@ class SearchFragment : Fragment() {
         }
 
         binding.editTextSearchQuery.addTextChangedListener(DebouncingQueryTextListener(lifecycle) { query ->
-            query?.let { viewModel.doRequest(it) }
+            query?.let {
+                viewModel.getMovies(it).observe(viewLifecycleOwner) { pagingData ->
+                    adapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
+                }
+            }
         })
 
         binding.fragmentSearchFilters.setOnClickListener(::filtersAction)
 
-        viewModel.movies.observe(viewLifecycleOwner) { movies ->
-            movies?.let { adapter.update(it) }
+        viewModel.filter.observe(viewLifecycleOwner) { result ->
+            viewModel.lastQuery.value?.let {
+                viewModel.getMovies(it).observe(viewLifecycleOwner) { pagingData ->
+                    adapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
+                }
+            }
+            adapter.notifyDataSetChanged()
         }
+
         viewModel.requestError.observe(viewLifecycleOwner) { result ->
             Toast.makeText(requireActivity(), result, Toast.LENGTH_SHORT).show()
         }
@@ -80,7 +90,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun filtersAction(view: View?) {
-        requireContext().showSearchFilterDialog(viewModel.filter) { filter ->
+        requireContext().showSearchFilterDialog(viewModel.filter.value!!) { filter ->
             viewModel.applyFilter(filter)
         }
     }

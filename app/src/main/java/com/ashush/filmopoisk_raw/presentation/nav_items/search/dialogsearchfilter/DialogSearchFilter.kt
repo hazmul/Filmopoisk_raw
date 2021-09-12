@@ -8,7 +8,6 @@ import com.ashush.filmopoisk_raw.presentation.nav_items.search.SearchFilter
 import com.ashush.filmopoisk_raw.presentation.nav_items.search.dialogsearchfilter.adapter.GenreAdapter
 import com.ashush.filmopoisk_raw.presentation.nav_items.search.dialogsearchfilter.adapter.GenreItem
 import com.ashush.filmopoisk_raw.presentation.nav_items.search.dialogsearchfilter.adapter.GenreItemOnClickListener
-import com.ashush.filmopoisk_raw.utils.getYear
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.*
 
@@ -60,7 +59,8 @@ private fun DialogSearchFilterBinding.applyAction(
             genres = genres.filter { it.isChecked }.map { it.genre?.id ?: 0 },
             isAdult = dialogSearchFilter18Over.isChecked,
             dateFrom = dialogSearchFilterDatesFrom.text.toString().toIntOrNull() ?: 1,
-            dateTo = dialogSearchFilterDatesTo.text.toString().toIntOrNull() ?: Calendar.getInstance().get(Calendar.YEAR),
+            dateTo = dialogSearchFilterDatesTo.text.toString().toIntOrNull() ?: Calendar.getInstance()
+                .get(Calendar.YEAR),
             minVoteAverage = dialogSearchFilterVoteAverage.values[0].toDouble(),
             maxVoteAverage = dialogSearchFilterVoteAverage.values[1].toDouble()
         )

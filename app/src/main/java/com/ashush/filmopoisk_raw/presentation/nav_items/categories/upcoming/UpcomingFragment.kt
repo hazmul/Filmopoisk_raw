@@ -17,7 +17,7 @@ import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
 import com.ashush.filmopoisk_raw.presentation.DetailFragment
 import com.ashush.filmopoisk_raw.presentation.MainActivity
 import com.ashush.filmopoisk_raw.presentation.MainActivityViewModel
-import com.ashush.filmopoisk_raw.presentation.nav_items.MoviesAdapter
+import com.ashush.filmopoisk_raw.presentation.nav_items.PagedMoviesAdapter
 import com.ashush.filmopoisk_raw.utils.RVLayoutManager
 
 class UpcomingFragment : Fragment() {
@@ -26,7 +26,7 @@ class UpcomingFragment : Fragment() {
     private val sharedViewModel: MainActivityViewModel by activityViewModels()
     private var _binding: FragmentUpcomingBinding? = null
     private val binding get() = _binding!!
-    private val adapter = MoviesAdapter()
+    private val adapter = PagedMoviesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +38,8 @@ class UpcomingFragment : Fragment() {
         _binding = FragmentUpcomingBinding.inflate(inflater, container, false)
 
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = RVLayoutManager.getLayout(requireActivity(), sharedViewModel.viewTypeLiveData.value)
+        binding.recyclerView.layoutManager =
+            RVLayoutManager.getLayout(requireActivity(), sharedViewModel.viewTypeLiveData.value)
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireActivity(),
@@ -52,15 +53,13 @@ class UpcomingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter.listener = object : MoviesAdapter.IListener {
+        adapter.listener = object : PagedMoviesAdapter.IListener {
             override fun onClick(movieId: Int) {
                 val bundle = bundleOf(DetailFragment.MOVIE_ID_KEY to movieId)
                 view.findNavController().navigate(R.id.action_nav_mainPager_to_detailFragment, bundle)
             }
         }
-        viewModel.requestResult.observe(viewLifecycleOwner) { result ->
-            result.movies?.let { adapter.update(it) }
-        }
+
         viewModel.requestError.observe(viewLifecycleOwner) { result ->
             Toast.makeText(requireActivity(), result, Toast.LENGTH_SHORT).show()
         }
@@ -68,7 +67,13 @@ class UpcomingFragment : Fragment() {
             binding.recyclerView.layoutManager = RVLayoutManager.getLayout(requireActivity(), result)
         }
 
-        viewModel.doRequest()
+        loadMovies()
+    }
+
+    private fun loadMovies() {
+        viewModel.getMovies().observe(viewLifecycleOwner) { pagingData ->
+            adapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
+        }
     }
 
     override fun onDestroyView() {

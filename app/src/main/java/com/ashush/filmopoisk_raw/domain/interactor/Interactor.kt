@@ -1,5 +1,7 @@
 package com.ashush.filmopoisk_raw.domain.interactor
 
+import androidx.lifecycle.LiveData
+import androidx.paging.PagingData
 import com.ashush.filmopoisk_raw.domain.config.DomainConfig
 import com.ashush.filmopoisk_raw.domain.data_interfaces.IDataRepository
 import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
@@ -32,47 +34,47 @@ class Interactor @Inject constructor(
         return dataRepository.getMovieDetail(movie_id, append_to_response)
     }
 
-    suspend fun getMoviesPopular(
+    fun getMoviesPopular(
         language: String? = null,
-        page: String? = null,
+        page: Int? = null,
         region: String? = null
-    ): Response<DataMoviesModel> {
+    ): LiveData<PagingData<DataMoviesModel.Movie>> {
         return dataRepository.getMoviesPopular(language, page, region)
     }
 
-    suspend fun getMoviesTopRated(
+    fun getMoviesTopRated(
         language: String? = null,
-        page: String? = null,
+        page: Int? = null,
         region: String? = null
-    ): Response<DataMoviesModel> {
+    ): LiveData<PagingData<DataMoviesModel.Movie>> {
         return dataRepository.getMoviesTopRated(language, page, region)
     }
 
-    suspend fun getMoviesUpcoming(
+    fun getMoviesUpcoming(
         language: String? = null,
-        page: String? = null,
+        page: Int? = null,
         region: String? = null
-    ): Response<DataMoviesModel> {
+    ): LiveData<PagingData<DataMoviesModel.Movie>> {
         return dataRepository.getMoviesUpcoming(language, page, region)
     }
 
-    suspend fun getMoviesNowPlaying(
+    fun getMoviesNowPlaying(
         language: String? = null,
-        page: String? = null,
+        page: Int? = null,
         region: String? = null
-    ): Response<DataMoviesModel> {
+    ): LiveData<PagingData<DataMoviesModel.Movie>> {
         return dataRepository.getMoviesNowPlaying(language, page, region)
     }
 
-    suspend fun getSearchResult(
+    fun getSearchResult(
         language: String? = null,
         query: String,
-        page: String? = null,
+        page: Int? = null,
         include_adult: Boolean? = null,
         region: String? = null,
         year: Int? = null,
         primary_release_year: Int? = null
-    ): Response<DataMoviesModel> {
+    ): LiveData<PagingData<DataMoviesModel.Movie>> {
         return dataRepository.getSearchResult(
             language,
             query,

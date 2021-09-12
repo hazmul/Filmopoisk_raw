@@ -1,7 +1,14 @@
 package com.ashush.filmopoisk_raw.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.ashush.filmopoisk_raw.data.config.DataConfig
 import com.ashush.filmopoisk_raw.data.mapper.MapperDB
+import com.ashush.filmopoisk_raw.data.remote.MoviesListPagingSource
+import com.ashush.filmopoisk_raw.data.remote.MoviesSearchPagingSource
 import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
 import com.ashush.filmopoisk_raw.data.storage.IStorage
 import com.ashush.filmopoisk_raw.domain.data_interfaces.IDBHandler
@@ -16,6 +23,8 @@ import javax.inject.Inject
 
 class DataRepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl, private val storage: IStorage) :
     IDataRepository {
+
+    private val defaultPagerConfig = PagingConfig(pageSize = 20, enablePlaceholders = false)
 
     override suspend fun getConfiguration(): Response<DataConfigurationModel> {
         val result = retrofit.retrofitService.getConfiguration(DataConfig.API_KEY)
@@ -52,57 +61,100 @@ class DataRepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl,
         return retrofit.retrofitService.getMovieDetail(movie_id, DataConfig.API_KEY, append_to_response)
     }
 
-    override suspend fun getMoviesPopular(
+    override fun getMoviesPopular(
         language: String?,
-        page: String?,
+        page: Int?,
         region: String?
-    ): Response<DataMoviesModel> {
-        return retrofit.retrofitService.getMoviesPopular(DataConfig.API_KEY, language, page, region)
+    ): LiveData<PagingData<DataMoviesModel.Movie>> {
+        return Pager(
+            config = defaultPagerConfig,
+            pagingSourceFactory = {
+                MoviesListPagingSource(
+                    retrofit.retrofitService,
+                    MoviesListPagingSource.MoviesParameters(language, page, region),
+                    MoviesListPagingSource.MoviesListRequests.Popular
+                )
+            }
+        ).liveData
     }
 
-    override suspend fun getMoviesTopRated(
+    override fun getMoviesTopRated(
         language: String?,
-        page: String?,
+        page: Int?,
         region: String?
-    ): Response<DataMoviesModel> {
-        return retrofit.retrofitService.getMoviesTopRated(DataConfig.API_KEY, language, page, region)
+    ): LiveData<PagingData<DataMoviesModel.Movie>> {
+        return Pager(
+            config = defaultPagerConfig,
+            pagingSourceFactory = {
+                MoviesListPagingSource(
+                    retrofit.retrofitService,
+                    MoviesListPagingSource.MoviesParameters(language, page, region),
+                    MoviesListPagingSource.MoviesListRequests.TopRated
+                )
+            }
+        ).liveData
     }
 
-    override suspend fun getMoviesUpcoming(
+    override fun getMoviesUpcoming(
         language: String?,
-        page: String?,
+        page: Int?,
         region: String?
-    ): Response<DataMoviesModel> {
-        return retrofit.retrofitService.getMoviesUpcoming(DataConfig.API_KEY, language, page, region)
+    ): LiveData<PagingData<DataMoviesModel.Movie>> {
+        return Pager(
+            config = defaultPagerConfig,
+            pagingSourceFactory = {
+                MoviesListPagingSource(
+                    retrofit.retrofitService,
+                    MoviesListPagingSource.MoviesParameters(language, page, region),
+                    MoviesListPagingSource.MoviesListRequests.Upcoming
+                )
+            }
+        ).liveData
     }
 
-    override suspend fun getMoviesNowPlaying(
+    override fun getMoviesNowPlaying(
         language: String?,
-        page: String?,
+        page: Int?,
         region: String?
-    ): Response<DataMoviesModel> {
-        return retrofit.retrofitService.getMoviesNowPlaying(DataConfig.API_KEY, language, page, region)
+    ): LiveData<PagingData<DataMoviesModel.Movie>> {
+        return Pager(
+            config = defaultPagerConfig,
+            pagingSourceFactory = {
+                MoviesListPagingSource(
+                    retrofit.retrofitService,
+                    MoviesListPagingSource.MoviesParameters(language, page, region),
+                    MoviesListPagingSource.MoviesListRequests.NowPlaying
+                )
+            }
+        ).liveData
     }
 
-    override suspend fun getSearchResult(
+    override fun getSearchResult(
         language: String?,
         query: String,
-        page: String?,
+        page: Int?,
         include_adult: Boolean?,
         region: String?,
         year: Int?,
         primary_release_year: Int?
-    ): Response<DataMoviesModel> {
-        return retrofit.retrofitService.getSearchResult(
-            DataConfig.API_KEY,
-            language,
-            query,
-            page,
-            include_adult,
-            region,
-            year,
-            primary_release_year
-        )
+    ): LiveData<PagingData<DataMoviesModel.Movie>> {
+        return Pager(
+            config = defaultPagerConfig,
+            pagingSourceFactory = {
+                MoviesSearchPagingSource(
+                    retrofit.retrofitService,
+                    MoviesSearchPagingSource.MovieParameters(
+                        language,
+                        query,
+                        page,
+                        include_adult,
+                        region,
+                        year,
+                        primary_release_year
+                    )
+                )
+            }
+        ).liveData
     }
 
     override suspend fun getDBHandler(dataType: DataType): IDBHandler {

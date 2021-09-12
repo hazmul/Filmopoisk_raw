@@ -21,41 +21,24 @@ class LaunchViewModel @Inject constructor(private var interactor: Interactor) : 
     }
 
     private fun loadRemoteConfiguration() {
-        val resultList = mutableListOf<Boolean>()
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val result = interactor.getRemoteConfiguration()
                 when {
                     result.isSuccessful -> {
-                        resultList.add(true)
+                        requestResult.postValue(true)
                     }
                     !result.isSuccessful -> {
                         requestError.postValue(result.message())
+                        requestResult.postValue(true)
                     }
                 }
-                checkLoading(resultList)
             }
         }
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val result = interactor.getGenresInfo()
-                when {
-                    result.isSuccessful -> {
-                        resultList.add(true)
-                    }
-                    !result.isSuccessful -> {
-                        requestError.postValue(result.message())
-                    }
-                }
-                checkLoading(resultList)
+              interactor.getGenresInfo()
             }
         }
     }
-
-    private fun checkLoading(resultList: List<Boolean>) {
-        if (resultList.all { it } && resultList.size == 2) {
-            requestResult.postValue(true)
-        }
-    }
-
 }

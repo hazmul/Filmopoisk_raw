@@ -10,16 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.databinding.FragmentTopratedBinding
 import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
-import com.ashush.filmopoisk_raw.domain.config.DomainConfig
 import com.ashush.filmopoisk_raw.presentation.DetailFragment
 import com.ashush.filmopoisk_raw.presentation.MainActivity
 import com.ashush.filmopoisk_raw.presentation.MainActivityViewModel
-import com.ashush.filmopoisk_raw.presentation.nav_items.MoviesAdapter
+import com.ashush.filmopoisk_raw.presentation.nav_items.PagedMoviesAdapter
 import com.ashush.filmopoisk_raw.utils.RVLayoutManager
 
 class TopRatedFragment : Fragment() {
@@ -28,7 +26,7 @@ class TopRatedFragment : Fragment() {
     private val sharedViewModel: MainActivityViewModel by activityViewModels()
     private var _binding: FragmentTopratedBinding? = null
     private val binding get() = _binding!!
-    private val adapter = MoviesAdapter()
+    private val adapter = PagedMoviesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,28 +38,28 @@ class TopRatedFragment : Fragment() {
         _binding = FragmentTopratedBinding.inflate(inflater, container, false)
 
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = RVLayoutManager.getLayout(requireActivity(), sharedViewModel.viewTypeLiveData.value)
+        binding.recyclerView.layoutManager =
+            RVLayoutManager.getLayout(requireActivity(), sharedViewModel.viewTypeLiveData.value)
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireActivity(),
                 LinearLayoutManager.VERTICAL
             )
         )
+
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter.listener = object : MoviesAdapter.IListener {
+
+        adapter.listener = object : PagedMoviesAdapter.IListener {
             override fun onClick(movieId: Int) {
                 val bundle = bundleOf(DetailFragment.MOVIE_ID_KEY to movieId)
                 view.findNavController().navigate(R.id.action_nav_mainPager_to_detailFragment, bundle)
             }
         }
-        viewModel.requestResult.observe(viewLifecycleOwner) { result ->
-            result.movies?.let { adapter.update(it) }
-        }
+
         viewModel.requestError.observe(viewLifecycleOwner) { result ->
             Toast.makeText(requireActivity(), result, Toast.LENGTH_SHORT).show()
         }
@@ -69,7 +67,13 @@ class TopRatedFragment : Fragment() {
             binding.recyclerView.layoutManager = RVLayoutManager.getLayout(requireActivity(), result)
         }
 
-        viewModel.doRequest()
+        loadMovies()
+    }
+
+    private fun loadMovies() {
+        viewModel.getMovies().observe(viewLifecycleOwner) { pagingData ->
+            adapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
+        }
     }
 
     override fun onDestroyView() {

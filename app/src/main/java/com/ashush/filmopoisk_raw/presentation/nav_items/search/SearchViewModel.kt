@@ -1,42 +1,35 @@
 package com.ashush.filmopoisk_raw.presentation.nav_items.search
 
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.filter
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
 import com.ashush.filmopoisk_raw.utils.getYear
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(private var interactor: Interactor) : ViewModel() {
-    val requestResult = MutableLiveData<DataMoviesModel>()
+
+    val requestResult = MutableLiveData<DataMoviesModel.Movie>()
     val requestError = MutableLiveData<String>()
 
-    val movies = MediatorLiveData<List<DataMoviesModel.Movie>>()
-    var filter = SearchFilter()
-        private set
+    var filter = MutableLiveData<SearchFilter>()
+    var lastQuery = MutableLiveData<String>()
 
     init {
-        movies.addSource(requestResult) { applyFilter(filter) }
+        filter.value = SearchFilter()
     }
 
-    fun doRequest(query: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val result = interactor.getSearchResult(query = query)
-            when {
-                result.isSuccessful -> requestResult.postValue(result.body())
-                else -> requestError.postValue(result.message())
-            }
-        }
+    fun getMovies(query: String): LiveData<PagingData<DataMoviesModel.Movie>> {
+        lastQuery.value = query
+            return interactor.getSearchResult(query = query)
+                .map { it -> it.filter { isMovieProper(it, filter.value!!) } }
     }
 
     fun applyFilter(filter: SearchFilter) {
-        this.filter = filter
-        movies.value = (requestResult.value?.movies?.filterNotNull() ?: emptyList())
-            .filter { isMovieProper(it, filter) }
+        this.filter.value = filter
+
     }
 
     private fun isMovieProper(movie: DataMoviesModel.Movie, filter: SearchFilter): Boolean {
