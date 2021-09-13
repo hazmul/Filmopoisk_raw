@@ -29,4 +29,6 @@
     <color name="not_favorite">#FFFFFF</color>
     <color name="in_watchlist">#F6BD13</color>
     <color name="not_watchlist">#FFFFFF</color>
+
+    <color name="yellow">#F6BD13</color>
 </resources>

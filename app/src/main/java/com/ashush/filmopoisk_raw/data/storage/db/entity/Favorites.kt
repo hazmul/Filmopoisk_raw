@@ -15,4 +15,5 @@ data class Favorites(
     @ColumnInfo(name = "overview") override val overview: String?,
     @ColumnInfo(name = "tagline") override val tagline: String?,
     @ColumnInfo(name = "poster_path") override val posterPath: String?,
-) : BaseEntity(movieId, title, popularity, releaseDate, overview, tagline, posterPath)
+    @ColumnInfo(name = "average_vote") override val averageVote: Double?,
+) : BaseEntity(movieId, title, popularity, releaseDate, overview, tagline, posterPath, averageVote)

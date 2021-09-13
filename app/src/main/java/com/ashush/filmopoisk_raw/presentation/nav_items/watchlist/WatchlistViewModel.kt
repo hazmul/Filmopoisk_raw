@@ -29,7 +29,8 @@ class WatchlistViewModel @Inject constructor(
                         popularity = it.popularity,
                         releaseDate = it.releaseDate,
                         overview = it.overview,
-                        posterPath = it.posterPath
+                        posterPath = it.posterPath,
+                        voteAverage = it.voteAverage
                     )
                 })
                 requestResult.postValue(result)

@@ -10,10 +10,11 @@ import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.data.config.DataConfig
 import com.ashush.filmopoisk_raw.databinding.RecyclerItemBinding
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
+import com.ashush.filmopoisk_raw.presentation.nav_items.search.dialogsearchfilter.adapter.GenreItem
 import com.squareup.picasso.Picasso
+import java.util.*
 
-class PagedMoviesAdapter :
-    PagingDataAdapter<DataMoviesModel.Movie, PagedMoviesAdapter.ViewHolder>(MOVIE_COMPARATOR) {
+class PagedMoviesAdapter : PagingDataAdapter<DataMoviesModel.Movie, PagedMoviesAdapter.ViewHolder>(MOVIE_COMPARATOR) {
 
     companion object {
         private val MOVIE_COMPARATOR = object : DiffUtil.ItemCallback<DataMoviesModel.Movie>() {
@@ -36,11 +37,17 @@ class PagedMoviesAdapter :
         private val binding = RecyclerItemBinding.bind(itemView)
 
         fun bindView(movie: DataMoviesModel.Movie?, listener: IListener?) {
-            binding.cardViewTextView.text = movie?.title
+            binding.cardViewTextTitle.text = movie?.title
+            binding.cardViewTextOverView.text = when {
+                movie?.overview?.length!! >= 100 -> "${movie.overview.substring(0, 100)}..."
+                else -> movie.overview
+            }
+            binding.cardViewTextYear.text = ("(${"\\d{4}".toRegex().find(movie.releaseDate!!)?.value})")
+            binding.cardViewTextVote.text = movie.voteAverage.toString()
             Picasso.get()
-                .load(DataConfig.getBasePosterUrl(DataConfig.config?.images?.posterSizes?.firstOrNull()) + movie?.posterPath)
-                .into(binding.cardViewIconImageView)
-            binding.cardViewRoot.setOnClickListener { listener?.onClick(movie?.id!!) }
+                .load(DataConfig.getBasePosterUrl(null) + movie.posterPath)
+                .into(binding.cardViewImgPoster)
+            binding.cardViewRoot.setOnClickListener { listener?.onClick(movie.id!!) }
         }
     }
 
@@ -52,5 +59,4 @@ class PagedMoviesAdapter :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindView(getItem(position), listener)
     }
-
 }

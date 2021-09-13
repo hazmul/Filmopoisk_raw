@@ -28,6 +28,7 @@
     <dimen name="movie_detail_left">140dp</dimen>
     <dimen name="movie_detail_right">180dp</dimen>
 
+    <dimen name="imgSize_Xsmall">24dp</dimen>
     <dimen name="imgSize_small">32dp</dimen>
     <dimen name="imgSize_medium">48dp</dimen>
     <dimen name="imgSize_large">64dp</dimen>

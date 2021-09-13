@@ -2,7 +2,6 @@ package com.ashush.filmopoisk_raw.data.remote
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.ashush.filmopoisk_raw.domain.data_interfaces.IDataRepository
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
 import retrofit2.Response
 

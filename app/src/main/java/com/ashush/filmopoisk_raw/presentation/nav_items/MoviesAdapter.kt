@@ -1,5 +1,6 @@
 package com.ashush.filmopoisk_raw.presentation.nav_items
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,10 +26,16 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
         private val binding = RecyclerItemBinding.bind(itemView)
 
         fun bindView(movie: DataMoviesModel.Movie, listener: IListener?) {
-            binding.cardViewTextView.text = movie.title
+            binding.cardViewTextTitle.text = movie.title
+            binding.cardViewTextOverView.text = when {
+                movie.overview?.length!! >= 100 -> "${movie.overview.substring(0, 100)}..."
+                else -> movie.overview
+            }
+            binding.cardViewTextYear.text = ("(${"\\d{4}".toRegex().find(movie.releaseDate!!)?.value})")
+            binding.cardViewTextVote.text = movie.voteAverage.toString()
             Picasso.get()
-                .load(DataConfig.getBasePosterUrl(DataConfig.config?.images?.posterSizes?.firstOrNull()) + movie.posterPath)
-                .into(binding.cardViewIconImageView)
+                .load(DataConfig.getBasePosterUrl(null) + movie.posterPath)
+                .into(binding.cardViewImgPoster)
             binding.cardViewRoot.setOnClickListener { listener?.onClick(movie.id!!) }
         }
     }
@@ -46,6 +53,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
         return movies.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun update(movies: List<DataMoviesModel.Movie?>) {
         this.movies = movies
         notifyDataSetChanged()

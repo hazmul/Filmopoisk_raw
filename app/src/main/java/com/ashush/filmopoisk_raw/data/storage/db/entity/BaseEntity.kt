@@ -8,4 +8,5 @@ open class BaseEntity(
     open val overview: String?,
     open val tagline: String?,
     open val posterPath: String?,
+    open val averageVote: Double?,
 )

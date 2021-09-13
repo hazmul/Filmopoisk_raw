@@ -15,7 +15,8 @@ class MapperDB {
                 releaseDate = entity.releaseDate,
                 overview = entity.overview,
                 tagline = entity.tagline,
-                posterPath = entity.posterPath
+                posterPath = entity.posterPath,
+                voteAverage = entity.averageVote
             )
         }
         fun  mapToFavorites(movie: DataMovieDetailModel) : Favorites {
@@ -26,7 +27,8 @@ class MapperDB {
                 releaseDate = movie.releaseDate,
                 overview = movie.overview,
                 tagline = movie.tagline,
-                posterPath = movie.posterPath
+                posterPath = movie.posterPath,
+                averageVote = movie.voteAverage
             )
         }
         fun mapToWatchlist(movie: DataMovieDetailModel) : Watchlist {
@@ -37,7 +39,8 @@ class MapperDB {
                 releaseDate = movie.releaseDate,
                 overview = movie.overview,
                 tagline = movie.tagline,
-                posterPath = movie.posterPath
+                posterPath = movie.posterPath,
+                averageVote = movie.voteAverage
             )
         }
     }

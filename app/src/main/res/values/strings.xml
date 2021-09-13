@@ -69,5 +69,8 @@
     <string name="apply_filter">Apply filter</string>
     <string name="add_filters">Add filters</string>
     <string name="adult_year">18+</string>
+    <string name="load_image_desc">Load Image</string>
+    <string name="movie_poster">Movie Poster</string>
+    <string name="vote_star">Vote star</string>
 
 </resources>
