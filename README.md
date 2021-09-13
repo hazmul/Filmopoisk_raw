@@ -4,30 +4,24 @@
    ^
    в статье разобраться с exceptionHandler
    вставить swipeRefreshLayout по примеру из статьи
+
 2) Довести до ума разметку Detail fragment
    - вставить постер
    - картинки с возможностью зума
    - видео?
-3) Добавить кнопку смены типа layout manager у RecyclerView в toolbar
-   - добавить пагинацию
+
 4) Добавить обработку настроек из settings fragment
-5) Добавить фильтр
-   - adult <Boolean>
-   - genresIds (DataGenresInfo) <Int> toggle bottom
-   - popularity <Double> range between 0.00 and 100.00
-   - release data  List<String> of years 
-   - ...
    
 
-6) Уведомления?
+6) --Уведомления?
 7) Почистить от лишнего
 8) Проверить все размеры на соотвествие material design
+9) Unit-tests
 
 
--) Unit-tests
--) UI-tests
--) Авторизация
--) Фрагмент с инфой о профиле
+-) --UI-tests
+-) --Авторизация
+-) --Фрагмент с инфой о профиле
 -) 
 
 
