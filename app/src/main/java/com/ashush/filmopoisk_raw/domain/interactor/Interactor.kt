@@ -88,23 +88,23 @@ class Interactor @Inject constructor(
     }
 
     suspend fun getAll(dataType: DataType): List<DataMovieDetailModel>? {
-        return dataRepository.getDBHandler(dataType).getAll()
+        return dataRepository.getStorageHandler(dataType).getAll()
     }
 
     suspend fun getById(dataType: DataType, movieId: Int): DataMovieDetailModel? {
-        return dataRepository.getDBHandler(dataType).getById(movieId)
+        return dataRepository.getStorageHandler(dataType).getById(movieId)
     }
 
     suspend fun insert(dataType: DataType, movie: DataMovieDetailModel) {
-        dataRepository.getDBHandler(dataType).insert(movie)
+        dataRepository.getStorageHandler(dataType).insert(movie)
     }
 
     suspend fun delete(dataType: DataType, movie: DataMovieDetailModel): Int {
-        return dataRepository.getDBHandler(dataType).delete(movie)
+        return dataRepository.getStorageHandler(dataType).delete(movie)
     }
 
     suspend fun updateMovie(dataType: DataType, movie: DataMovieDetailModel): Int {
-        return dataRepository.getDBHandler(dataType).updateMovie(movie)
+        return dataRepository.getStorageHandler(dataType).updateMovie(movie)
     }
 
 }

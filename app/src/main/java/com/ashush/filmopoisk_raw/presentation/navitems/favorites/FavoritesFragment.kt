@@ -17,6 +17,7 @@ import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
 import com.ashush.filmopoisk_raw.presentation.DetailFragment
 import com.ashush.filmopoisk_raw.presentation.MainActivity
 import com.ashush.filmopoisk_raw.presentation.MainActivityViewModel
+import com.ashush.filmopoisk_raw.presentation.navitems.adapters.IListener
 import com.ashush.filmopoisk_raw.presentation.navitems.adapters.MoviesAdapter
 import com.ashush.filmopoisk_raw.utils.RVLayoutManager
 
@@ -51,11 +52,9 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter.listener = object : MoviesAdapter.IListener {
-            override fun onClick(movieId: Int) {
-                val bundle = bundleOf(DetailFragment.MOVIEIDKEY to movieId)
-                view.findNavController().navigate(R.id.actionNavFavoritesToDetailFragment, bundle)
-            }
+        adapter.listener = IListener { movieId ->
+            val bundle = bundleOf(DetailFragment.MOVIEIDKEY to movieId)
+            view.findNavController().navigate(R.id.actionNavFavoritesToDetailFragment, bundle)
         }
 
         viewModel.requestResult.observe(viewLifecycleOwner) { result ->

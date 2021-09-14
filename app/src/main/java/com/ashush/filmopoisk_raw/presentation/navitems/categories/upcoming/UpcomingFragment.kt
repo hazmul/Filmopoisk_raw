@@ -17,6 +17,7 @@ import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
 import com.ashush.filmopoisk_raw.presentation.DetailFragment
 import com.ashush.filmopoisk_raw.presentation.MainActivity
 import com.ashush.filmopoisk_raw.presentation.MainActivityViewModel
+import com.ashush.filmopoisk_raw.presentation.navitems.adapters.IListener
 import com.ashush.filmopoisk_raw.presentation.navitems.adapters.PagedMoviesAdapter
 import com.ashush.filmopoisk_raw.utils.RVLayoutManager
 
@@ -53,11 +54,9 @@ class UpcomingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter.listener = object : PagedMoviesAdapter.IListener {
-            override fun onClick(movieId: Int) {
-                val bundle = bundleOf(DetailFragment.MOVIEIDKEY to movieId)
-                view.findNavController().navigate(R.id.actionNavMainPagerToDetailFragment, bundle)
-            }
+        adapter.listener = IListener { movieId ->
+            val bundle = bundleOf(DetailFragment.MOVIEIDKEY to movieId)
+            view.findNavController().navigate(R.id.actionNavMainPagerToDetailFragment, bundle)
         }
 
         viewModel.requestError.observe(viewLifecycleOwner) { result ->
