@@ -1,6 +1,6 @@
 package com.ashush.filmopoisk_raw.di.domain
 
-import com.ashush.filmopoisk_raw.domain.data_interfaces.IDataRepository
+import com.ashush.filmopoisk_raw.domain.datainterfaces.IDataRepository
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
 import dagger.Module
 import dagger.Provides

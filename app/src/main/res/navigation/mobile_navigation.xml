@@ -2,26 +2,26 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
+    android:id="@+id/mobileNavigation"
     app:startDestination="@+id/launchFragment">
 
     <fragment
         android:id="@+id/launchFragment"
-        android:name="com.ashush.filmopoisk_raw.presentation.nav_items.launch.LaunchFragment"
+        android:name="com.ashush.filmopoisk_raw.presentation.navitems.launch.LaunchFragment"
         android:label="@string/fragment_launch_label"
         tools:layout="@layout/fragment_launch">
         <action
-            android:id="@+id/action_launchFragment_to_nav_mainPager"
-            app:destination="@id/nav_mainPager" />
+            android:id="@+id/actionLaunchFragmentToNavMainPager"
+            app:destination="@id/navMainPager" />
     </fragment>
 
     <fragment
-        android:id="@+id/nav_mainPager"
-        android:name="com.ashush.filmopoisk_raw.presentation.nav_items.categories.MainPagerFragment"
+        android:id="@+id/navMainPager"
+        android:name="com.ashush.filmopoisk_raw.presentation.navitems.categories.MainPagerFragment"
         android:label="@string/menu_categories"
         tools:layout="@layout/fragment_main_pager">
         <action
-            android:id="@+id/action_nav_mainPager_to_detailFragment"
+            android:id="@+id/actionNavMainPagerToDetailFragment"
             app:destination="@id/detailFragment" />
     </fragment>
 
@@ -36,35 +36,35 @@
             android:defaultValue="0" />
     </fragment>
     <fragment
-        android:id="@+id/nav_search"
-        android:name="com.ashush.filmopoisk_raw.presentation.nav_items.search.SearchFragment"
+        android:id="@+id/navSearch"
+        android:name="com.ashush.filmopoisk_raw.presentation.navitems.search.SearchFragment"
         android:label="@string/menu_search"
         tools:layout="@layout/fragment_search" >
         <action
-            android:id="@+id/action_nav_search_to_detailFragment"
+            android:id="@+id/actionNavSearchToDetailFragment"
             app:destination="@id/detailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/nav_settings"
-        android:name="com.ashush.filmopoisk_raw.presentation.nav_items.settings.SettingsFragment"
+        android:id="@+id/navSettings"
+        android:name="com.ashush.filmopoisk_raw.presentation.navitems.settings.SettingsFragment"
         android:label="@string/action_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
-        android:id="@+id/nav_favorites"
-        android:name="com.ashush.filmopoisk_raw.presentation.nav_items.favorites.FavoritesFragment"
+        android:id="@+id/navFavorites"
+        android:name="com.ashush.filmopoisk_raw.presentation.navitems.favorites.FavoritesFragment"
         android:label="fragment_favorites"
         tools:layout="@layout/fragment_favorites" >
         <action
-            android:id="@+id/action_nav_favorites_to_detailFragment"
+            android:id="@+id/actionNavFavoritesToDetailFragment"
             app:destination="@id/detailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/nav_watchlist"
-        android:name="com.ashush.filmopoisk_raw.presentation.nav_items.watchlist.WatchlistFragment"
+        android:id="@+id/navWatchlist"
+        android:name="com.ashush.filmopoisk_raw.presentation.navitems.watchlist.WatchlistFragment"
         android:label="fragment_watchlist"
         tools:layout="@layout/fragment_watchlist" >
         <action
-            android:id="@+id/action_nav_watchlist_to_detailFragment"
+            android:id="@+id/actionNavWatchlistToDetailFragment"
             app:destination="@id/detailFragment" />
     </fragment>
 

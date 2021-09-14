@@ -1,9 +1,7 @@
 package com.ashush.filmopoisk_raw.presentation
 
 import android.os.Bundle
-import android.text.Html
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,15 +28,15 @@ import javax.inject.Inject
 class DetailFragment : Fragment() {
 
     companion object {
-        const val MOVIE_ID_KEY = "MOVIE_ID_KEY"
+        const val MOVIEIDKEY = "MOVIE_ID_KEY"
     }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: DetailViewModel
     private val sharedViewModel: MainActivityViewModel by activityViewModels()
-    private var _binding: FragmentDetailBinding? = null
-    private val binding get() = _binding!!
+    private var preBinding: FragmentDetailBinding? = null
+    private val binding get() = preBinding!!
     private var isAllFabsVisible = false
     private var movieId: Int = 0
 
@@ -54,8 +52,8 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDetailBinding.inflate(inflater, container, false)
-        movieId = arguments?.getInt(MOVIE_ID_KEY, 0)!!
+        preBinding = FragmentDetailBinding.inflate(inflater, container, false)
+        movieId = arguments?.getInt(MOVIEIDKEY, 0)!!
 
         activity?.let {
             favoriteFAB = it.findViewById(R.id.add_favorites_fab)

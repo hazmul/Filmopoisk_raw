@@ -2,12 +2,13 @@ package com.ashush.filmopoisk_raw.domain.interactor
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
-import com.ashush.filmopoisk_raw.domain.config.DomainConfig
-import com.ashush.filmopoisk_raw.domain.data_interfaces.IDataRepository
+import com.ashush.filmopoisk_raw.models.domain.DomainConfig
+import com.ashush.filmopoisk_raw.domain.datainterfaces.IDataRepository
 import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
 import com.ashush.filmopoisk_raw.models.data.configuration.DataGenresInfo
 import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
 import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
+import com.ashush.filmopoisk_raw.models.domain.DataType
 import retrofit2.Response
 import javax.inject.Inject
 

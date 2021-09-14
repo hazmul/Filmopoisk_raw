@@ -18,7 +18,7 @@ import com.ashush.filmopoisk_raw.MyApp
 import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.databinding.ActivityMainBinding
 import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
-import com.ashush.filmopoisk_raw.domain.config.DomainConfig
+import com.ashush.filmopoisk_raw.models.domain.DomainConfig
 import com.google.android.material.navigation.NavigationView
 import javax.inject.Inject
 
@@ -66,11 +66,11 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_mainPager,
-                R.id.nav_search,
-                R.id.nav_favorites,
-                R.id.nav_watchlist,
-                R.id.nav_settings
+                R.id.navMainPager,
+                R.id.navSearch,
+                R.id.navFavorites,
+                R.id.navWatchlist,
+                R.id.navSettings
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

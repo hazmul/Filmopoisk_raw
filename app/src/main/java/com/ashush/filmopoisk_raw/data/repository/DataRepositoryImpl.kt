@@ -9,11 +9,11 @@ import com.ashush.filmopoisk_raw.data.config.DataConfig
 import com.ashush.filmopoisk_raw.data.mapper.MapperDB
 import com.ashush.filmopoisk_raw.data.remote.MoviesListPagingSource
 import com.ashush.filmopoisk_raw.data.remote.MoviesSearchPagingSource
-import com.ashush.filmopoisk_raw.data.remote.RetrofitImpl
+import com.ashush.filmopoisk_raw.data.remote.RetrofitServiceProvider
 import com.ashush.filmopoisk_raw.data.storage.IStorage
-import com.ashush.filmopoisk_raw.domain.data_interfaces.IDBHandler
-import com.ashush.filmopoisk_raw.domain.data_interfaces.IDataRepository
-import com.ashush.filmopoisk_raw.domain.interactor.DataType
+import com.ashush.filmopoisk_raw.domain.datainterfaces.IDataRepository
+import com.ashush.filmopoisk_raw.domain.datainterfaces.IStorageHandler
+import com.ashush.filmopoisk_raw.models.domain.DataType
 import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
 import com.ashush.filmopoisk_raw.models.data.configuration.DataGenresInfo
 import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
@@ -21,13 +21,16 @@ import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
 import retrofit2.Response
 import javax.inject.Inject
 
-class DataRepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl, private val storage: IStorage) :
+class DataRepositoryImpl @Inject constructor(
+    private val retrofitServiceProvider: RetrofitServiceProvider,
+    private val storage: IStorage
+) :
     IDataRepository {
 
     private val defaultPagerConfig = PagingConfig(pageSize = 20, enablePlaceholders = false)
 
     override suspend fun getConfiguration(): Response<DataConfigurationModel> {
-        val result = retrofit.retrofitService.getConfiguration(DataConfig.API_KEY)
+        val result = retrofitServiceProvider.getService().getConfiguration(DataConfig.API_KEY)
         when {
             result.isSuccessful -> {
                 result.body()?.let {
@@ -43,7 +46,7 @@ class DataRepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl,
     }
 
     override suspend fun getGenresInfo(): Response<DataGenresInfo> {
-        val result = retrofit.retrofitService.getGenresInfo(DataConfig.API_KEY)
+        val result = retrofitServiceProvider.getService().getGenresInfo(DataConfig.API_KEY)
         when {
             result.isSuccessful -> {
                 result.body()?.let {
@@ -58,7 +61,7 @@ class DataRepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl,
         movie_id: Int,
         append_to_response: String?
     ): Response<DataMovieDetailModel> {
-        return retrofit.retrofitService.getMovieDetail(movie_id, DataConfig.API_KEY, append_to_response)
+        return retrofitServiceProvider.getService().getMovieDetail(movie_id, DataConfig.API_KEY, append_to_response)
     }
 
     override fun getMoviesPopular(
@@ -70,7 +73,7 @@ class DataRepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl,
             config = defaultPagerConfig,
             pagingSourceFactory = {
                 MoviesListPagingSource(
-                    retrofit.retrofitService,
+                    retrofitServiceProvider.getService(),
                     MoviesListPagingSource.MoviesParameters(language, page, region),
                     MoviesListPagingSource.MoviesListRequests.Popular
                 )
@@ -87,7 +90,7 @@ class DataRepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl,
             config = defaultPagerConfig,
             pagingSourceFactory = {
                 MoviesListPagingSource(
-                    retrofit.retrofitService,
+                    retrofitServiceProvider.getService(),
                     MoviesListPagingSource.MoviesParameters(language, page, region),
                     MoviesListPagingSource.MoviesListRequests.TopRated
                 )
@@ -104,7 +107,7 @@ class DataRepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl,
             config = defaultPagerConfig,
             pagingSourceFactory = {
                 MoviesListPagingSource(
-                    retrofit.retrofitService,
+                    retrofitServiceProvider.getService(),
                     MoviesListPagingSource.MoviesParameters(language, page, region),
                     MoviesListPagingSource.MoviesListRequests.Upcoming
                 )
@@ -121,7 +124,7 @@ class DataRepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl,
             config = defaultPagerConfig,
             pagingSourceFactory = {
                 MoviesListPagingSource(
-                    retrofit.retrofitService,
+                    retrofitServiceProvider.getService(),
                     MoviesListPagingSource.MoviesParameters(language, page, region),
                     MoviesListPagingSource.MoviesListRequests.NowPlaying
                 )
@@ -142,7 +145,7 @@ class DataRepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl,
             config = defaultPagerConfig,
             pagingSourceFactory = {
                 MoviesSearchPagingSource(
-                    retrofit.retrofitService,
+                    retrofitServiceProvider.getService(),
                     MoviesSearchPagingSource.MovieParameters(
                         language,
                         query,
@@ -157,13 +160,13 @@ class DataRepositoryImpl @Inject constructor(private val retrofit: RetrofitImpl,
         ).liveData
     }
 
-    override suspend fun getDBHandler(dataType: DataType): IDBHandler {
+    override suspend fun getStorageHandler(dataType: DataType): IStorageHandler {
         val dao =
             when (dataType) {
                 DataType.FAVORITES -> storage.getFavoriteDao()
                 DataType.WATCHLIST -> storage.getWatchlistDao()
             }
-        return object : IDBHandler {
+        return object : IStorageHandler {
             override suspend fun getAll(): List<DataMovieDetailModel>? {
                 return dao.getAll()?.map { it -> MapperDB.mapToDataMovieDetail(it) }
             }

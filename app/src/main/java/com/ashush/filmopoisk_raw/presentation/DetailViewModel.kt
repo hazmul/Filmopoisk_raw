@@ -3,7 +3,7 @@ package com.ashush.filmopoisk_raw.presentation
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ashush.filmopoisk_raw.domain.interactor.DataType
+import com.ashush.filmopoisk_raw.models.domain.DataType
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
 import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
 import kotlinx.coroutines.Dispatchers

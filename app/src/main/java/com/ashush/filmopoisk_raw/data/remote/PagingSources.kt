@@ -86,10 +86,10 @@ class MoviesSearchPagingSource(
         val language: String?,
         val query: String,
         val page: Int?,
-        val include_adult: Boolean?,
+        val includeAdult: Boolean?,
         val region: String?,
         val year: Int?,
-        val primary_release_year: Int?,
+        val primaryReleaseYear: Int?,
     )
 
     override fun getRefreshKey(state: PagingState<Int, DataMoviesModel.Movie>): Int? {
@@ -106,10 +106,10 @@ class MoviesSearchPagingSource(
                 language = parameters.language,
                 query = parameters.query,
                 page = page,
-                include_adult = parameters.include_adult,
+                include_adult = parameters.includeAdult,
                 region = parameters.region,
                 year = parameters.year,
-                primary_release_year = parameters.primary_release_year,
+                primary_release_year = parameters.primaryReleaseYear,
             )
             val pagedResponse = response.body()
             val data = pagedResponse?.movies!!
