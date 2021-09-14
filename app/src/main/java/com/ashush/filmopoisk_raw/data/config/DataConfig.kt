@@ -1,7 +1,7 @@
 package com.ashush.filmopoisk_raw.data.config
 
-import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
-import com.ashush.filmopoisk_raw.models.data.configuration.DataGenresInfo
+import com.ashush.filmopoisk_raw.data.models.configuration.DataConfigurationModel
+import com.ashush.filmopoisk_raw.data.models.configuration.DataGenresInfo
 
 class DataConfig {
     companion object {
@@ -13,7 +13,7 @@ class DataConfig {
 
         var genres: DataGenresInfo? = null
 
-        fun getBasePosterUrl(size: String?): String {
+        fun getBaseImageUrl(size: String? = null): String {
             return if (size !=null) {
                 "https://image.tmdb.org/t/p/$size/"
             } else {

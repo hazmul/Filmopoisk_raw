@@ -18,7 +18,7 @@ import androidx.preference.PreferenceManager
 import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.databinding.FragmentLaunchBinding
 import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
-import com.ashush.filmopoisk_raw.models.domain.DomainConfig
+import com.ashush.filmopoisk_raw.domain.models.DomainConfig
 import com.ashush.filmopoisk_raw.presentation.MainActivity
 import com.ashush.filmopoisk_raw.presentation.MainActivityViewModel
 
@@ -62,8 +62,6 @@ class LaunchFragment : Fragment() {
         loadAppSettings()
     }
 
-
-
     private fun animateLoading() {
         val animation = RotateAnimation(
             360F,
@@ -94,9 +92,15 @@ class LaunchFragment : Fragment() {
         val themeStyle = sp.getBoolean(getString(R.string.theme_style_key), false)
         val notificationStatus = sp.getBoolean(getString(R.string.notification_key), false)
 
-        val customPreferences = requireActivity().getSharedPreferences(MainActivity.DOMAIN_CONFIG_PREFS_KEY, Context.MODE_PRIVATE)
+        val customPreferences =
+            requireActivity().getSharedPreferences(MainActivity.DOMAIN_CONFIG_PREFS_KEY, Context.MODE_PRIVATE)
         val recyclerViewType: DomainConfig.ViewType =
-            DomainConfig.ViewType.valueOf(customPreferences.getString(MainActivity.DOMAIN_CONFIG_VIEWTYPE_KEY, DomainConfig.ViewType.LISTVIEW.name)!!)
+            DomainConfig.ViewType.valueOf(
+                customPreferences.getString(
+                    MainActivity.DOMAIN_CONFIG_VIEWTYPE_KEY,
+                    DomainConfig.ViewType.LISTVIEW.name
+                )!!
+            )
         sharedViewModel.setAppSettings(downloadImage, cacheImage, themeStyle, notificationStatus, recyclerViewType)
     }
 

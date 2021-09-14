@@ -4,7 +4,7 @@ import android.content.Context
 import com.ashush.filmopoisk_raw.data.storage.db.MovieDatabase
 import com.ashush.filmopoisk_raw.data.storage.db.dao.FavoritesDao
 import com.ashush.filmopoisk_raw.data.storage.db.dao.WatchlistDao
-import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
+import com.ashush.filmopoisk_raw.data.models.configuration.DataConfigurationModel
 import com.google.gson.Gson
 import javax.inject.Inject
 

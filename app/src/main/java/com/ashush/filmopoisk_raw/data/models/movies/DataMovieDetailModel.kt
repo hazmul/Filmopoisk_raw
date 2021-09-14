@@ -1,4 +1,4 @@
-package com.ashush.filmopoisk_raw.models.data.movies
+package com.ashush.filmopoisk_raw.data.models.movies
 
 import com.google.gson.annotations.SerializedName
 

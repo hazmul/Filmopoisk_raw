@@ -1,4 +1,4 @@
-package com.ashush.filmopoisk_raw.models.domain
+package com.ashush.filmopoisk_raw.domain.models
 
 object DomainConfig {
     @Volatile
@@ -19,6 +19,4 @@ object DomainConfig {
     var recyclerViewType: ViewType = ViewType.GRIDVIEW
 
     enum class ViewType { GRIDVIEW, LISTVIEW }
-//                          true     false
-//    enum class ThemeType { DARK, LIGHT }
 }

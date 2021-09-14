@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ashush.filmopoisk_raw.models.domain.DomainConfig
+import com.ashush.filmopoisk_raw.domain.models.DomainConfig
 
 internal class RVLayoutManager {
 

@@ -1,24 +1,18 @@
 package com.ashush.filmopoisk_raw.data.repository
 
-import androidx.lifecycle.LiveData
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.liveData
+import android.util.Log
 import com.ashush.filmopoisk_raw.data.config.DataConfig
-import com.ashush.filmopoisk_raw.data.mapper.MapperDB
-import com.ashush.filmopoisk_raw.data.remote.MoviesListPagingSource
-import com.ashush.filmopoisk_raw.data.remote.MoviesSearchPagingSource
+import com.ashush.filmopoisk_raw.data.mapper.DetailedMovieMapper
+import com.ashush.filmopoisk_raw.data.mapper.EntitiesMapper
+import com.ashush.filmopoisk_raw.data.mapper.MoviesMapper
 import com.ashush.filmopoisk_raw.data.remote.RetrofitServiceProvider
 import com.ashush.filmopoisk_raw.data.storage.IStorage
 import com.ashush.filmopoisk_raw.domain.datainterfaces.IDataRepository
 import com.ashush.filmopoisk_raw.domain.datainterfaces.IStorageHandler
-import com.ashush.filmopoisk_raw.models.domain.DataType
-import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
-import com.ashush.filmopoisk_raw.models.data.configuration.DataGenresInfo
-import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
-import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
-import retrofit2.Response
+import com.ashush.filmopoisk_raw.domain.models.DataType
+import com.ashush.filmopoisk_raw.domain.models.DetailedMovie
+import com.ashush.filmopoisk_raw.domain.models.Movies
+import com.ashush.filmopoisk_raw.domain.models.RequestResult
 import javax.inject.Inject
 
 class DataRepositoryImpl @Inject constructor(
@@ -27,172 +21,190 @@ class DataRepositoryImpl @Inject constructor(
 ) :
     IDataRepository {
 
-    private val defaultPagerConfig = PagingConfig(pageSize = 20, enablePlaceholders = false)
-
-    override suspend fun getConfiguration(): Response<DataConfigurationModel> {
-        val result = retrofitServiceProvider.getService().getConfiguration(DataConfig.API_KEY)
-        when {
+    override suspend fun getConfiguration(): RequestResult<Boolean> {
+        val result = retrofitServiceProvider.getService().getConfiguration()
+        return when {
             result.isSuccessful -> {
                 result.body()?.let {
                     storage.storeRemoteConfiguration(it)
                     DataConfig.config = it
                 }
+                RequestResult.Success(true)
             }
-            !result.isSuccessful -> {
+            else -> {
                 DataConfig.config = storage.getRemoteConfiguration()
+                RequestResult.Error(data = false, message = result.message())
             }
         }
-        return result
     }
 
-    override suspend fun getGenresInfo(): Response<DataGenresInfo> {
-        val result = retrofitServiceProvider.getService().getGenresInfo(DataConfig.API_KEY)
-        when {
+    override suspend fun getGenresInfo(): RequestResult<Boolean> {
+        val result = retrofitServiceProvider.getService().getGenresInfo()
+        return when {
             result.isSuccessful -> {
                 result.body()?.let {
                     DataConfig.genres = it
                 }
+                RequestResult.Success(true)
+            }
+            else -> {
+                RequestResult.Error(data = false, message = result.message())
             }
         }
-        return result
     }
 
     override suspend fun getMovieDetail(
         movie_id: Int,
-        append_to_response: String?
-    ): Response<DataMovieDetailModel> {
-        return retrofitServiceProvider.getService().getMovieDetail(movie_id, DataConfig.API_KEY, append_to_response)
+        appendToResponse: String?
+    ): RequestResult<DetailedMovie> {
+        val result = retrofitServiceProvider.getService()
+            .getMovieDetail(movieId = movie_id, append_to_response = appendToResponse)
+        return when {
+            result.isSuccessful -> RequestResult.Success(DetailedMovieMapper.mapToDetailMovie(result.body()!!))
+            else -> RequestResult.Error(null, result.message())
+        }
     }
 
-    override fun getMoviesPopular(
+    override suspend fun getMoviesPopular(
         language: String?,
         page: Int?,
         region: String?
-    ): LiveData<PagingData<DataMoviesModel.Movie>> {
-        return Pager(
-            config = defaultPagerConfig,
-            pagingSourceFactory = {
-                MoviesListPagingSource(
-                    retrofitServiceProvider.getService(),
-                    MoviesListPagingSource.MoviesParameters(language, page, region),
-                    MoviesListPagingSource.MoviesListRequests.Popular
-                )
-            }
-        ).liveData
+    ): RequestResult<Movies> {
+        val result = retrofitServiceProvider.getService().getMoviesPopular(
+            language = language,
+            page = page,
+            region = region
+        )
+        return when {
+            result.isSuccessful -> RequestResult.Success(MoviesMapper.mapToMovies(result.body()!!))
+            else -> RequestResult.Error(null, result.message())
+        }
     }
 
-    override fun getMoviesTopRated(
+    override suspend fun getMoviesTopRated(
         language: String?,
         page: Int?,
         region: String?
-    ): LiveData<PagingData<DataMoviesModel.Movie>> {
-        return Pager(
-            config = defaultPagerConfig,
-            pagingSourceFactory = {
-                MoviesListPagingSource(
-                    retrofitServiceProvider.getService(),
-                    MoviesListPagingSource.MoviesParameters(language, page, region),
-                    MoviesListPagingSource.MoviesListRequests.TopRated
-                )
-            }
-        ).liveData
+    ): RequestResult<Movies> {
+        val result = retrofitServiceProvider.getService().getMoviesTopRated(
+            language = language,
+            page = page,
+            region = region
+        )
+        return when {
+            result.isSuccessful -> RequestResult.Success(MoviesMapper.mapToMovies(result.body()!!))
+            else -> RequestResult.Error(null, result.message())
+        }
     }
 
-    override fun getMoviesUpcoming(
+    override suspend fun getMoviesUpcoming(
         language: String?,
         page: Int?,
         region: String?
-    ): LiveData<PagingData<DataMoviesModel.Movie>> {
-        return Pager(
-            config = defaultPagerConfig,
-            pagingSourceFactory = {
-                MoviesListPagingSource(
-                    retrofitServiceProvider.getService(),
-                    MoviesListPagingSource.MoviesParameters(language, page, region),
-                    MoviesListPagingSource.MoviesListRequests.Upcoming
-                )
-            }
-        ).liveData
+    ): RequestResult<Movies> {
+        val result = retrofitServiceProvider.getService().getMoviesUpcoming(
+            language = language,
+            page = page,
+            region = region
+        )
+        return when {
+            result.isSuccessful -> RequestResult.Success(MoviesMapper.mapToMovies(result.body()!!))
+            else -> RequestResult.Error(null, result.message())
+        }
     }
 
-    override fun getMoviesNowPlaying(
+    override suspend fun getMoviesNowPlaying(
         language: String?,
         page: Int?,
         region: String?
-    ): LiveData<PagingData<DataMoviesModel.Movie>> {
-        return Pager(
-            config = defaultPagerConfig,
-            pagingSourceFactory = {
-                MoviesListPagingSource(
-                    retrofitServiceProvider.getService(),
-                    MoviesListPagingSource.MoviesParameters(language, page, region),
-                    MoviesListPagingSource.MoviesListRequests.NowPlaying
-                )
-            }
-        ).liveData
+    ): RequestResult<Movies> {
+        val result = retrofitServiceProvider.getService().getMoviesNowPlaying(
+            language = language,
+            page = page,
+            region = region
+        )
+        return when {
+            result.isSuccessful -> RequestResult.Success(MoviesMapper.mapToMovies(result.body()!!))
+            else -> RequestResult.Error(null, result.message())
+        }
     }
 
-    override fun getSearchResult(
+    override suspend fun getSearchResult(
         language: String?,
         query: String,
         page: Int?,
-        include_adult: Boolean?,
+        includeAdult: Boolean?,
         region: String?,
         year: Int?,
-        primary_release_year: Int?
-    ): LiveData<PagingData<DataMoviesModel.Movie>> {
-        return Pager(
-            config = defaultPagerConfig,
-            pagingSourceFactory = {
-                MoviesSearchPagingSource(
-                    retrofitServiceProvider.getService(),
-                    MoviesSearchPagingSource.MovieParameters(
-                        language,
-                        query,
-                        page,
-                        include_adult,
-                        region,
-                        year,
-                        primary_release_year
-                    )
-                )
-            }
-        ).liveData
+        primaryReleaseYear: Int?
+    ): RequestResult<Movies> {
+        val result = retrofitServiceProvider.getService().getSearchResult(
+            language = language,
+            query = query,
+            page = page,
+            includeAdult = includeAdult,
+            region = region,
+            year = year,
+            primaryReleaseYear = primaryReleaseYear,
+        )
+        return when {
+            result.isSuccessful -> RequestResult.Success(MoviesMapper.mapToMovies(result.body()!!))
+            else -> RequestResult.Error(null, result.message())
+        }
     }
 
     override suspend fun getStorageHandler(dataType: DataType): IStorageHandler {
-        val dao =
-            when (dataType) {
-                DataType.FAVORITES -> storage.getFavoriteDao()
-                DataType.WATCHLIST -> storage.getWatchlistDao()
-            }
+        val dao = when (dataType) {
+            DataType.FAVORITES -> storage.getFavoriteDao()
+            DataType.WATCHLIST -> storage.getWatchlistDao()
+        }
         return object : IStorageHandler {
-            override suspend fun getAll(): List<DataMovieDetailModel>? {
-                return dao.getAll()?.map { it -> MapperDB.mapToDataMovieDetail(it) }
-            }
-
-            override suspend fun getById(movieId: Int): DataMovieDetailModel? {
-                return dao.getById(movieId)?.let { it -> MapperDB.mapToDataMovieDetail(it) }
-            }
-
-            override suspend fun insert(movie: DataMovieDetailModel) {
-                when (dataType) {
-                    DataType.FAVORITES -> storage.getFavoriteDao().insert(MapperDB.mapToFavorites(movie))
-                    DataType.WATCHLIST -> storage.getWatchlistDao().insert(MapperDB.mapToWatchlist(movie))
+            override suspend fun getAll(): RequestResult<List<DetailedMovie>> {
+                val result = dao.getAll()
+                return when {
+                    result != null -> RequestResult.Success(result.map { EntitiesMapper.mapToDetailMovie(it) })
+                    else -> RequestResult.Error(null, "Something wrong")
                 }
             }
 
-            override suspend fun delete(movie: DataMovieDetailModel): Int {
-                return when (dataType) {
-                    DataType.FAVORITES -> storage.getFavoriteDao().delete(MapperDB.mapToFavorites(movie))
-                    DataType.WATCHLIST -> storage.getWatchlistDao().delete(MapperDB.mapToWatchlist(movie))
+            override suspend fun getById(movieId: Int): RequestResult<DetailedMovie> {
+                val result = dao.getById(movieId)
+                return when {
+                    result != null -> RequestResult.Success(EntitiesMapper.mapToDetailMovie(result))
+                    else -> RequestResult.Error(null, "Something wrong")
                 }
             }
 
-            override suspend fun updateMovie(movie: DataMovieDetailModel): Int {
-                return when (dataType) {
-                    DataType.FAVORITES -> storage.getFavoriteDao().update(MapperDB.mapToFavorites(movie))
-                    DataType.WATCHLIST -> storage.getWatchlistDao().update(MapperDB.mapToWatchlist(movie))
+            override suspend fun insert(movie: DetailedMovie): RequestResult<Long> {
+                val result = when (dataType) {
+                    DataType.FAVORITES -> storage.getFavoriteDao().insert(EntitiesMapper.mapToFavorites(movie))
+                    DataType.WATCHLIST -> storage.getWatchlistDao().insert(EntitiesMapper.mapToWatchlist(movie))
+                }
+                return when {
+                    result >= 0 -> RequestResult.Success(result)
+                    else -> RequestResult.Error(null, "Something wrong")
+                }
+            }
+
+            override suspend fun delete(movie: DetailedMovie): RequestResult<Int> {
+                val result = when (dataType) {
+                    DataType.FAVORITES -> storage.getFavoriteDao().delete(EntitiesMapper.mapToFavorites(movie))
+                    DataType.WATCHLIST -> storage.getWatchlistDao().delete(EntitiesMapper.mapToWatchlist(movie))
+                }
+                return when {
+                    result >= 0 -> RequestResult.Success(result)
+                    else -> RequestResult.Error(null, "Something wrong")
+                }
+            }
+
+            override suspend fun updateMovie(movie: DetailedMovie): RequestResult<Int> {
+                val result = when (dataType) {
+                    DataType.FAVORITES -> storage.getFavoriteDao().update(EntitiesMapper.mapToFavorites(movie))
+                    DataType.WATCHLIST -> storage.getWatchlistDao().update(EntitiesMapper.mapToWatchlist(movie))
+                }
+                return when {
+                    result >= 0 -> RequestResult.Success(result)
+                    else -> RequestResult.Error(null, "Something wrong")
                 }
             }
 

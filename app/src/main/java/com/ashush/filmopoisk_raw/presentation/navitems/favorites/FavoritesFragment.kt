@@ -17,8 +17,8 @@ import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
 import com.ashush.filmopoisk_raw.presentation.DetailFragment
 import com.ashush.filmopoisk_raw.presentation.MainActivity
 import com.ashush.filmopoisk_raw.presentation.MainActivityViewModel
+import com.ashush.filmopoisk_raw.presentation.navitems.adapters.DetailedMoviesAdapter
 import com.ashush.filmopoisk_raw.presentation.navitems.adapters.IListener
-import com.ashush.filmopoisk_raw.presentation.navitems.adapters.MoviesAdapter
 import com.ashush.filmopoisk_raw.utils.RVLayoutManager
 
 class FavoritesFragment : Fragment() {
@@ -27,7 +27,7 @@ class FavoritesFragment : Fragment() {
     private val sharedViewModel: MainActivityViewModel by activityViewModels()
     private var preBinding: FragmentFavoritesBinding? = null
     private val binding get() = preBinding!!
-    private val adapter = MoviesAdapter()
+    private val adapter = DetailedMoviesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,21 +53,21 @@ class FavoritesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         adapter.listener = IListener { movieId ->
-            val bundle = bundleOf(DetailFragment.MOVIEIDKEY to movieId)
+            val bundle = bundleOf(DetailFragment.MOVIE_ID_KEY to movieId)
             view.findNavController().navigate(R.id.actionNavFavoritesToDetailFragment, bundle)
         }
 
-        viewModel.requestResult.observe(viewLifecycleOwner) { result ->
-            result.movies?.let { adapter.update(it) }
-        }
         viewModel.requestError.observe(viewLifecycleOwner) { result ->
             Toast.makeText(requireActivity(), result, Toast.LENGTH_SHORT).show()
+        }
+        viewModel.requestResult.observe(viewLifecycleOwner) { result ->
+            adapter.update(result)
         }
         sharedViewModel.viewTypeLiveData.observe(viewLifecycleOwner) { result ->
             binding.recyclerView.layoutManager = RVLayoutManager.getLayout(requireActivity(), result)
         }
 
-        viewModel.doRequest()
+        viewModel.getMovies()
     }
 
 

@@ -1,4 +1,4 @@
-package com.ashush.filmopoisk_raw.models.data.movies
+package com.ashush.filmopoisk_raw.data.models.movies
 
 import com.google.gson.annotations.SerializedName
 
@@ -23,7 +23,7 @@ data class DataMoviesModel(
         @SerializedName("backdrop_path")
         val backdropPath: String? = null,
         @SerializedName("genre_ids")
-        val genreIds: List<Int?>? = null,
+        val genreIds: List<Int>? = null,
         @SerializedName("id")
         val id: Int? = null,
         @SerializedName("original_language")

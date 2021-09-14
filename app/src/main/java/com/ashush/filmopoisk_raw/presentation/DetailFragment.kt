@@ -14,21 +14,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.ashush.filmopoisk_raw.R
-import com.ashush.filmopoisk_raw.data.config.DataConfig
 import com.ashush.filmopoisk_raw.databinding.FragmentDetailBinding
 import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
-import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
+import com.ashush.filmopoisk_raw.domain.models.DetailedMovie
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
-import java.util.*
 import javax.inject.Inject
 
 class DetailFragment : Fragment() {
 
     companion object {
-        const val MOVIEIDKEY = "MOVIE_ID_KEY"
+        const val MOVIE_ID_KEY = "MOVIE_ID_KEY"
     }
 
     @Inject
@@ -47,13 +45,12 @@ class DetailFragment : Fragment() {
     private var toolBarImg: ImageView? = null
     private var collapsingToolbar: CollapsingToolbarLayout? = null
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         preBinding = FragmentDetailBinding.inflate(inflater, container, false)
-        movieId = arguments?.getInt(MOVIEIDKEY, 0)!!
+        movieId = arguments?.getInt(MOVIE_ID_KEY, 0)!!
 
         activity?.let {
             favoriteFAB = it.findViewById(R.id.add_favorites_fab)
@@ -133,35 +130,33 @@ class DetailFragment : Fragment() {
         }
     }
 
-    private fun updateUI(movie: DataMovieDetailModel?) {
+    private fun updateUI(movie: DetailedMovie) {
         setDetailToolbar(movie)
         binding.apply {
-            if (movie?.productionCountries?.isNotEmpty() == true) {
-            movieCountriesText.text = movie.productionCountries.map { it -> it?.name }.reduce { str, item -> "$str, $item" }}
-            if (movie?.genres?.isNotEmpty() == true) {
-            movieGenresText.text = movie.genres.map { it -> it?.name }.reduce { str, item -> "$str, $item" }?.lowercase(Locale.getDefault())}
-            if (movie != null) {
-                movieHomepageText.text = HtmlCompat.fromHtml("<a href=\"${movie.homepage}\">${getString(R.string.official_site)}</a>", HtmlCompat.FROM_HTML_MODE_LEGACY)
-                movieHomepageText.isClickable = true
-                movieHomepageText.movementMethod = LinkMovementMethod.getInstance()
-            }
-            movieOriginalLanguageText.text = movie?.originalLanguage
-            movieOverviewText.text = movie?.overview
-            movieReleaseDateText.text = movie?.releaseDate
-            movieTaglineText.text = movie?.tagline
-            if (movie?.productionCompanies?.isNotEmpty() == true) {
-            movieProductionCompaniesText.text = movie.productionCompanies.map { it -> it?.name }.reduce { str, item -> "$str, $item" }}
+            movieCountriesText.text = movie.productionCountries
+            movieGenresText.text = movie.genres
+            movieHomepageText.text = HtmlCompat.fromHtml(
+                "<a href=\"${movie.homepage}\">${getString(R.string.official_site)}</a>",
+                HtmlCompat.FROM_HTML_MODE_LEGACY
+            )
+            movieHomepageText.isClickable = true
+            movieHomepageText.movementMethod = LinkMovementMethod.getInstance()
+            movieOriginalLanguageText.text = movie.originalLanguage
+            movieOverviewText.text = movie.overview
+            movieReleaseDateText.text = movie.releaseDate
+            movieTaglineText.text = movie.tagline
+            movieProductionCompaniesText.text = movie.productionCompanies
         }
     }
 
-    private fun setDetailToolbar(movie: DataMovieDetailModel?) {
+    private fun setDetailToolbar(movie: DetailedMovie) {
         expandedFAB?.visibility = View.VISIBLE
         rootFAB?.visibility = View.VISIBLE
         toolBarImg?.visibility = View.VISIBLE
-        collapsingToolbar?.title = ("${movie?.originalTitle} (${"\\d{4}".toRegex().find(movie?.releaseDate!!)?.value})")
+        collapsingToolbar?.title = ("${movie.title} (${"\\d{4}".toRegex().find(movie.releaseDate)?.value})")
 
         Picasso.get()
-            .load(DataConfig.getBasePosterUrl(DataConfig.config?.images?.posterSizes?.lastOrNull()) + movie.backdropPath)
+            .load(movie.backdropPath)
             .into(requireActivity().findViewById<ImageView>(R.id.toolbar_img_main))
     }
 

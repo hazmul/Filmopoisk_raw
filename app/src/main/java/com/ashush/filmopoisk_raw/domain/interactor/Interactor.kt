@@ -1,22 +1,14 @@
 package com.ashush.filmopoisk_raw.domain.interactor
 
-import androidx.lifecycle.LiveData
-import androidx.paging.PagingData
-import com.ashush.filmopoisk_raw.models.domain.DomainConfig
 import com.ashush.filmopoisk_raw.domain.datainterfaces.IDataRepository
-import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
-import com.ashush.filmopoisk_raw.models.data.configuration.DataGenresInfo
-import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
-import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
-import com.ashush.filmopoisk_raw.models.domain.DataType
-import retrofit2.Response
+import com.ashush.filmopoisk_raw.domain.models.*
 import javax.inject.Inject
 
 class Interactor @Inject constructor(
     private val dataRepository: IDataRepository
 ) {
 
-    suspend fun getRemoteConfiguration(): Response<DataConfigurationModel> {
+    suspend fun getRemoteConfiguration(): RequestResult<Boolean> {
         return dataRepository.getConfiguration()
     }
 
@@ -24,50 +16,50 @@ class Interactor @Inject constructor(
         return DomainConfig.getInstance()
     }
 
-    suspend fun getGenresInfo(): Response<DataGenresInfo> {
+    suspend fun getGenresInfo(): RequestResult<Boolean> {
         return dataRepository.getGenresInfo()
     }
 
     suspend fun getMovieDetail(
         movie_id: Int,
         append_to_response: String? = null,
-    ): Response<DataMovieDetailModel> {
+    ): RequestResult<DetailedMovie> {
         return dataRepository.getMovieDetail(movie_id, append_to_response)
     }
 
-    fun getMoviesPopular(
+    suspend fun getMoviesPopular(
         language: String? = null,
         page: Int? = null,
         region: String? = null
-    ): LiveData<PagingData<DataMoviesModel.Movie>> {
+    ): RequestResult<Movies> {
         return dataRepository.getMoviesPopular(language, page, region)
     }
 
-    fun getMoviesTopRated(
+    suspend fun getMoviesTopRated(
         language: String? = null,
         page: Int? = null,
         region: String? = null
-    ): LiveData<PagingData<DataMoviesModel.Movie>> {
+    ): RequestResult<Movies> {
         return dataRepository.getMoviesTopRated(language, page, region)
     }
 
-    fun getMoviesUpcoming(
+    suspend fun getMoviesUpcoming(
         language: String? = null,
         page: Int? = null,
         region: String? = null
-    ): LiveData<PagingData<DataMoviesModel.Movie>> {
+    ): RequestResult<Movies> {
         return dataRepository.getMoviesUpcoming(language, page, region)
     }
 
-    fun getMoviesNowPlaying(
+    suspend fun getMoviesNowPlaying(
         language: String? = null,
         page: Int? = null,
         region: String? = null
-    ): LiveData<PagingData<DataMoviesModel.Movie>> {
+    ): RequestResult<Movies> {
         return dataRepository.getMoviesNowPlaying(language, page, region)
     }
 
-    fun getSearchResult(
+    suspend fun getSearchResult(
         language: String? = null,
         query: String,
         page: Int? = null,
@@ -75,7 +67,7 @@ class Interactor @Inject constructor(
         region: String? = null,
         year: Int? = null,
         primary_release_year: Int? = null
-    ): LiveData<PagingData<DataMoviesModel.Movie>> {
+    ): RequestResult<Movies> {
         return dataRepository.getSearchResult(
             language,
             query,
@@ -87,23 +79,23 @@ class Interactor @Inject constructor(
         )
     }
 
-    suspend fun getAll(dataType: DataType): List<DataMovieDetailModel>? {
+    suspend fun getAll(dataType: DataType): RequestResult<List<DetailedMovie>> {
         return dataRepository.getStorageHandler(dataType).getAll()
     }
 
-    suspend fun getById(dataType: DataType, movieId: Int): DataMovieDetailModel? {
+    suspend fun getById(dataType: DataType, movieId: Int): RequestResult<DetailedMovie> {
         return dataRepository.getStorageHandler(dataType).getById(movieId)
     }
 
-    suspend fun insert(dataType: DataType, movie: DataMovieDetailModel) {
+    suspend fun insert(dataType: DataType, movie: DetailedMovie) {
         dataRepository.getStorageHandler(dataType).insert(movie)
     }
 
-    suspend fun delete(dataType: DataType, movie: DataMovieDetailModel): Int {
+    suspend fun delete(dataType: DataType, movie: DetailedMovie): RequestResult<Int> {
         return dataRepository.getStorageHandler(dataType).delete(movie)
     }
 
-    suspend fun updateMovie(dataType: DataType, movie: DataMovieDetailModel): Int {
+    suspend fun updateMovie(dataType: DataType, movie: DetailedMovie): RequestResult<Int> {
         return dataRepository.getStorageHandler(dataType).updateMovie(movie)
     }
 

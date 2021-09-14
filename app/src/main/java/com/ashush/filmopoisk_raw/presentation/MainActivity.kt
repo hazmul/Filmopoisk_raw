@@ -18,7 +18,7 @@ import com.ashush.filmopoisk_raw.MyApp
 import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.databinding.ActivityMainBinding
 import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
-import com.ashush.filmopoisk_raw.models.domain.DomainConfig
+import com.ashush.filmopoisk_raw.domain.models.DomainConfig
 import com.google.android.material.navigation.NavigationView
 import javax.inject.Inject
 
@@ -109,7 +109,10 @@ class MainActivity : AppCompatActivity() {
             R.id.toolbar_menu_recyclerLayoutButton -> {
                 val customPreferences = getSharedPreferences(DOMAIN_CONFIG_PREFS_KEY, Context.MODE_PRIVATE)
                 val newViewType: String =
-                    when (customPreferences.getString(DOMAIN_CONFIG_VIEWTYPE_KEY, DomainConfig.ViewType.LISTVIEW.name)) {
+                    when (customPreferences.getString(
+                        DOMAIN_CONFIG_VIEWTYPE_KEY,
+                        DomainConfig.ViewType.LISTVIEW.name
+                    )) {
                         DomainConfig.ViewType.LISTVIEW.name -> DomainConfig.ViewType.GRIDVIEW.name
                         DomainConfig.ViewType.GRIDVIEW.name -> DomainConfig.ViewType.LISTVIEW.name
                         else -> DomainConfig.ViewType.GRIDVIEW.name

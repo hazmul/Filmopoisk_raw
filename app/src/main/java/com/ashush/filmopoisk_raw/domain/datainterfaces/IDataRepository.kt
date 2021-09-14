@@ -1,57 +1,53 @@
 package com.ashush.filmopoisk_raw.domain.datainterfaces
 
-import androidx.lifecycle.LiveData
-import androidx.paging.PagingData
-import com.ashush.filmopoisk_raw.models.domain.DataType
-import com.ashush.filmopoisk_raw.models.data.configuration.DataConfigurationModel
-import com.ashush.filmopoisk_raw.models.data.configuration.DataGenresInfo
-import com.ashush.filmopoisk_raw.models.data.movies.DataMovieDetailModel
-import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
-import retrofit2.Response
+import com.ashush.filmopoisk_raw.domain.models.DataType
+import com.ashush.filmopoisk_raw.domain.models.DetailedMovie
+import com.ashush.filmopoisk_raw.domain.models.Movies
+import com.ashush.filmopoisk_raw.domain.models.RequestResult
 
 interface IDataRepository {
 
-    suspend fun getConfiguration(): Response<DataConfigurationModel>
-    suspend fun getGenresInfo(): Response<DataGenresInfo>
+    suspend fun getConfiguration(): RequestResult<Boolean>
+    suspend fun getGenresInfo(): RequestResult<Boolean>
 
     suspend fun getMovieDetail(
         movie_id: Int,
-        append_to_response: String? = null,
-    ): Response<DataMovieDetailModel>
+        appendToResponse: String? = null,
+    ): RequestResult<DetailedMovie>
 
-    fun getMoviesPopular(
+    suspend fun getMoviesPopular(
         language: String? = null,
         page: Int? = null,
         region: String? = null
-    ): LiveData<PagingData<DataMoviesModel.Movie>>
+    ): RequestResult<Movies>
 
-    fun getMoviesTopRated(
+    suspend fun getMoviesTopRated(
         language: String? = null,
         page: Int? = null,
         region: String? = null
-    ): LiveData<PagingData<DataMoviesModel.Movie>>
+    ): RequestResult<Movies>
 
-    fun getMoviesUpcoming(
+    suspend fun getMoviesUpcoming(
         language: String? = null,
         page: Int? = null,
         region: String? = null
-    ): LiveData<PagingData<DataMoviesModel.Movie>>
+    ): RequestResult<Movies>
 
-    fun getMoviesNowPlaying(
+    suspend fun getMoviesNowPlaying(
         language: String? = null,
         page: Int? = null,
         region: String? = null
-    ): LiveData<PagingData<DataMoviesModel.Movie>>
+    ): RequestResult<Movies>
 
-    fun getSearchResult(
+    suspend fun getSearchResult(
         language: String? = null,
         query: String,
         page: Int? = null,
-        include_adult: Boolean? = null,
+        includeAdult: Boolean? = null,
         region: String? = null,
         year: Int? = null,
-        primary_release_year: Int? = null
-    ): LiveData<PagingData<DataMoviesModel.Movie>>
+        primaryReleaseYear: Int? = null
+    ): RequestResult<Movies>
 
     suspend fun getStorageHandler(dataType: DataType): IStorageHandler
 

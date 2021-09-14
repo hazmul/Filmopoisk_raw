@@ -1,24 +1,47 @@
 package com.ashush.filmopoisk_raw.presentation.navitems.categories.upcoming
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
-import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
+import com.ashush.filmopoisk_raw.domain.models.Movies
+import com.ashush.filmopoisk_raw.domain.models.RequestResult
+import com.ashush.filmopoisk_raw.utils.Pager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UpcomingViewModel @Inject constructor(
     private var interactor: Interactor
 ) : ViewModel() {
 
-    val requestResult = MutableLiveData<DataMoviesModel>()
+    val requestResult = MutableLiveData<List<Movies.Movie>>()
     val requestError = MutableLiveData<String>()
 
-    fun getMovies(): LiveData<PagingData<DataMoviesModel.Movie>> {
-        return interactor.getMoviesUpcoming().cachedIn(viewModelScope)
+    private val pager = Pager()
+
+    fun getMovies() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                if (pager.hasNextPage()) {
+                    when (val result = interactor.getMoviesUpcoming(page = pager.currentPage)) {
+                        is RequestResult.Success -> {
+                            if (requestResult.value == null) {
+                                requestResult.postValue(result.data!!.moviesList)
+                            } else {
+                                val newData = requestResult.value!!.toMutableList()
+                                newData.addAll(result.data!!.moviesList)
+                                requestResult.postValue(newData)
+                            }
+                            pager.totalPages = result.data.totalPages
+                            pager.currentPage = result.data.currentPage
+                        }
+                        is RequestResult.Error -> requestError.postValue(result.message!!)
+                    }
+                }
+            }
+        }
     }
 
 }

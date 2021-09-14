@@ -3,9 +3,11 @@ package com.ashush.filmopoisk_raw.presentation.navitems.watchlist
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ashush.filmopoisk_raw.models.domain.DataType
+import com.ashush.filmopoisk_raw.domain.models.DataType
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
-import com.ashush.filmopoisk_raw.models.data.movies.DataMoviesModel
+import com.ashush.filmopoisk_raw.data.models.movies.DataMoviesModel
+import com.ashush.filmopoisk_raw.domain.models.DetailedMovie
+import com.ashush.filmopoisk_raw.domain.models.RequestResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -16,25 +18,18 @@ class WatchlistViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    val requestResult = MutableLiveData<DataMoviesModel>()
+    val requestResult = MutableLiveData<List<DetailedMovie>>()
     val requestError = MutableLiveData<String>()
 
-    fun doRequest() {
+    fun getMovies() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val result = DataMoviesModel(movies = interactor.getAll(DataType.WATCHLIST)?.map {
-                    DataMoviesModel.Movie(
-                        id = it.id,
-                        title = it.title,
-                        popularity = it.popularity,
-                        releaseDate = it.releaseDate,
-                        overview = it.overview,
-                        posterPath = it.posterPath,
-                        voteAverage = it.voteAverage
-                    )
-                })
-                requestResult.postValue(result)
+                when (val result = interactor.getAll(DataType.WATCHLIST)) {
+                    is RequestResult.Success -> requestResult.postValue(result.data!!)
+                    is RequestResult.Error -> requestError.postValue(result.message!!)
+                }
             }
         }
     }
+
 }
