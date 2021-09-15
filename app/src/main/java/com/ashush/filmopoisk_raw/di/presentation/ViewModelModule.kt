@@ -4,13 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ashush.filmopoisk_raw.presentation.DetailViewModel
 import com.ashush.filmopoisk_raw.presentation.MainActivityViewModel
+import com.ashush.filmopoisk_raw.presentation.launch.LaunchViewModel
 import com.ashush.filmopoisk_raw.presentation.navitems.categories.nowPlaying.NowPlayingViewModel
 import com.ashush.filmopoisk_raw.presentation.navitems.categories.topRated.TopRatedViewModel
 import com.ashush.filmopoisk_raw.presentation.navitems.categories.upcoming.UpcomingViewModel
 import com.ashush.filmopoisk_raw.presentation.navitems.favorites.FavoritesViewModel
-import com.ashush.filmopoisk_raw.presentation.launch.LaunchViewModel
 import com.ashush.filmopoisk_raw.presentation.navitems.search.SearchViewModel
-import com.ashush.filmopoisk_raw.presentation.navitems.settings.SettingsViewModel
 import com.ashush.filmopoisk_raw.presentation.navitems.watchlist.WatchlistViewModel
 import dagger.Binds
 import dagger.Module
@@ -25,11 +24,6 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(DetailViewModel::class)
     internal abstract fun detailFragmentViewModel(viewModel: DetailViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(SettingsViewModel::class)
-    internal abstract fun settingsFragmentViewModel(viewModel: SettingsViewModel): ViewModel
 
     @Binds
     @IntoMap

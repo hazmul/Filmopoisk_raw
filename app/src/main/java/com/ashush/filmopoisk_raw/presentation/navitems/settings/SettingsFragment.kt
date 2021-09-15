@@ -10,8 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.ashush.filmopoisk_raw.R
-import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
-import com.ashush.filmopoisk_raw.presentation.MainActivity
 import com.ashush.filmopoisk_raw.presentation.MainActivityViewModel
 import javax.inject.Inject
 
@@ -19,12 +17,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var viewModel: SettingsViewModel
     private val sharedViewModel: MainActivityViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        viewModel = injectViewModel((requireActivity() as MainActivity).viewModelFactory)
 
         sharedViewModel.optionMenuIsNeeded.value = false
 
