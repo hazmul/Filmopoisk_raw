@@ -1,19 +1,17 @@
 package com.ashush.filmopoisk_raw.domain.interactor
 
 import com.ashush.filmopoisk_raw.domain.datainterfaces.IDataRepository
+import com.ashush.filmopoisk_raw.domain.datainterfaces.IStorageRepository
 import com.ashush.filmopoisk_raw.domain.models.*
 import javax.inject.Inject
 
 class Interactor @Inject constructor(
-    private val dataRepository: IDataRepository
+    private val dataRepository: IDataRepository,
+    private val storageRepository: IStorageRepository,
 ) {
 
     suspend fun getRemoteConfiguration(): RequestResult<Boolean> {
         return dataRepository.getConfiguration()
-    }
-
-    fun getDomainConfiguration(): DomainConfig {
-        return DomainConfig.getInstance()
     }
 
     suspend fun getGenresInfo(): RequestResult<Boolean> {
@@ -79,24 +77,38 @@ class Interactor @Inject constructor(
         )
     }
 
+
+    suspend fun getAppConfiguration(): AppConfig {
+        if (AppConfig.getInstance() == null) {
+            AppConfig.setInstance(storageRepository.getAppConfiguration().data!!)
+        }
+        return AppConfig.getInstance()!!
+    }
+
+    suspend fun setAppConfiguration(config: AppConfig): Boolean {
+        AppConfig.setInstance(config)
+        storageRepository.storeAppConfiguration(AppConfig.getInstance()!!)
+        return true
+    }
+
     suspend fun getAll(dataType: DataType): RequestResult<List<DetailedMovie>> {
-        return dataRepository.getStorageHandler(dataType).getAll()
+        return storageRepository.getAll(dataType)
     }
 
     suspend fun getById(dataType: DataType, movieId: Int): RequestResult<DetailedMovie> {
-        return dataRepository.getStorageHandler(dataType).getById(movieId)
+        return storageRepository.getById(movieId, dataType)
     }
 
     suspend fun insert(dataType: DataType, movie: DetailedMovie) {
-        dataRepository.getStorageHandler(dataType).insert(movie)
+        storageRepository.insert(movie, dataType)
     }
 
     suspend fun delete(dataType: DataType, movie: DetailedMovie): RequestResult<Int> {
-        return dataRepository.getStorageHandler(dataType).delete(movie)
+        return storageRepository.delete(movie, dataType)
     }
 
     suspend fun updateMovie(dataType: DataType, movie: DetailedMovie): RequestResult<Int> {
-        return dataRepository.getStorageHandler(dataType).updateMovie(movie)
+        return storageRepository.updateMovie(movie, dataType)
     }
 
 }

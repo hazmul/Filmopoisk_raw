@@ -1,4 +1,4 @@
-package com.ashush.filmopoisk_raw.presentation.navitems.launch
+package com.ashush.filmopoisk_raw.presentation.launch
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
 import com.ashush.filmopoisk_raw.domain.models.RequestResult
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

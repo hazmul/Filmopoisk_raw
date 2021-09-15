@@ -14,7 +14,7 @@ class MoviesMapper {
                     list.add(
                         Movies.Movie(
                             adult = movie.adult ?: false,
-                            posterPath = DataConfig.getBaseImageUrl() + movie.posterPath,
+                            posterPath = DataConfig.getBaseImageUrl(DataConfig.config?.images?.backdropSizes?.firstOrNull()) + movie.posterPath,
                             genres = if (movie.genreIds?.isNotEmpty() == true) {
                                 DataConfig.genres?.genres?.filter { it?.id in movie.genreIds }?.map { it?.name }
                                     ?.reduce { str, item -> "$str, $item" }

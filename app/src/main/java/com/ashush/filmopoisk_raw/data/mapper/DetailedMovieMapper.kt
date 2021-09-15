@@ -10,7 +10,7 @@ class DetailedMovieMapper {
         fun mapToDetailMovie(dataMovie: DataMovieDetailModel): DetailedMovie {
             return DetailedMovie(
                 adult = dataMovie.adult ?: false,
-                backdropPath = DataConfig.getBaseImageUrl() + dataMovie.backdropPath,
+                backdropPath = DataConfig.getBaseImageUrl(DataConfig.config?.images?.backdropSizes?.firstOrNull()) + dataMovie.backdropPath,
                 genres = if (dataMovie.genres?.isNotEmpty() == true) {
                     dataMovie.genres.map { it?.name }.reduce { str, item -> "$str, $item" }
                         ?.lowercase(Locale.getDefault()) ?: ""

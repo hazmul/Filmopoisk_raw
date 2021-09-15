@@ -40,7 +40,7 @@ class WatchlistFragment : Fragment() {
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager =
-            RVLayoutManager.getLayout(requireActivity(), sharedViewModel.viewTypeLiveData.value)
+            RVLayoutManager.getLayout(requireActivity(), sharedViewModel.viewTypeStatus.value)
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireActivity(),
@@ -64,7 +64,7 @@ class WatchlistFragment : Fragment() {
         viewModel.requestResult.observe(viewLifecycleOwner) { result ->
             adapter.update(result)
         }
-        sharedViewModel.viewTypeLiveData.observe(viewLifecycleOwner) { result ->
+        sharedViewModel.viewTypeStatus.observe(viewLifecycleOwner) { result ->
             binding.recyclerView.layoutManager = RVLayoutManager.getLayout(requireActivity(), result)
         }
 

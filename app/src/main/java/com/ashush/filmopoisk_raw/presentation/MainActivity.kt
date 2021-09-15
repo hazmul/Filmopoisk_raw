@@ -1,6 +1,5 @@
 package com.ashush.filmopoisk_raw.presentation
 
-import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -18,20 +17,16 @@ import com.ashush.filmopoisk_raw.MyApp
 import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.databinding.ActivityMainBinding
 import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
-import com.ashush.filmopoisk_raw.domain.models.DomainConfig
+import com.ashush.filmopoisk_raw.domain.models.AppConfig
 import com.google.android.material.navigation.NavigationView
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    companion object {
-        const val DOMAIN_CONFIG_PREFS_KEY = "DOMAIN_CONFIG_PREFS_KEY"
-        const val DOMAIN_CONFIG_VIEWTYPE_KEY = "DOMAIN_CONFIG_VIEWTYPE_KEY"
-    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: MainActivityViewModel
+    private lateinit var sharedViewModel: MainActivityViewModel
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -42,8 +37,8 @@ class MainActivity : AppCompatActivity() {
 
         (this.application as MyApp).application.inject(this)
 
-        viewModel = injectViewModel(this.viewModelFactory)
-        viewModel.optionMenuIsNeeded.observe(this) { result ->
+        sharedViewModel = injectViewModel(this.viewModelFactory)
+        sharedViewModel.optionMenuIsNeeded.observe(this) { result ->
             invalidateOptionsMenu()
         }
         initUI()
@@ -88,15 +83,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(R.id.toolbar_menu_recyclerLayoutButton)?.isVisible = viewModel.optionMenuIsNeeded.value ?: true
+        menu?.findItem(R.id.toolbar_menu_recyclerLayoutButton)?.isVisible =
+            sharedViewModel.optionMenuIsNeeded.value ?: true
 
-        val customPreferences = getSharedPreferences(DOMAIN_CONFIG_PREFS_KEY, Context.MODE_PRIVATE)
-        when (customPreferences.getString(DOMAIN_CONFIG_VIEWTYPE_KEY, DomainConfig.ViewType.LISTVIEW.name)) {
-            DomainConfig.ViewType.LISTVIEW.name -> {
+        when (sharedViewModel.viewTypeStatus.value) {
+            AppConfig.ViewType.LISTVIEW -> {
                 menu?.findItem(R.id.toolbar_menu_recyclerLayoutButton)?.icon =
                     ResourcesCompat.getDrawable(resources, R.drawable.outline_view_list_24, theme)
             }
-            DomainConfig.ViewType.GRIDVIEW.name -> {
+            AppConfig.ViewType.GRIDVIEW -> {
                 menu?.findItem(R.id.toolbar_menu_recyclerLayoutButton)?.icon =
                     ResourcesCompat.getDrawable(resources, R.drawable.outline_grid_view_24, theme)
             }
@@ -107,21 +102,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.toolbar_menu_recyclerLayoutButton -> {
-                val customPreferences = getSharedPreferences(DOMAIN_CONFIG_PREFS_KEY, Context.MODE_PRIVATE)
-                val newViewType: String =
-                    when (customPreferences.getString(
-                        DOMAIN_CONFIG_VIEWTYPE_KEY,
-                        DomainConfig.ViewType.LISTVIEW.name
-                    )) {
-                        DomainConfig.ViewType.LISTVIEW.name -> DomainConfig.ViewType.GRIDVIEW.name
-                        DomainConfig.ViewType.GRIDVIEW.name -> DomainConfig.ViewType.LISTVIEW.name
-                        else -> DomainConfig.ViewType.GRIDVIEW.name
-                    }
-                customPreferences
-                    .edit()
-                    .putString(DOMAIN_CONFIG_VIEWTYPE_KEY, newViewType)
-                    .apply()
-                viewModel.setAppSettings(recyclerViewType = DomainConfig.ViewType.valueOf(newViewType))
+                sharedViewModel.changeViewType()
                 invalidateOptionsMenu()
                 true
             }

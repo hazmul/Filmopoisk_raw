@@ -8,7 +8,7 @@ import com.ashush.filmopoisk_raw.presentation.navitems.categories.nowPlaying.Now
 import com.ashush.filmopoisk_raw.presentation.navitems.categories.topRated.TopRatedViewModel
 import com.ashush.filmopoisk_raw.presentation.navitems.categories.upcoming.UpcomingViewModel
 import com.ashush.filmopoisk_raw.presentation.navitems.favorites.FavoritesViewModel
-import com.ashush.filmopoisk_raw.presentation.navitems.launch.LaunchViewModel
+import com.ashush.filmopoisk_raw.presentation.launch.LaunchViewModel
 import com.ashush.filmopoisk_raw.presentation.navitems.search.SearchViewModel
 import com.ashush.filmopoisk_raw.presentation.navitems.settings.SettingsViewModel
 import com.ashush.filmopoisk_raw.presentation.navitems.watchlist.WatchlistViewModel

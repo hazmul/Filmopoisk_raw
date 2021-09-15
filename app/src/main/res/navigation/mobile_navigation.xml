@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/launchFragment"
-        android:name="com.ashush.filmopoisk_raw.presentation.navitems.launch.LaunchFragment"
+        android:name="com.ashush.filmopoisk_raw.presentation.launch.LaunchFragment"
         android:label="@string/fragment_launch_label"
         tools:layout="@layout/fragment_launch">
         <action

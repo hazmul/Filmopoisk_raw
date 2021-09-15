@@ -43,7 +43,7 @@ class SearchFragment : Fragment() {
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager =
-            RVLayoutManager.getLayout(requireActivity(), sharedViewModel.viewTypeLiveData.value)
+            RVLayoutManager.getLayout(requireActivity(), sharedViewModel.viewTypeStatus.value)
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireActivity(),
@@ -83,7 +83,7 @@ class SearchFragment : Fragment() {
         viewModel.requestError.observe(viewLifecycleOwner) { result ->
             Toast.makeText(requireActivity(), result, Toast.LENGTH_SHORT).show()
         }
-        sharedViewModel.viewTypeLiveData.observe(viewLifecycleOwner) { result ->
+        sharedViewModel.viewTypeStatus.observe(viewLifecycleOwner) { result ->
             binding.recyclerView.layoutManager = RVLayoutManager.getLayout(requireActivity(), result)
         }
     }

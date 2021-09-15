@@ -39,7 +39,7 @@ class FavoritesFragment : Fragment() {
         preBinding = FragmentFavoritesBinding.inflate(inflater, container, false)
 
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = RVLayoutManager.getLayout(requireActivity(), sharedViewModel.viewTypeLiveData.value)
+        binding.recyclerView.layoutManager = RVLayoutManager.getLayout(requireActivity(), sharedViewModel.viewTypeStatus.value)
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireActivity(),
@@ -63,7 +63,7 @@ class FavoritesFragment : Fragment() {
         viewModel.requestResult.observe(viewLifecycleOwner) { result ->
             adapter.update(result)
         }
-        sharedViewModel.viewTypeLiveData.observe(viewLifecycleOwner) { result ->
+        sharedViewModel.viewTypeStatus.observe(viewLifecycleOwner) { result ->
             binding.recyclerView.layoutManager = RVLayoutManager.getLayout(requireActivity(), result)
         }
 

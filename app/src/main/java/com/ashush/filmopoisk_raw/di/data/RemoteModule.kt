@@ -30,7 +30,7 @@ class RemoteModule {
     @Provides
     fun provideOkHttpClient(applicationContext: Context): OkHttpClient {
 
-        val cacheSize = (10 * 1024 * 1024).toLong() // 10 MB
+        val cacheSize = (10 * 1024 * 1024 * 10).toLong() // 100 MB
         val cache = Cache(applicationContext.cacheDir, cacheSize)
         fun isInternetAvailable(context: Context): Boolean {
             var result = false

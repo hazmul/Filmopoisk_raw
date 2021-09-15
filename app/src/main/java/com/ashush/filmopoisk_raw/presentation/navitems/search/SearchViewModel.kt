@@ -9,17 +9,21 @@ import com.ashush.filmopoisk_raw.domain.models.Movies
 import com.ashush.filmopoisk_raw.domain.models.RequestResult
 import com.ashush.filmopoisk_raw.utils.Pager
 import com.ashush.filmopoisk_raw.utils.getYear
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(private var interactor: Interactor) : ViewModel() {
+
+    override fun onCleared() {
+        viewModelJob.cancel()
+        super.onCleared()
+    }
 
     val requestResult = MutableLiveData<List<Movies.Movie>>()
     val requestError = MutableLiveData<String>()
 
     private var pager = Pager()
+    private var viewModelJob = SupervisorJob()
 
     private var lastQuery = ""
 
@@ -36,28 +40,29 @@ class SearchViewModel @Inject constructor(private var interactor: Interactor) : 
     }
 
     fun getOtherMovies(query: String) {
-        pager = Pager()
+        pager.resetPager()
         requestResult.value = emptyList()
         filteredMovies.value = emptyList()
         getMovies(query)
     }
 
     fun getMovies(query: String) {
+        viewModelJob.cancelChildren()
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.IO + viewModelJob) {
                 if (pager.hasNextPage()) {
                     lastQuery = query
-                    when (val result = interactor.getSearchResult(query = query, page = pager.currentPage)) {
+                    when (val result = interactor.getSearchResult(query = query, page = pager.nextPage)) {
                         is RequestResult.Success -> {
+                            pager.totalPages = result.data!!.totalPages
+                            pager.currentPage = result.data.currentPage
                             if (requestResult.value == null) {
-                                requestResult.postValue(result.data!!.moviesList)
+                                requestResult.postValue(result.data.moviesList)
                             } else {
                                 val newData = requestResult.value!!.toMutableList()
-                                newData.addAll(result.data!!.moviesList)
+                                newData.addAll(result.data.moviesList)
                                 requestResult.postValue(newData)
                             }
-                            pager.totalPages = result.data.totalPages
-                            pager.currentPage = result.data.currentPage
                         }
                         is RequestResult.Error -> requestError.postValue(result.message!!)
                     }

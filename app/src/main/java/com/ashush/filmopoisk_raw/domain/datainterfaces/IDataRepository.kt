@@ -1,6 +1,5 @@
 package com.ashush.filmopoisk_raw.domain.datainterfaces
 
-import com.ashush.filmopoisk_raw.domain.models.DataType
 import com.ashush.filmopoisk_raw.domain.models.DetailedMovie
 import com.ashush.filmopoisk_raw.domain.models.Movies
 import com.ashush.filmopoisk_raw.domain.models.RequestResult
@@ -48,7 +47,5 @@ interface IDataRepository {
         year: Int? = null,
         primaryReleaseYear: Int? = null
     ): RequestResult<Movies>
-
-    suspend fun getStorageHandler(dataType: DataType): IStorageHandler
 
 }

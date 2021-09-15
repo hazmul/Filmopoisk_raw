@@ -3,35 +3,40 @@ package com.ashush.filmopoisk_raw.presentation
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ashush.filmopoisk_raw.domain.models.DomainConfig
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
+import com.ashush.filmopoisk_raw.domain.models.AppConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MainActivityViewModel @Inject constructor(private val interactor: Interactor) : ViewModel() {
+class MainActivityViewModel @Inject constructor(
+    private val interactor: Interactor
+) : ViewModel() {
 
-    val viewTypeLiveData = MutableLiveData<DomainConfig.ViewType>()
+    val viewTypeStatus = MutableLiveData<AppConfig.ViewType>()
     val optionMenuIsNeeded = MutableLiveData<Boolean>()
 
-    fun setAppSettings(
-        downloadImageAllowed: Boolean? = null,
-        cacheImageAllowed: Boolean? = null,
-        themeType: Boolean? = null,
-        enableNotification: Boolean? = null,
-        recyclerViewType: DomainConfig.ViewType? = null,
-    ) {
+    fun loadAppSettings() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val config = interactor.getDomainConfiguration()
-                downloadImageAllowed?.let { config.downloadImageAllowed = downloadImageAllowed }
-                cacheImageAllowed?.let { config.cacheImageAllowed = cacheImageAllowed }
-                themeType?.let { config.themeType = themeType }
-                enableNotification?.let { config.enableNotification = enableNotification }
-                recyclerViewType?.let { config.recyclerViewType = recyclerViewType }
+                val config = interactor.getAppConfiguration()
+                viewTypeStatus.postValue(config.viewType)
+            }
+        }
+    }
 
-                viewTypeLiveData.postValue(interactor.getDomainConfiguration().recyclerViewType)
+    fun changeViewType() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val config = interactor.getAppConfiguration()
+                when (config.viewType) {
+                    AppConfig.ViewType.LISTVIEW -> config.viewType = AppConfig.ViewType.GRIDVIEW
+                    AppConfig.ViewType.GRIDVIEW -> config.viewType = AppConfig.ViewType.LISTVIEW
+                }
+                interactor.setAppConfiguration(config)
+                val result = interactor.getAppConfiguration()
+                viewTypeStatus.postValue(result.viewType)
             }
         }
     }

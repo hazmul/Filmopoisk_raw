@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/launcher"
-    tools:context=".presentation.navitems.launch.LaunchFragment">
+    tools:context=".presentation.launch.LaunchFragment">
 
     <ImageView
         android:id="@+id/launch_icon"
