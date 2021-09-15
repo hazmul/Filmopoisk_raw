@@ -1,0 +1,48 @@
+package com.ashush.filmopoisk_raw.data.mapper
+
+import com.ashush.filmopoisk_raw.data.config.DataConfig
+import com.ashush.filmopoisk_raw.data.models.movies.DataMovieDetailModel
+import com.ashush.filmopoisk_raw.domain.models.DetailedMovie
+import org.junit.Assert.*
+import java.util.*
+
+class DetailedMovieMapperTest
+
+
+
+
+
+
+//companion object {
+//    fun mapToDetailMovie(dataMovie: DataMovieDetailModel): DetailedMovie {
+//        return DetailedMovie(
+//            adult = dataMovie.adult ?: false,
+//            backdropPath = DataConfig.getBaseImageUrl(DataConfig.config?.images?.backdropSizes?.firstOrNull()) + dataMovie.backdropPath,
+//            genres = if (dataMovie.genres?.isNotEmpty() == true) {
+//                dataMovie.genres.map { it?.name }.reduce { str, item -> "$str, $item" }
+//                    ?.lowercase(Locale.getDefault()) ?: ""
+//            } else {
+//                ""
+//            },
+//            homepage = dataMovie.homepage ?: "",
+//            id = dataMovie.id ?: 0,
+//            originalLanguage = dataMovie.originalLanguage ?: "",
+//            overview = dataMovie.overview ?: "",
+//            posterPath = DataConfig.getBaseImageUrl() + dataMovie.posterPath,
+//            productionCompanies = if (dataMovie.productionCompanies?.isNotEmpty() == true) {
+//                dataMovie.productionCompanies.map { it?.name }.reduce { str, item -> "$str, $item" } ?: ""
+//            } else {
+//                ""
+//            },
+//            productionCountries = if (dataMovie.productionCountries?.isNotEmpty() == true) {
+//                dataMovie.productionCountries.map { it?.name }.reduce { str, item -> "$str, $item" } ?: ""
+//            } else {
+//                ""
+//            },
+//            releaseDate = dataMovie.releaseDate ?: "",
+//            tagline = dataMovie.tagline ?: "",
+//            title = dataMovie.title ?: "false",
+//            voteAverage = dataMovie.voteAverage ?: 0.0,
+//        )
+//    }
+//}

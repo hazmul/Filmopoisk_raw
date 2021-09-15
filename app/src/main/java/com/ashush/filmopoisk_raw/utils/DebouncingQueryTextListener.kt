@@ -8,8 +8,6 @@ import androidx.lifecycle.OnLifecycleEvent
 import kotlinx.coroutines.*
 
 
-//https://pro100svitlo.medium.com/edittext-debounce-with-kotlin-coroutines-fd134d54f4e9
-
 internal class DebouncingQueryTextListener(
     lifecycle: Lifecycle,
     private val onDebouncingQueryTextChange: (String?) -> Unit
