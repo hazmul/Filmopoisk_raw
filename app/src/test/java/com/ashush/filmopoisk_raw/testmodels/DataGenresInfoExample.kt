@@ -4,7 +4,6 @@ import com.ashush.filmopoisk_raw.data.models.configuration.DataGenresInfo
 
 class DataGenresInfoExample {
     companion object {
-
         val value = DataGenresInfo(
             listOf(
                 DataGenresInfo.Genre(

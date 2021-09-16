@@ -23,7 +23,6 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var sharedViewModel: MainActivityViewModel

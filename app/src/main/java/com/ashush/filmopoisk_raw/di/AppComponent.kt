@@ -10,7 +10,9 @@ import com.ashush.filmopoisk_raw.di.presentation.ViewModelModule
 import com.ashush.filmopoisk_raw.presentation.MainActivity
 import dagger.BindsInstance
 import dagger.Component
+import javax.inject.Singleton
 
+@Singleton
 @Component(
     modules =
     [

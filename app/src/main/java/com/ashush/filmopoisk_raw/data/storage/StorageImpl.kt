@@ -13,6 +13,7 @@ import javax.inject.Inject
 
 class StorageImpl @Inject constructor(
     private val context: Context,
+    private val movieDatabase: MovieDatabase,
 ) : IStorage {
 
     companion object {
@@ -73,11 +74,11 @@ class StorageImpl @Inject constructor(
     }
 
     override fun getFavoriteDao(): FavoritesDao {
-        return MovieDatabase.getInstance(context).favoritesDao()
+        return movieDatabase.favoritesDao()
     }
 
     override fun getWatchlistDao(): WatchlistDao {
-        return MovieDatabase.getInstance(context).watchlistDao()
+        return movieDatabase.watchlistDao()
     }
 
 }
