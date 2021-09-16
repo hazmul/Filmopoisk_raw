@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "watchlist")
-class Watchlist(
+data class Watchlist(
     @ColumnInfo(name = "adult") override val adult: Boolean,
     @ColumnInfo(name = "backdropPath") override val backdropPath: String,
     @ColumnInfo(name = "genres") override val genres: String,

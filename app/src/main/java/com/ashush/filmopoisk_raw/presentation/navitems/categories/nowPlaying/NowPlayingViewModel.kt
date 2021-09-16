@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
-import com.ashush.filmopoisk_raw.domain.models.Movies
+import com.ashush.filmopoisk_raw.domain.models.DomainMovies
 import com.ashush.filmopoisk_raw.domain.models.RequestResult
 import com.ashush.filmopoisk_raw.utils.Pager
 import kotlinx.coroutines.*
@@ -19,7 +19,7 @@ class NowPlayingViewModel @Inject constructor(
         super.onCleared()
     }
 
-    val requestResult = MutableLiveData<List<Movies.Movie>>()
+    val requestResult = MutableLiveData<List<DomainMovies.Movie>>()
     val requestError = MutableLiveData<String>()
 
     private val pager = Pager()

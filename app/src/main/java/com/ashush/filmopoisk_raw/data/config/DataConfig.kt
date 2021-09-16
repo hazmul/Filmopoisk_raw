@@ -15,9 +15,9 @@ class DataConfig {
 
         fun getBaseImageUrl(size: String? = null): String {
             return if (size !=null) {
-                "https://image.tmdb.org/t/p/$size/"
+                "https://image.tmdb.org/t/p/$size"
             } else {
-                "https://image.tmdb.org/t/p/original/"
+                "https://image.tmdb.org/t/p/original"
             }
         }
     }

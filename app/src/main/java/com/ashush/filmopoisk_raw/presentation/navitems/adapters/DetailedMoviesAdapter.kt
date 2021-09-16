@@ -1,17 +1,15 @@
 package com.ashush.filmopoisk_raw.presentation.navitems.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ashush.filmopoisk_raw.R
-import com.ashush.filmopoisk_raw.domain.models.DetailedMovie
-import com.ashush.filmopoisk_raw.domain.models.Movies
+import com.ashush.filmopoisk_raw.domain.models.DomainDetailedMovie
 
 class DetailedMoviesAdapter : RecyclerView.Adapter<DetailedMoviesViewHolder>() {
 
-    private var movies: List<DetailedMovie> = emptyList()
+    private var movieDomains: List<DomainDetailedMovie> = emptyList()
 
     lateinit var listener: IListener
 
@@ -21,16 +19,16 @@ class DetailedMoviesAdapter : RecyclerView.Adapter<DetailedMoviesViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: DetailedMoviesViewHolder, position: Int) {
-        holder.bindView(movies[position], listener)
+        holder.bindView(movieDomains[position], listener)
     }
 
     override fun getItemCount(): Int {
-        return movies.size
+        return movieDomains.size
     }
 
-    fun update(newMovies: List<DetailedMovie>) {
-        val diffResult = DiffUtil.calculateDiff(object : MovieDiffUtil<DetailedMovie>(movies, newMovies) {})
+    fun update(newMovieDomains: List<DomainDetailedMovie>) {
+        val diffResult = DiffUtil.calculateDiff(object : MovieDiffUtil<DomainDetailedMovie>(movieDomains, newMovieDomains) {})
         diffResult.dispatchUpdatesTo(this)
-        this.movies = newMovies
+        this.movieDomains = newMovieDomains
     }
 }

@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ashush.filmopoisk_raw.R
-import com.ashush.filmopoisk_raw.domain.models.Movies
+import com.ashush.filmopoisk_raw.domain.models.DomainMovies
 
 class MoviesAdapter : RecyclerView.Adapter<MoviesViewHolder>() {
 
-    private var movies: List<Movies.Movie> = emptyList()
+    private var domainMovies: List<DomainMovies.Movie> = emptyList()
 
     lateinit var listener: IListener
 
@@ -19,17 +19,17 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
-        holder.bindView(movies[position], listener)
+        holder.bindView(domainMovies[position], listener)
     }
 
     override fun getItemCount(): Int {
-        return movies.size
+        return domainMovies.size
     }
 
-    fun update(newMovies: List<Movies.Movie>) {
-        val diffResult = DiffUtil.calculateDiff(object : MovieDiffUtil<Movies.Movie>(movies, newMovies) {})
+    fun update(newDomainMovies: List<DomainMovies.Movie>) {
+        val diffResult = DiffUtil.calculateDiff(object : MovieDiffUtil<DomainMovies.Movie>(domainMovies, newDomainMovies) {})
         diffResult.dispatchUpdatesTo(this)
-        this.movies = newMovies
+        this.domainMovies = newDomainMovies
     }
 
 }

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
-import com.ashush.filmopoisk_raw.domain.models.Movies
+import com.ashush.filmopoisk_raw.domain.models.DomainMovies
 import com.ashush.filmopoisk_raw.domain.models.RequestResult
 import com.ashush.filmopoisk_raw.utils.Pager
 import com.ashush.filmopoisk_raw.utils.getYear
@@ -19,7 +19,7 @@ class SearchViewModel @Inject constructor(private var interactor: Interactor) : 
         super.onCleared()
     }
 
-    val requestResult = MutableLiveData<List<Movies.Movie>>()
+    val requestResult = MutableLiveData<List<DomainMovies.Movie>>()
     val requestError = MutableLiveData<String>()
 
     private var pager = Pager()
@@ -27,7 +27,7 @@ class SearchViewModel @Inject constructor(private var interactor: Interactor) : 
 
     private var lastQuery = ""
 
-    val filteredMovies = MediatorLiveData<List<Movies.Movie>>()
+    val filteredMovies = MediatorLiveData<List<DomainMovies.Movie>>()
     var filter = SearchFilter()
         private set
 
@@ -77,9 +77,9 @@ class SearchViewModel @Inject constructor(private var interactor: Interactor) : 
             .filter { isMovieProper(it, filter) }
     }
 
-    private fun isMovieProper(movie: Movies.Movie, filter: SearchFilter): Boolean {
+    private fun isMovieProper(movie: DomainMovies.Movie, filter: SearchFilter): Boolean {
         return movie.adult == filter.isAdult
-                && (if (filter.genres.isNotEmpty()) movie.genresId.any { genreId -> genreId in filter.genres }
+                && (if (filter.genres.isNotEmpty()) movie.genreIds.any { genreId -> genreId in filter.genres }
         else true)
                 && getYear(movie.releaseDate) >= filter.dateFrom
                 && getYear(movie.releaseDate) <= filter.dateTo

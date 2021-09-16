@@ -1,6 +1,6 @@
 package com.ashush.filmopoisk_raw.domain.models
 
-data class DetailedMovie(
+data class DomainDetailedMovie(
     val adult: Boolean,
     val backdropPath: String,
     val genres: String,

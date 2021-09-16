@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.databinding.FragmentDetailBinding
 import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
-import com.ashush.filmopoisk_raw.domain.models.DetailedMovie
+import com.ashush.filmopoisk_raw.domain.models.DomainDetailedMovie
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -130,33 +130,33 @@ class DetailFragment : Fragment() {
         }
     }
 
-    private fun updateUI(movie: DetailedMovie) {
-        setDetailToolbar(movie)
+    private fun updateUI(movieDomain: DomainDetailedMovie) {
+        setDetailToolbar(movieDomain)
         binding.apply {
-            movieCountriesText.text = movie.productionCountries
-            movieGenresText.text = movie.genres
+            movieCountriesText.text = movieDomain.productionCountries
+            movieGenresText.text = movieDomain.genres
             movieHomepageText.text = HtmlCompat.fromHtml(
-                "<a href=\"${movie.homepage}\">${getString(R.string.official_site)}</a>",
+                "<a href=\"${movieDomain.homepage}\">${getString(R.string.official_site)}</a>",
                 HtmlCompat.FROM_HTML_MODE_LEGACY
             )
             movieHomepageText.isClickable = true
             movieHomepageText.movementMethod = LinkMovementMethod.getInstance()
-            movieOriginalLanguageText.text = movie.originalLanguage
-            movieOverviewText.text = movie.overview
-            movieReleaseDateText.text = movie.releaseDate
-            movieTaglineText.text = movie.tagline
-            movieProductionCompaniesText.text = movie.productionCompanies
+            movieOriginalLanguageText.text = movieDomain.originalLanguage
+            movieOverviewText.text = movieDomain.overview
+            movieReleaseDateText.text = movieDomain.releaseDate
+            movieTaglineText.text = movieDomain.tagline
+            movieProductionCompaniesText.text = movieDomain.productionCompanies
         }
     }
 
-    private fun setDetailToolbar(movie: DetailedMovie) {
+    private fun setDetailToolbar(movieDomain: DomainDetailedMovie) {
         expandedFAB?.visibility = View.VISIBLE
         rootFAB?.visibility = View.VISIBLE
         toolBarImg?.visibility = View.VISIBLE
-        collapsingToolbar?.title = ("${movie.title} (${"\\d{4}".toRegex().find(movie.releaseDate)?.value})")
+        collapsingToolbar?.title = ("${movieDomain.title} (${"\\d{4}".toRegex().find(movieDomain.releaseDate)?.value})")
 
         Picasso.get()
-            .load(movie.backdropPath)
+            .load(movieDomain.backdropPath)
             .into(requireActivity().findViewById<ImageView>(R.id.toolbar_img_main))
     }
 

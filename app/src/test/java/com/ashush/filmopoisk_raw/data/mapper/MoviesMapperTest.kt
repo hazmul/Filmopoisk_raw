@@ -1,50 +1,44 @@
 package com.ashush.filmopoisk_raw.data.mapper
 
 import com.ashush.filmopoisk_raw.data.config.DataConfig
-import com.ashush.filmopoisk_raw.data.models.movies.DataMoviesModel
-import com.ashush.filmopoisk_raw.domain.models.Movies
-import org.junit.Assert.*
-import java.util.*
+import com.ashush.filmopoisk_raw.testmodels.DataConfigurationModelExample
+import com.ashush.filmopoisk_raw.testmodels.DataGenresInfoExample
+import com.ashush.filmopoisk_raw.testmodels.DataMoviesExamples
+import com.ashush.filmopoisk_raw.testmodels.DomainMoviesExamples
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.junit.MockitoJUnitRunner
 
-class MoviesMapperTest
+@RunWith(MockitoJUnitRunner::class)
+class MoviesMapperTest {
 
 
+    @Before
+    fun init() {
+        DataConfig.genres = DataGenresInfoExample.value
+        DataConfig.config = DataConfigurationModelExample.value
+    }
 
-//companion object {
-//    fun mapToMovies(dataMovies: DataMoviesModel): Movies {
-//        val list = mutableListOf<Movies.Movie>()
-//        dataMovies.movies?.let {
-//            for (movie in dataMovies.movies) {
-//                list.add(
-//                    Movies.Movie(
-//                        adult = movie.adult ?: false,
-//                        posterPath = DataConfig.getBaseImageUrl(DataConfig.config?.images?.backdropSizes?.firstOrNull()) + movie.posterPath,
-//                        genres = if (movie.genreIds?.isNotEmpty() == true) {
-//                            DataConfig.genres?.genres?.filter { it?.id in movie.genreIds }?.map { it?.name }
-//                                ?.reduce { str, item -> "$str, $item" }
-//                                ?.lowercase(Locale.getDefault()) ?: ""
-//                        } else {
-//                            ""
-//                        },
-//                        genresId = if (movie.genreIds?.isNotEmpty() == true) {
-//                            movie.genreIds
-//                        } else {
-//                            listOf(0)
-//                        },
-//                        id = movie.id ?: 0,
-//                        overview = movie.overview ?: "",
-//                        releaseDate = movie.releaseDate ?: "",
-//                        title = movie.title ?: "false",
-//                        voteAverage = movie.voteAverage ?: 0.0,
-//                    )
-//                )
-//            }
-//        }
-//        return Movies(
-//            currentPage = dataMovies.page ?: 1,
-//            totalPages = dataMovies.totalPages ?: 1,
-//            moviesList = list
-//        )
-//    }
-//}
-//}
+    @Test
+    fun mapToDomainMoviesCase1() {
+        val expectedResult = DomainMoviesExamples.moviesModel1
+        val actualResult = MoviesMapper.mapToDomainMovies(DataMoviesExamples.dataMoviesModel1)
+        Assert.assertEquals(expectedResult, actualResult)
+    }
+
+    @Test
+    fun mapToDomainMoviesCase2() {
+        val expectedResult = DomainMoviesExamples.moviesModel2
+        val actualResult = MoviesMapper.mapToDomainMovies(DataMoviesExamples.dataMoviesModel2)
+        Assert.assertEquals(expectedResult, actualResult)
+    }
+
+    @Test
+    fun mapToDomainMoviesCase3() {
+        val expectedResult = DomainMoviesExamples.moviesModel3
+        val actualResult = MoviesMapper.mapToDomainMovies(DataMoviesExamples.dataMoviesModel3)
+        Assert.assertEquals(expectedResult, actualResult)
+    }
+}

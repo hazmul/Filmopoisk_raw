@@ -2,15 +2,12 @@ package com.ashush.filmopoisk_raw.data.repository
 
 import com.ashush.filmopoisk_raw.data.config.DataConfig
 import com.ashush.filmopoisk_raw.data.mapper.DetailedMovieMapper
-import com.ashush.filmopoisk_raw.data.mapper.EntitiesMapper
 import com.ashush.filmopoisk_raw.data.mapper.MoviesMapper
 import com.ashush.filmopoisk_raw.data.remote.RetrofitServiceProvider
 import com.ashush.filmopoisk_raw.data.storage.IStorage
 import com.ashush.filmopoisk_raw.domain.datainterfaces.IDataRepository
-import com.ashush.filmopoisk_raw.domain.datainterfaces.IStorageRepository
-import com.ashush.filmopoisk_raw.domain.models.DataType
-import com.ashush.filmopoisk_raw.domain.models.DetailedMovie
-import com.ashush.filmopoisk_raw.domain.models.Movies
+import com.ashush.filmopoisk_raw.domain.models.DomainDetailedMovie
+import com.ashush.filmopoisk_raw.domain.models.DomainMovies
 import com.ashush.filmopoisk_raw.domain.models.RequestResult
 import javax.inject.Inject
 
@@ -55,11 +52,11 @@ class DataRepositoryImpl @Inject constructor(
     override suspend fun getMovieDetail(
         movie_id: Int,
         appendToResponse: String?
-    ): RequestResult<DetailedMovie> {
+    ): RequestResult<DomainDetailedMovie> {
         val result = retrofitServiceProvider.getService()
             .getMovieDetail(movieId = movie_id, append_to_response = appendToResponse)
         return when {
-            result.isSuccessful -> RequestResult.Success(DetailedMovieMapper.mapToDetailMovie(result.body()!!))
+            result.isSuccessful -> RequestResult.Success(DetailedMovieMapper.mapToDomainDetailedMovie(result.body()!!))
             else -> RequestResult.Error(null, result.message())
         }
     }
@@ -68,14 +65,14 @@ class DataRepositoryImpl @Inject constructor(
         language: String?,
         page: Int?,
         region: String?
-    ): RequestResult<Movies> {
+    ): RequestResult<DomainMovies> {
         val result = retrofitServiceProvider.getService().getMoviesPopular(
             language = language,
             page = page,
             region = region
         )
         return when {
-            result.isSuccessful -> RequestResult.Success(MoviesMapper.mapToMovies(result.body()!!))
+            result.isSuccessful -> RequestResult.Success(MoviesMapper.mapToDomainMovies(result.body()!!))
             else -> RequestResult.Error(null, result.message())
         }
     }
@@ -84,14 +81,14 @@ class DataRepositoryImpl @Inject constructor(
         language: String?,
         page: Int?,
         region: String?
-    ): RequestResult<Movies> {
+    ): RequestResult<DomainMovies> {
         val result = retrofitServiceProvider.getService().getMoviesTopRated(
             language = language,
             page = page,
             region = region
         )
         return when {
-            result.isSuccessful -> RequestResult.Success(MoviesMapper.mapToMovies(result.body()!!))
+            result.isSuccessful -> RequestResult.Success(MoviesMapper.mapToDomainMovies(result.body()!!))
             else -> RequestResult.Error(null, result.message())
         }
     }
@@ -100,14 +97,14 @@ class DataRepositoryImpl @Inject constructor(
         language: String?,
         page: Int?,
         region: String?
-    ): RequestResult<Movies> {
+    ): RequestResult<DomainMovies> {
         val result = retrofitServiceProvider.getService().getMoviesUpcoming(
             language = language,
             page = page,
             region = region
         )
         return when {
-            result.isSuccessful -> RequestResult.Success(MoviesMapper.mapToMovies(result.body()!!))
+            result.isSuccessful -> RequestResult.Success(MoviesMapper.mapToDomainMovies(result.body()!!))
             else -> RequestResult.Error(null, result.message())
         }
     }
@@ -116,14 +113,14 @@ class DataRepositoryImpl @Inject constructor(
         language: String?,
         page: Int?,
         region: String?
-    ): RequestResult<Movies> {
+    ): RequestResult<DomainMovies> {
         val result = retrofitServiceProvider.getService().getMoviesNowPlaying(
             language = language,
             page = page,
             region = region
         )
         return when {
-            result.isSuccessful -> RequestResult.Success(MoviesMapper.mapToMovies(result.body()!!))
+            result.isSuccessful -> RequestResult.Success(MoviesMapper.mapToDomainMovies(result.body()!!))
             else -> RequestResult.Error(null, result.message())
         }
     }
@@ -136,7 +133,7 @@ class DataRepositoryImpl @Inject constructor(
         region: String?,
         year: Int?,
         primaryReleaseYear: Int?
-    ): RequestResult<Movies> {
+    ): RequestResult<DomainMovies> {
         val result = retrofitServiceProvider.getService().getSearchResult(
             language = language,
             query = query,
@@ -147,7 +144,7 @@ class DataRepositoryImpl @Inject constructor(
             primaryReleaseYear = primaryReleaseYear,
         )
         return when {
-            result.isSuccessful -> RequestResult.Success(MoviesMapper.mapToMovies(result.body()!!))
+            result.isSuccessful -> RequestResult.Success(MoviesMapper.mapToDomainMovies(result.body()!!))
             else -> RequestResult.Error(null, result.message())
         }
     }

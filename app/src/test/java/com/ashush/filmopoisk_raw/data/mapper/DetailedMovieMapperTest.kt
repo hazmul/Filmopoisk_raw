@@ -1,48 +1,43 @@
 package com.ashush.filmopoisk_raw.data.mapper
 
 import com.ashush.filmopoisk_raw.data.config.DataConfig
-import com.ashush.filmopoisk_raw.data.models.movies.DataMovieDetailModel
-import com.ashush.filmopoisk_raw.domain.models.DetailedMovie
-import org.junit.Assert.*
-import java.util.*
+import com.ashush.filmopoisk_raw.testmodels.DataConfigurationModelExample
+import com.ashush.filmopoisk_raw.testmodels.DataDetailedMoviesExamples
+import com.ashush.filmopoisk_raw.testmodels.DataGenresInfoExample
+import com.ashush.filmopoisk_raw.testmodels.DomainDetailedMovieExample
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.junit.MockitoJUnitRunner
 
-class DetailedMovieMapperTest
+@RunWith(MockitoJUnitRunner::class)
+class DetailedMovieMapperTest {
 
+    @Before
+    fun init() {
+        DataConfig.genres = DataGenresInfoExample.value
+        DataConfig.config = DataConfigurationModelExample.value
+    }
 
+    @Test
+    fun mapToDomainDetailedMovieCase1() {
+        val expectedResult = DomainDetailedMovieExample.domainDetailMovie1
+        val actualResult = DetailedMovieMapper.mapToDomainDetailedMovie(DataDetailedMoviesExamples.dataDetailMovie1)
+        Assert.assertEquals(expectedResult, actualResult)
+    }
 
+    @Test
+    fun mapToDomainDetailedMovieCase2() {
+        val expectedResult = DomainDetailedMovieExample.domainDetailMovie2
+        val actualResult = DetailedMovieMapper.mapToDomainDetailedMovie(DataDetailedMoviesExamples.dataDetailMovie2)
+        Assert.assertEquals(expectedResult, actualResult)
+    }
 
-
-
-//companion object {
-//    fun mapToDetailMovie(dataMovie: DataMovieDetailModel): DetailedMovie {
-//        return DetailedMovie(
-//            adult = dataMovie.adult ?: false,
-//            backdropPath = DataConfig.getBaseImageUrl(DataConfig.config?.images?.backdropSizes?.firstOrNull()) + dataMovie.backdropPath,
-//            genres = if (dataMovie.genres?.isNotEmpty() == true) {
-//                dataMovie.genres.map { it?.name }.reduce { str, item -> "$str, $item" }
-//                    ?.lowercase(Locale.getDefault()) ?: ""
-//            } else {
-//                ""
-//            },
-//            homepage = dataMovie.homepage ?: "",
-//            id = dataMovie.id ?: 0,
-//            originalLanguage = dataMovie.originalLanguage ?: "",
-//            overview = dataMovie.overview ?: "",
-//            posterPath = DataConfig.getBaseImageUrl() + dataMovie.posterPath,
-//            productionCompanies = if (dataMovie.productionCompanies?.isNotEmpty() == true) {
-//                dataMovie.productionCompanies.map { it?.name }.reduce { str, item -> "$str, $item" } ?: ""
-//            } else {
-//                ""
-//            },
-//            productionCountries = if (dataMovie.productionCountries?.isNotEmpty() == true) {
-//                dataMovie.productionCountries.map { it?.name }.reduce { str, item -> "$str, $item" } ?: ""
-//            } else {
-//                ""
-//            },
-//            releaseDate = dataMovie.releaseDate ?: "",
-//            tagline = dataMovie.tagline ?: "",
-//            title = dataMovie.title ?: "false",
-//            voteAverage = dataMovie.voteAverage ?: 0.0,
-//        )
-//    }
-//}
+    @Test
+    fun mapToDomainDetailedMovieCase3() {
+        val expectedResult = DomainDetailedMovieExample.domainDetailMovie3
+        val actualResult = DetailedMovieMapper.mapToDomainDetailedMovie(DataDetailedMoviesExamples.dataDetailMovie3)
+        Assert.assertEquals(expectedResult, actualResult)
+    }
+}

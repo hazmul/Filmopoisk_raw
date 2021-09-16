@@ -3,8 +3,8 @@ package com.ashush.filmopoisk_raw.data.remote
 import com.ashush.filmopoisk_raw.data.config.DataConfig
 import com.ashush.filmopoisk_raw.data.models.configuration.DataConfigurationModel
 import com.ashush.filmopoisk_raw.data.models.configuration.DataGenresInfo
-import com.ashush.filmopoisk_raw.data.models.movies.DataMovieDetailModel
-import com.ashush.filmopoisk_raw.data.models.movies.DataMoviesModel
+import com.ashush.filmopoisk_raw.data.models.movies.DataDetailedMovie
+import com.ashush.filmopoisk_raw.data.models.movies.DataMovies
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -28,7 +28,7 @@ interface RetrofitService {
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String = DataConfig.API_KEY,
         @Query("append_to_response") append_to_response: String? = null,
-    ): Response<DataMovieDetailModel>
+    ): Response<DataDetailedMovie>
 
     @GET("/3/movie/popular")
     suspend fun getMoviesPopular(
@@ -36,7 +36,7 @@ interface RetrofitService {
         @Query("language") language: String? = null,
         @Query("page") page: Int? = 1,
         @Query("region") region: String? = null
-    ): Response<DataMoviesModel>
+    ): Response<DataMovies>
 
     @GET("/3/movie/top_rated")
     suspend fun getMoviesTopRated(
@@ -44,7 +44,7 @@ interface RetrofitService {
         @Query("language") language: String? = null,
         @Query("page") page: Int? = 1,
         @Query("region") region: String? = null
-    ): Response<DataMoviesModel>
+    ): Response<DataMovies>
 
     @GET("/3/movie/upcoming")
     suspend fun getMoviesUpcoming(
@@ -52,7 +52,7 @@ interface RetrofitService {
         @Query("language") language: String? = null,
         @Query("page") page: Int? = 1,
         @Query("region") region: String? = null
-    ): Response<DataMoviesModel>
+    ): Response<DataMovies>
 
     @GET("/3/movie/now_playing")
     suspend fun getMoviesNowPlaying(
@@ -60,7 +60,7 @@ interface RetrofitService {
         @Query("language") language: String? = null,
         @Query("page") page: Int? = 1,
         @Query("region") region: String? = null
-    ): Response<DataMoviesModel>
+    ): Response<DataMovies>
 
     @GET("/3/search/movie")
     suspend fun getSearchResult(
@@ -72,5 +72,5 @@ interface RetrofitService {
         @Query("region") region: String? = null,
         @Query("year") year: Int? = null,
         @Query("primary_release_year") primaryReleaseYear: Int? = null
-    ): Response<DataMoviesModel>
+    ): Response<DataMovies>
 }

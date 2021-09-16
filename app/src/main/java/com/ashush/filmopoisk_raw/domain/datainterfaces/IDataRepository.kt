@@ -1,7 +1,7 @@
 package com.ashush.filmopoisk_raw.domain.datainterfaces
 
-import com.ashush.filmopoisk_raw.domain.models.DetailedMovie
-import com.ashush.filmopoisk_raw.domain.models.Movies
+import com.ashush.filmopoisk_raw.domain.models.DomainDetailedMovie
+import com.ashush.filmopoisk_raw.domain.models.DomainMovies
 import com.ashush.filmopoisk_raw.domain.models.RequestResult
 
 interface IDataRepository {
@@ -12,31 +12,31 @@ interface IDataRepository {
     suspend fun getMovieDetail(
         movie_id: Int,
         appendToResponse: String? = null,
-    ): RequestResult<DetailedMovie>
+    ): RequestResult<DomainDetailedMovie>
 
     suspend fun getMoviesPopular(
         language: String? = null,
         page: Int? = null,
         region: String? = null
-    ): RequestResult<Movies>
+    ): RequestResult<DomainMovies>
 
     suspend fun getMoviesTopRated(
         language: String? = null,
         page: Int? = null,
         region: String? = null
-    ): RequestResult<Movies>
+    ): RequestResult<DomainMovies>
 
     suspend fun getMoviesUpcoming(
         language: String? = null,
         page: Int? = null,
         region: String? = null
-    ): RequestResult<Movies>
+    ): RequestResult<DomainMovies>
 
     suspend fun getMoviesNowPlaying(
         language: String? = null,
         page: Int? = null,
         region: String? = null
-    ): RequestResult<Movies>
+    ): RequestResult<DomainMovies>
 
     suspend fun getSearchResult(
         language: String? = null,
@@ -46,6 +46,6 @@ interface IDataRepository {
         region: String? = null,
         year: Int? = null,
         primaryReleaseYear: Int? = null
-    ): RequestResult<Movies>
+    ): RequestResult<DomainMovies>
 
 }

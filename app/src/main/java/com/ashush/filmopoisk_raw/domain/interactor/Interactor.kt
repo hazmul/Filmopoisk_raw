@@ -21,7 +21,7 @@ class Interactor @Inject constructor(
     suspend fun getMovieDetail(
         movie_id: Int,
         append_to_response: String? = null,
-    ): RequestResult<DetailedMovie> {
+    ): RequestResult<DomainDetailedMovie> {
         return dataRepository.getMovieDetail(movie_id, append_to_response)
     }
 
@@ -29,7 +29,7 @@ class Interactor @Inject constructor(
         language: String? = null,
         page: Int? = null,
         region: String? = null
-    ): RequestResult<Movies> {
+    ): RequestResult<DomainMovies> {
         return dataRepository.getMoviesPopular(language, page, region)
     }
 
@@ -37,7 +37,7 @@ class Interactor @Inject constructor(
         language: String? = null,
         page: Int? = null,
         region: String? = null
-    ): RequestResult<Movies> {
+    ): RequestResult<DomainMovies> {
         return dataRepository.getMoviesTopRated(language, page, region)
     }
 
@@ -45,7 +45,7 @@ class Interactor @Inject constructor(
         language: String? = null,
         page: Int? = null,
         region: String? = null
-    ): RequestResult<Movies> {
+    ): RequestResult<DomainMovies> {
         return dataRepository.getMoviesUpcoming(language, page, region)
     }
 
@@ -53,7 +53,7 @@ class Interactor @Inject constructor(
         language: String? = null,
         page: Int? = null,
         region: String? = null
-    ): RequestResult<Movies> {
+    ): RequestResult<DomainMovies> {
         return dataRepository.getMoviesNowPlaying(language, page, region)
     }
 
@@ -65,7 +65,7 @@ class Interactor @Inject constructor(
         region: String? = null,
         year: Int? = null,
         primary_release_year: Int? = null
-    ): RequestResult<Movies> {
+    ): RequestResult<DomainMovies> {
         return dataRepository.getSearchResult(
             language,
             query,
@@ -91,24 +91,24 @@ class Interactor @Inject constructor(
         return true
     }
 
-    suspend fun getAll(dataType: DataType): RequestResult<List<DetailedMovie>> {
+    suspend fun getAll(dataType: DataType): RequestResult<List<DomainDetailedMovie>> {
         return storageRepository.getAll(dataType)
     }
 
-    suspend fun getById(dataType: DataType, movieId: Int): RequestResult<DetailedMovie> {
+    suspend fun getById(dataType: DataType, movieId: Int): RequestResult<DomainDetailedMovie> {
         return storageRepository.getById(movieId, dataType)
     }
 
-    suspend fun insert(dataType: DataType, movie: DetailedMovie) {
-        storageRepository.insert(movie, dataType)
+    suspend fun insert(dataType: DataType, movieDomain: DomainDetailedMovie) {
+        storageRepository.insert(movieDomain, dataType)
     }
 
-    suspend fun delete(dataType: DataType, movie: DetailedMovie): RequestResult<Int> {
-        return storageRepository.delete(movie, dataType)
+    suspend fun delete(dataType: DataType, movieDomain: DomainDetailedMovie): RequestResult<Int> {
+        return storageRepository.delete(movieDomain, dataType)
     }
 
-    suspend fun updateMovie(dataType: DataType, movie: DetailedMovie): RequestResult<Int> {
-        return storageRepository.updateMovie(movie, dataType)
+    suspend fun updateMovie(dataType: DataType, movieDomain: DomainDetailedMovie): RequestResult<Int> {
+        return storageRepository.updateMovie(movieDomain, dataType)
     }
 
 }

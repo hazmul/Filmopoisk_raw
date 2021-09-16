@@ -5,8 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ashush.filmopoisk_raw.domain.models.DataType
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
-import com.ashush.filmopoisk_raw.data.models.movies.DataMoviesModel
-import com.ashush.filmopoisk_raw.domain.models.DetailedMovie
+import com.ashush.filmopoisk_raw.domain.models.DomainDetailedMovie
 import com.ashush.filmopoisk_raw.domain.models.RequestResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,7 +17,7 @@ class WatchlistViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    val requestResult = MutableLiveData<List<DetailedMovie>>()
+    val requestResult = MutableLiveData<List<DomainDetailedMovie>>()
     val requestError = MutableLiveData<String>()
 
     fun getMovies() {

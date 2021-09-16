@@ -3,12 +3,12 @@ package com.ashush.filmopoisk_raw.data.mapper
 import com.ashush.filmopoisk_raw.data.storage.db.entity.BaseEntity
 import com.ashush.filmopoisk_raw.data.storage.db.entity.Favorites
 import com.ashush.filmopoisk_raw.data.storage.db.entity.Watchlist
-import com.ashush.filmopoisk_raw.domain.models.DetailedMovie
+import com.ashush.filmopoisk_raw.domain.models.DomainDetailedMovie
 
 class EntitiesMapper {
     companion object {
-        fun mapToDetailMovie(entity: BaseEntity): DetailedMovie {
-            return DetailedMovie(
+        fun mapToDetailMovie(entity: BaseEntity): DomainDetailedMovie {
+            return DomainDetailedMovie(
                 adult = entity.adult,
                 backdropPath = entity.backdropPath,
                 genres = entity.genres,
@@ -26,41 +26,41 @@ class EntitiesMapper {
             )
         }
 
-        fun mapToFavorites(movie: DetailedMovie): Favorites {
+        fun mapToFavorites(movieDomain: DomainDetailedMovie): Favorites {
             return Favorites(
-                adult = movie.adult,
-                backdropPath = movie.backdropPath,
-                genres = movie.genres,
-                homepage = movie.homepage,
-                id = movie.id,
-                originalLanguage = movie.originalLanguage,
-                overview = movie.overview,
-                posterPath = movie.posterPath,
-                productionCompanies = movie.productionCompanies,
-                productionCountries = movie.productionCountries,
-                releaseDate = movie.releaseDate,
-                tagline = movie.tagline,
-                title = movie.title,
-                voteAverage = movie.voteAverage,
+                adult = movieDomain.adult,
+                backdropPath = movieDomain.backdropPath,
+                genres = movieDomain.genres,
+                homepage = movieDomain.homepage,
+                id = movieDomain.id,
+                originalLanguage = movieDomain.originalLanguage,
+                overview = movieDomain.overview,
+                posterPath = movieDomain.posterPath,
+                productionCompanies = movieDomain.productionCompanies,
+                productionCountries = movieDomain.productionCountries,
+                releaseDate = movieDomain.releaseDate,
+                tagline = movieDomain.tagline,
+                title = movieDomain.title,
+                voteAverage = movieDomain.voteAverage,
             )
         }
 
-        fun mapToWatchlist(movie: DetailedMovie): Watchlist {
+        fun mapToWatchlist(movieDomain: DomainDetailedMovie): Watchlist {
             return Watchlist(
-                adult = movie.adult,
-                backdropPath = movie.backdropPath,
-                genres = movie.genres,
-                homepage = movie.homepage,
-                id = movie.id,
-                originalLanguage = movie.originalLanguage,
-                overview = movie.overview,
-                posterPath = movie.posterPath,
-                productionCompanies = movie.productionCompanies,
-                productionCountries = movie.productionCountries,
-                releaseDate = movie.releaseDate,
-                tagline = movie.tagline,
-                title = movie.title,
-                voteAverage = movie.voteAverage,
+                adult = movieDomain.adult,
+                backdropPath = movieDomain.backdropPath,
+                genres = movieDomain.genres,
+                homepage = movieDomain.homepage,
+                id = movieDomain.id,
+                originalLanguage = movieDomain.originalLanguage,
+                overview = movieDomain.overview,
+                posterPath = movieDomain.posterPath,
+                productionCompanies = movieDomain.productionCompanies,
+                productionCountries = movieDomain.productionCountries,
+                releaseDate = movieDomain.releaseDate,
+                tagline = movieDomain.tagline,
+                title = movieDomain.title,
+                voteAverage = movieDomain.voteAverage,
             )
         }
     }

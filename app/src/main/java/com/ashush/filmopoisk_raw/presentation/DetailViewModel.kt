@@ -1,12 +1,11 @@
 package com.ashush.filmopoisk_raw.presentation
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
 import com.ashush.filmopoisk_raw.domain.models.DataType
-import com.ashush.filmopoisk_raw.domain.models.DetailedMovie
+import com.ashush.filmopoisk_raw.domain.models.DomainDetailedMovie
 import com.ashush.filmopoisk_raw.domain.models.RequestResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,7 +14,7 @@ import javax.inject.Inject
 
 class DetailViewModel @Inject constructor(private var interactor: Interactor) : ViewModel() {
 
-    val requestResult = MutableLiveData<DetailedMovie>()
+    val requestResult = MutableLiveData<DomainDetailedMovie>()
     val requestError = MutableLiveData<String>()
     val inFavorite = MutableLiveData<Boolean>()
     val inWatchlist = MutableLiveData<Boolean>()
@@ -57,18 +56,18 @@ class DetailViewModel @Inject constructor(private var interactor: Interactor) : 
         }
     }
 
-    fun toFavoriteClicked(movie: DetailedMovie) {
+    fun toFavoriteClicked(movieDomain: DomainDetailedMovie) {
         if (inFavorite.value == false) {
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
-                    interactor.insert(DataType.FAVORITES, movie)
+                    interactor.insert(DataType.FAVORITES, movieDomain)
                     checkIsFavorite()
                 }
             }
         } else {
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
-                    interactor.delete(DataType.FAVORITES, movie)
+                    interactor.delete(DataType.FAVORITES, movieDomain)
                     checkIsFavorite()
                 }
             }
@@ -76,18 +75,18 @@ class DetailViewModel @Inject constructor(private var interactor: Interactor) : 
         }
     }
 
-    fun toWatchlistClicked(movie: DetailedMovie) {
+    fun toWatchlistClicked(movieDomain: DomainDetailedMovie) {
         if (inWatchlist.value == false) {
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
-                    interactor.insert(DataType.WATCHLIST, movie)
+                    interactor.insert(DataType.WATCHLIST, movieDomain)
                     checkIsWatchlist()
                 }
             }
         } else {
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
-                    interactor.delete(DataType.WATCHLIST, movie)
+                    interactor.delete(DataType.WATCHLIST, movieDomain)
                     checkIsWatchlist()
                 }
             }

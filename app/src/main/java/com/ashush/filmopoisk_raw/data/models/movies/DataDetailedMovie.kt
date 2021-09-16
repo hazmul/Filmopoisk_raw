@@ -2,7 +2,7 @@ package com.ashush.filmopoisk_raw.data.models.movies
 
 import com.google.gson.annotations.SerializedName
 
-data class DataMovieDetailModel(
+data class DataDetailedMovie(
     @SerializedName("adult")
     val adult: Boolean? = null,
     @SerializedName("backdrop_path")

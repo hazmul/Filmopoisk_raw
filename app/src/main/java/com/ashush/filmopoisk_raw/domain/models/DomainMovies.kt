@@ -1,6 +1,6 @@
 package com.ashush.filmopoisk_raw.domain.models
 
-data class Movies(
+data class DomainMovies(
     val currentPage: Int,
     val totalPages: Int,
     val moviesList: List<Movie>
@@ -9,7 +9,7 @@ data class Movies(
         val adult: Boolean,
         val posterPath: String,
         val genres: String,
-        val genresId: List<Int>,
+        val genreIds: List<Int>,
         val id: Int,
         val overview: String,
         val releaseDate: String,

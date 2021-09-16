@@ -4,7 +4,7 @@ import com.ashush.filmopoisk_raw.data.mapper.EntitiesMapper
 import com.ashush.filmopoisk_raw.data.storage.IStorage
 import com.ashush.filmopoisk_raw.domain.datainterfaces.IStorageRepository
 import com.ashush.filmopoisk_raw.domain.models.DataType
-import com.ashush.filmopoisk_raw.domain.models.DetailedMovie
+import com.ashush.filmopoisk_raw.domain.models.DomainDetailedMovie
 import com.ashush.filmopoisk_raw.domain.models.AppConfig
 import com.ashush.filmopoisk_raw.domain.models.RequestResult
 import javax.inject.Inject
@@ -25,7 +25,7 @@ class StorageRepositoryImpl @Inject constructor(
         return RequestResult.Success(result)
     }
 
-    override suspend fun getAll(dataType: DataType): RequestResult<List<DetailedMovie>> {
+    override suspend fun getAll(dataType: DataType): RequestResult<List<DomainDetailedMovie>> {
         val result = when (dataType) {
             DataType.FAVORITES -> storage.getFavoriteDao().getAll()
             DataType.WATCHLIST -> storage.getWatchlistDao().getAll()
@@ -36,7 +36,7 @@ class StorageRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getById(movieId: Int, dataType: DataType): RequestResult<DetailedMovie> {
+    override suspend fun getById(movieId: Int, dataType: DataType): RequestResult<DomainDetailedMovie> {
         val result = when (dataType) {
             DataType.FAVORITES -> storage.getFavoriteDao().getById(movieId)
             DataType.WATCHLIST -> storage.getWatchlistDao().getById(movieId)
@@ -47,10 +47,10 @@ class StorageRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun insert(movie: DetailedMovie, dataType: DataType): RequestResult<Long> {
+    override suspend fun insert(movieDomain: DomainDetailedMovie, dataType: DataType): RequestResult<Long> {
         val result = when (dataType) {
-            DataType.FAVORITES -> storage.getFavoriteDao().insert(EntitiesMapper.mapToFavorites(movie))
-            DataType.WATCHLIST -> storage.getWatchlistDao().insert(EntitiesMapper.mapToWatchlist(movie))
+            DataType.FAVORITES -> storage.getFavoriteDao().insert(EntitiesMapper.mapToFavorites(movieDomain))
+            DataType.WATCHLIST -> storage.getWatchlistDao().insert(EntitiesMapper.mapToWatchlist(movieDomain))
         }
         return when {
             result >= 0 -> RequestResult.Success(result)
@@ -58,10 +58,10 @@ class StorageRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun delete(movie: DetailedMovie, dataType: DataType): RequestResult<Int> {
+    override suspend fun delete(movieDomain: DomainDetailedMovie, dataType: DataType): RequestResult<Int> {
         val result = when (dataType) {
-            DataType.FAVORITES -> storage.getFavoriteDao().delete(EntitiesMapper.mapToFavorites(movie))
-            DataType.WATCHLIST -> storage.getWatchlistDao().delete(EntitiesMapper.mapToWatchlist(movie))
+            DataType.FAVORITES -> storage.getFavoriteDao().delete(EntitiesMapper.mapToFavorites(movieDomain))
+            DataType.WATCHLIST -> storage.getWatchlistDao().delete(EntitiesMapper.mapToWatchlist(movieDomain))
         }
         return when {
             result >= 0 -> RequestResult.Success(result)
@@ -69,10 +69,10 @@ class StorageRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateMovie(movie: DetailedMovie, dataType: DataType): RequestResult<Int> {
+    override suspend fun updateMovie(movieDomain: DomainDetailedMovie, dataType: DataType): RequestResult<Int> {
         val result = when (dataType) {
-            DataType.FAVORITES -> storage.getFavoriteDao().update(EntitiesMapper.mapToFavorites(movie))
-            DataType.WATCHLIST -> storage.getWatchlistDao().update(EntitiesMapper.mapToWatchlist(movie))
+            DataType.FAVORITES -> storage.getFavoriteDao().update(EntitiesMapper.mapToFavorites(movieDomain))
+            DataType.WATCHLIST -> storage.getWatchlistDao().update(EntitiesMapper.mapToWatchlist(movieDomain))
         }
         return when {
             result >= 0 -> RequestResult.Success(result)
