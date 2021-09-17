@@ -7,10 +7,18 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
+/**
+ * Модуль зависимостей связанный с БД
+ */
+
 @Module
 class DBModule {
 
     private val dbname = "filmopoisk-db"
+
+    /**
+     * Предоставление БД [MovieDatabase] в рамках заданного [applicationContext]
+     */
 
     @Singleton
     @Provides

@@ -19,7 +19,11 @@ import com.ashush.filmopoisk_raw.presentation.MainActivity
 import com.ashush.filmopoisk_raw.presentation.MainActivityViewModel
 import com.ashush.filmopoisk_raw.presentation.navitems.adapters.DetailedMoviesAdapter
 import com.ashush.filmopoisk_raw.presentation.navitems.adapters.IListener
-import com.ashush.filmopoisk_raw.utils.RVLayoutManager
+import com.ashush.filmopoisk_raw.utils.getLayout
+
+/**
+ * Экрана приложения показывающий фильмы в категории "Favorites".
+ */
 
 class FavoritesFragment : Fragment() {
 
@@ -39,7 +43,7 @@ class FavoritesFragment : Fragment() {
         preBinding = FragmentFavoritesBinding.inflate(inflater, container, false)
 
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = RVLayoutManager.getLayout(requireActivity(), sharedViewModel.viewTypeStatus.value)
+        binding.recyclerView.layoutManager = getLayout(requireActivity(), sharedViewModel.viewTypeStatus.value)
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireActivity(),
@@ -64,12 +68,11 @@ class FavoritesFragment : Fragment() {
             adapter.update(result)
         }
         sharedViewModel.viewTypeStatus.observe(viewLifecycleOwner) { result ->
-            binding.recyclerView.layoutManager = RVLayoutManager.getLayout(requireActivity(), result)
+            binding.recyclerView.layoutManager = getLayout(requireActivity(), result)
         }
 
         viewModel.getMovies()
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

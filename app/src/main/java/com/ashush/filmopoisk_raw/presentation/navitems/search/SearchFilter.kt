@@ -2,6 +2,10 @@ package com.ashush.filmopoisk_raw.presentation.navitems.search
 
 import java.util.*
 
+/**
+ * Дата-класс содержащий информацию об заданных критериях фильтрации
+ */
+
 data class SearchFilter (
     var isAdult: Boolean? = false,
     var genres: List<Int> = emptyList(),

@@ -12,6 +12,18 @@ import com.ashush.filmopoisk_raw.utils.getYear
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
+/**
+ * ViewModel экрана приложения c поиском фильмов.
+ * @param interactor интерактор для получения данных
+ * @property requestResult LiveData содержит информацию об фильме полученного по результатам запроса.
+ * @property requestError LiveData содержит информацию об ошибке по результатам запроса.
+ * @property pager обработчик страниц
+ * @property viewModelJob объект отражающий состояние работы в рамках которых выполняются корутины в этой ViewModel.
+ * @property lastQuery последняя запрошенная информация.
+ * @property filteredMovies MediatorLiveData содержит список отфильтрованных фильмов.
+ * @property filter заданный пользователем фильтр.
+ */
+
 class SearchViewModel @Inject constructor(private var interactor: Interactor) : ViewModel() {
 
     override fun onCleared() {
@@ -21,13 +33,11 @@ class SearchViewModel @Inject constructor(private var interactor: Interactor) : 
 
     val requestResult = MutableLiveData<List<DomainMovies.Movie>>()
     val requestError = MutableLiveData<String>()
+    val filteredMovies = MediatorLiveData<List<DomainMovies.Movie>>()
 
     private var pager = Pager()
     private var viewModelJob = SupervisorJob()
-
     private var lastQuery = ""
-
-    val filteredMovies = MediatorLiveData<List<DomainMovies.Movie>>()
     var filter = SearchFilter()
         private set
 

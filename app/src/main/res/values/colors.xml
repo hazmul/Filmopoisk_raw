@@ -27,7 +27,7 @@
     <color name="main_background">#FFFFFF</color>
     <color name="in_favorite">#FF5757</color>
     <color name="not_favorite">#FFFFFF</color>
-    <color name="in_watchlist">#F6BD13</color>
+    <color name="in_watchlist">#0d253f</color>
     <color name="not_watchlist">#FFFFFF</color>
 
     <color name="yellow">#F6BD13</color>

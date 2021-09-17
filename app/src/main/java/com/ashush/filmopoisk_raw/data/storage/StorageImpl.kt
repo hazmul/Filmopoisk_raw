@@ -11,6 +11,11 @@ import com.ashush.filmopoisk_raw.domain.models.AppConfig
 import com.google.gson.Gson
 import javax.inject.Inject
 
+/**
+ * Класс реализация интерфеса [IStorage]
+ * @param context для обращения к SharedPreferences приложения
+ * @param movieDatabase для обращения к БД
+ */
 class StorageImpl @Inject constructor(
     private val context: Context,
     private val movieDatabase: MovieDatabase,
@@ -19,11 +24,13 @@ class StorageImpl @Inject constructor(
     companion object {
         private const val REMOTE_CONFIG_PREFS_KEY = "REMOTE_CONFIG_PREFS_KEY"
         private const val REMOTE_CONFIG_KEY = "REMOTE_CONFIG_KEY"
-        private const val APP_CONFIG_PREFS_KEY = "DOMAIN_CONFIG_PREFS_KEY"
-        private const val APP_CONFIG_VIEWTYPE_KEY = "DOMAIN_CONFIG_VIEWTYPE_KEY"
-
+        private const val APP_CONFIG_PREFS_KEY = "APP_CONFIG_PREFS_KEY"
+        private const val APP_CONFIG_VIEWTYPE_KEY = "APP_CONFIG_VIEWTYPE_KEY"
     }
 
+    /**
+     * Настройки API сохраняются в SharedPreferences в виде String как ответ от сервера
+     */
     override fun storeRemoteConfiguration(config: DataConfigurationModel): Boolean {
         val gson = Gson()
         val json = gson.toJson(config)
@@ -33,6 +40,9 @@ class StorageImpl @Inject constructor(
         return true
     }
 
+    /**
+     * Настройки API достаются из SharedPreferences как String и преобразовываются в DataConfigurationModel
+     */
     override fun getRemoteConfiguration(): DataConfigurationModel? {
         val gson = Gson()
         val json = context.getSharedPreferences(REMOTE_CONFIG_PREFS_KEY, Context.MODE_PRIVATE)
@@ -40,6 +50,9 @@ class StorageImpl @Inject constructor(
         return gson.fromJson(json, DataConfigurationModel::class.java)
     }
 
+    /**
+     * Часть настроек приложения из [AppConfig] не нуждаются в сохранении т.к. они автоматически сохраняются в DefaultSharedPreferences
+     */
     override fun storeAppConfiguration(config: AppConfig): Boolean {
         context.getSharedPreferences(APP_CONFIG_PREFS_KEY, Context.MODE_PRIVATE)
             .edit()
@@ -48,6 +61,10 @@ class StorageImpl @Inject constructor(
         return true
     }
 
+    /**
+     * Часть настроек приложения достаются из DefaultSharedPreferences, другая часть из определенных SharedPreferences
+     * по итогу формируется один файл [AppConfig]
+     */
     override fun getAppConfiguration(): AppConfig {
         val sp = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
         val downloadImage = sp.getBoolean(context.getString(R.string.download_images_key), true)

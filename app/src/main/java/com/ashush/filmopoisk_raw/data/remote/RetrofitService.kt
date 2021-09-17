@@ -42,7 +42,7 @@ interface RetrofitService {
      * @param [movieId] уникальный id фильма
      * @param [apiKey] уникальный ключ для запроса
      * @param [language] для указания языка ответа
-     * @param [appendToResponse] для указания языка ответа
+     * @param [appendToResponse] для указания дополнительной информации
      * @return сущность [Response]
      */
     @GET("/3/movie/{movie_id}")

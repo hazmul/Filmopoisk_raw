@@ -6,9 +6,15 @@ import com.ashush.filmopoisk_raw.domain.interactor.Interactor
 import dagger.Module
 import dagger.Provides
 
+/**
+ * Модуль зависимостей связанный с слоем бизнес логики
+ */
+
 @Module
 class DomainModule {
-
+    /**
+     * Предоставление сущности [Interactor]
+     */
     @Provides
     fun provideInteractor(
         remoteRepository: IRemoteRepository,

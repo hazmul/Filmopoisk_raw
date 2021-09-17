@@ -14,6 +14,8 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class DetailedMovieMapperTest {
 
+    private val detailedMovieMapper = DetailedMovieMapper()
+
     @Before
     fun init() {
         DataConfig.genres = DataGenresInfoExample.value

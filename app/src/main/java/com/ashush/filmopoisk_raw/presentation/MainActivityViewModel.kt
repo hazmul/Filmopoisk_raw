@@ -10,6 +10,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+/**
+ * ViewModel главного экрана приложения является доступной для фрагментов в рамках реализации sharedViewModel.
+ * @param interactor интерактор для получения данных
+ * @property viewTypeStatus LiveData содержит информацию о типе отображения подборок фильмов, например список или сетка.
+ * @property optionMenuIsNeeded LiveData содержит информацию о необходимости отображения кнопок на тулбаре, на некоторых фрагментах это не требуется.
+ */
+
 class MainActivityViewModel @Inject constructor(
     private val interactor: Interactor
 ) : ViewModel() {

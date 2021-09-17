@@ -23,6 +23,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
+/**
+ * Экран приложения показывающий детальную информцию о фильме.
+ * Содержит в себе логику работы FAB кнопок добавляющие/убирающие фильм в категорию "watchlist" и "favorite".
+ *
+ */
+
 class DetailFragment : Fragment() {
 
     companion object {
@@ -49,9 +55,23 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        preBinding = FragmentDetailBinding.inflate(inflater, container, false)
-        movieId = arguments?.getInt(MOVIE_ID_KEY, 0)!!
 
+        viewModel = injectViewModel((requireActivity() as MainActivity).viewModelFactory)
+
+        getData()
+        initUI(inflater, container)
+        bindObservers()
+        handleFab()
+
+        return binding.root
+    }
+
+    private fun getData() {
+        movieId = arguments?.getInt(MOVIE_ID_KEY, 0)!!
+    }
+
+    private fun initUI(inflater: LayoutInflater, container: ViewGroup?) {
+        preBinding = FragmentDetailBinding.inflate(inflater, container, false)
         activity?.let {
             favoriteFAB = it.findViewById(R.id.add_favorites_fab)
             watchlistFAB = it.findViewById(R.id.add_watchlist_fab)
@@ -60,8 +80,11 @@ class DetailFragment : Fragment() {
             toolBarImg = it.findViewById(R.id.toolbar_img_main)
             collapsingToolbar = it.findViewById(R.id.collapsing_toolbar)
         }
+        viewModel.getMovieInfo(movieId)
+        sharedViewModel.optionMenuIsNeeded.value = false
+    }
 
-        viewModel = injectViewModel((requireActivity() as MainActivity).viewModelFactory)
+    private fun bindObservers() {
         viewModel.requestResult.observe(viewLifecycleOwner) { result ->
             updateUI(result)
         }
@@ -74,12 +97,6 @@ class DetailFragment : Fragment() {
         viewModel.inWatchlist.observe(viewLifecycleOwner) { result ->
             handleWatchlistStatusInFab(result)
         }
-
-        viewModel.getMovieInfo(movieId)
-        sharedViewModel.optionMenuIsNeeded.value = false
-
-        handleFab()
-        return binding.root
     }
 
     override fun onDestroyView() {

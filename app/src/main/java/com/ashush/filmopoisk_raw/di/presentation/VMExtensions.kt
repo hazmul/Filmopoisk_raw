@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
+/**
+ * Функции расширения для инъекции [ViewModel] в [Fragment] и [AppCompatActivity]
+ */
+
 inline fun <reified T : ViewModel> AppCompatActivity.injectViewModel(factory: ViewModelProvider.Factory): T {
     return ViewModelProvider(this, factory)[T::class.java]
 }

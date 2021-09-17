@@ -7,8 +7,14 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import kotlinx.coroutines.*
 
+/**
+ * Класс заключающий в себе работу с поисковой строкой
+ * @param lifecycle жизненный цикл в рамках которого будет выполнятся внутренняя работы
+ * @param onDebouncingQueryTextChange функция, которую надо выполнить с переданным аргументом
+ */
 
-internal class DebouncingQueryTextListener(
+
+class DebouncingQueryTextListener(
     lifecycle: Lifecycle,
     private val onDebouncingQueryTextChange: (String?) -> Unit
 ) : TextWatcher, LifecycleObserver {

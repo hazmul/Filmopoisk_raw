@@ -14,6 +14,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class MoviesMapperTest {
 
+    private val moviesMapper = MoviesMapper()
 
     @Before
     fun init() {

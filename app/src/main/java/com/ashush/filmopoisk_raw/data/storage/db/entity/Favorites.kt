@@ -4,6 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/**
+ * Таблица фильмов категории "Favorites"
+ * Класс отражает структуру хранимых данных
+ */
+
 @Entity(tableName = "favorites")
 data class Favorites(
     @ColumnInfo(name = "adult") override val adult: Boolean,

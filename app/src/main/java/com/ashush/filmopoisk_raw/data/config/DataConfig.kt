@@ -11,11 +11,6 @@ import com.ashush.filmopoisk_raw.data.models.configuration.DataGenresInfo
  *
  * В этом классе хранится информация для работы с внешим API
  *
- * @property API_KEY уникальный ключ для обращения к серверу.
- * @property baseURl содержит основную ссылку для обращения к серверу.
- * @property config содержит информацию о настройках API. Некоторые запросы требуют данную информацию.
- * @property genres содержит информацию о жанрах фильмов.
- *
  */
 
 class DataConfig {
@@ -43,7 +38,7 @@ class DataConfig {
 
         /**
          * Получет размер [size] желаемый для загрузки изображения.
-         * @return возвращает первую часть сслыки для загрузки.
+         * @return возвращает первую часть ссылки для загрузки.
          */
 
         fun getBaseImageUrl(size: String? = null): String {

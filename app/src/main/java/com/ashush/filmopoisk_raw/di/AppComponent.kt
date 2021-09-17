@@ -12,6 +12,10 @@ import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
+/**
+ * Основной компонент отражающий граф зависимостей
+ */
+
 @Singleton
 @Component(
     modules =
@@ -27,8 +31,16 @@ import javax.inject.Singleton
 
 interface AppComponent {
 
+    /**
+     * Билдер для создания компонента
+     */
+
     @Component.Builder
     interface Builder {
+
+        /**
+         * Добавление [Context] в компонент
+         */
         @BindsInstance
         fun setContext(applicationContext: Context): Builder
 

@@ -23,9 +23,9 @@ class RemoteRepositoryImpl @Inject constructor(
 ) : IRemoteRepository {
 
     /**
-     * Запрашиваются данный через [retrofitServiceProvider]
-     * если успешно, то сохраняет с помощью [storage] и возвращает их
-     * если не успешно, то пытается загрузить их из локального источника с помощью [storage]
+     * Запрашиваются данные через [retrofitServiceProvider]
+     * если успешно, то сохраняет с помощью [storage] и присваивает их [DataConfig.config]
+     * если не успешно, то пытается загрузить их из локального источника с помощью [storage] и присваивоить их [DataConfig.config]
      */
     override suspend fun getConfiguration(): RequestResult<Boolean> {
         val result = retrofitServiceProvider.getService().getConfiguration()
@@ -44,6 +44,11 @@ class RemoteRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Запрашиваются данные через [retrofitServiceProvider]
+     * если успешно, то присваивает их [DataConfig.config]
+     * если не успешно, то возвращает сообщение об ошибке
+     */
     override suspend fun getGenresInfo(): RequestResult<Boolean> {
         val result = retrofitServiceProvider.getService().getGenresInfo()
         return when {
@@ -61,10 +66,12 @@ class RemoteRepositoryImpl @Inject constructor(
 
     override suspend fun getMovieDetail(
         movie_id: Int,
+        language: String?,
         appendToResponse: String?
     ): RequestResult<DomainDetailedMovie> {
-        val result = retrofitServiceProvider.getService()
-            .getMovieDetail(movieId = movie_id, appendToResponse = appendToResponse)
+        val result =
+            retrofitServiceProvider.getService()
+                .getMovieDetail(movieId = movie_id, language = language, appendToResponse = appendToResponse)
         return when {
             result.isSuccessful -> RequestResult.Success(DetailedMovieMapper.mapToDomainDetailedMovie(result.body()!!))
             else -> RequestResult.Error(null, result.message())
@@ -158,7 +165,6 @@ class RemoteRepositoryImpl @Inject constructor(
             else -> RequestResult.Error(null, result.message())
         }
     }
-
 
 }
 

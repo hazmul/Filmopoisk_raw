@@ -1,5 +1,11 @@
 package com.ashush.filmopoisk_raw.domain.models
 
+/**
+ * Модель данных для использования в слое бизнес логики.
+ * Отражает некоторую часть данных [currentPage] из общего набора данных [totalPages].
+ * Содержит подборку фильмов [moviesList].
+ */
+
 data class DomainMovies(
     val currentPage: Int,
     val totalPages: Int,

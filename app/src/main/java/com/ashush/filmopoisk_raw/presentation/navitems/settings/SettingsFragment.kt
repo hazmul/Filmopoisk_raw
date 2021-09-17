@@ -13,6 +13,11 @@ import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.presentation.MainActivityViewModel
 import javax.inject.Inject
 
+/**
+ * Экран отображающий настройки приложения.
+ * Заключает в себе логику обработки их переключений.
+ */
+
 class SettingsFragment : PreferenceFragmentCompat() {
 
     @Inject

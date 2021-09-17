@@ -1,5 +1,10 @@
 package com.ashush.filmopoisk_raw.data.storage.db.entity
 
+/**
+ * Обобщенная таблица фильмов категории
+ * Класс отражает структуру хранимых данных
+ */
+
 open class BaseEntity(
     open val adult: Boolean,
     open val backdropPath: String,

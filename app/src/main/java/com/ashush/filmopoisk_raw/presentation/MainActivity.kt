@@ -21,12 +21,17 @@ import com.ashush.filmopoisk_raw.domain.models.AppConfig
 import com.google.android.material.navigation.NavigationView
 import javax.inject.Inject
 
+/**
+ * Главный экран приложения. Содержит в себе логику навигации между фрагментами и формирует данные для бокового меню.**[initNav]**.
+ * Отслеживает необходимость отображения кнопок на тулбаре **[bindObservers]**.
+ *
+ */
+
 class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var sharedViewModel: MainActivityViewModel
-
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
@@ -35,13 +40,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         (this.application as MyApp).application.inject(this)
-
         sharedViewModel = injectViewModel(this.viewModelFactory)
-        sharedViewModel.optionMenuIsNeeded.observe(this) { result ->
-            invalidateOptionsMenu()
-        }
+
         initUI()
         initNav()
+        bindObservers()
     }
 
     private fun initUI() {
@@ -56,8 +59,6 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         val navController = navHostFragment.navController
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navMainPager,
@@ -69,6 +70,12 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    private fun bindObservers() {
+        sharedViewModel.optionMenuIsNeeded.observe(this) { result ->
+            invalidateOptionsMenu()
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

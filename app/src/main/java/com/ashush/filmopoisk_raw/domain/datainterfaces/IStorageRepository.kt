@@ -13,13 +13,13 @@ import com.ashush.filmopoisk_raw.domain.models.RequestResult
 interface IStorageRepository {
 
     /**
-     * Сохранить настройки приложения
+     * Сохранить настройки приложения в хранилище
      * @return объект [RequestResult] со статусом выполнения задачи
      */
     suspend fun storeAppConfiguration(config: AppConfig): RequestResult<Boolean>
 
     /**
-     * Получить настройки приложения
+     * Получить настройки приложения из хранилища
      * @return объект [RequestResult] со статусом выполнения задачи
      */
     suspend fun getAppConfiguration(): RequestResult<AppConfig>

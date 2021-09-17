@@ -9,9 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.ashush.filmopoisk_raw.databinding.FragmentMainPagerBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
+/**
+ * Фрагмент для отображения "страничек" с подборками
+ */
+
 class MainPagerFragment : Fragment() {
 
-    private lateinit var mainPagerViewModel: MainPagerViewModel
     private var preBinding: FragmentMainPagerBinding? = null
 
     private val binding get() = preBinding!!
@@ -21,14 +24,9 @@ class MainPagerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        mainPagerViewModel =
-            ViewModelProvider(this).get(MainPagerViewModel::class.java)
-
         preBinding = FragmentMainPagerBinding.inflate(inflater, container, false)
 
-        binding.pager.adapter =
-            ViewPagerAdapter(requireActivity()) //Attach the adapter with our ViewPagerAdapter passing the host activity
-        //Sets tabs names as mentioned in ViewPagerAdapter fragmentNames array, this can be implemented in many different ways.
+        binding.pager.adapter = ViewPagerAdapter(requireActivity())
         TabLayoutMediator(binding.tabs, binding.pager) { tab, position ->
             tab.text = (binding.pager.adapter as ViewPagerAdapter).fragmentNames[position]
         }.attach()

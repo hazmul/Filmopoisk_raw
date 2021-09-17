@@ -12,6 +12,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+/**
+ * ViewModel экрана приложения показывающий фильмы в категории "Watchlist".
+ * @param interactor интерактор для получения данных
+ * @property requestResult LiveData содержит информацию об фильме полученного по результатам запроса.
+ * @property requestError LiveData содержит информацию об ошибке по результатам запроса.
+ */
+
 class WatchlistViewModel @Inject constructor(
     private var interactor: Interactor
 ) :

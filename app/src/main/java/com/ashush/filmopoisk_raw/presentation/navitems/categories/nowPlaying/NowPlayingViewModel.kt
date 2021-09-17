@@ -10,6 +10,10 @@ import com.ashush.filmopoisk_raw.utils.Pager
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
+/**
+ * ViewModel фрагмента отображающий подборку фильмов в категории "сейчас в прокате"
+ */
+
 class NowPlayingViewModel @Inject constructor(
     private var interactor: Interactor
 ) : ViewModel() {

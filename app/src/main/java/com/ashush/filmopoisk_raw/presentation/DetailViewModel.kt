@@ -12,6 +12,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+/**
+ * ViewModel экрана приложения с детальной информацией о фильме.
+ * @param interactor интерактор для получения данных
+ * @property requestResult LiveData содержит информацию об фильме полученного по результатам запроса.
+ * @property requestError LiveData содержит информацию об ошибке по результатам запроса.
+ * @property inFavorite LiveData содержит информацию о наличии/отсутсвии фильма в категории "Favorite".
+ * @property inWatchlist LiveData содержит информацию о наличии/отсутсвии фильма в категории "Watchlist".
+ */
+
 class DetailViewModel @Inject constructor(private var interactor: Interactor) : ViewModel() {
 
     val requestResult = MutableLiveData<DomainDetailedMovie>()

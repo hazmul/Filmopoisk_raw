@@ -9,6 +9,9 @@ import com.ashush.filmopoisk_raw.presentation.navitems.categories.nowPlaying.Now
 import com.ashush.filmopoisk_raw.presentation.navitems.categories.topRated.TopRatedFragment
 import com.ashush.filmopoisk_raw.presentation.navitems.categories.upcoming.UpcomingFragment
 
+/**
+ * Адаптер для отображения "страничек" с подборками
+ */
 
 class ViewPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     private val fragments: Array<Fragment> = arrayOf(

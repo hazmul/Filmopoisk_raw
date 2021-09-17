@@ -1,5 +1,10 @@
 package com.ashush.filmopoisk_raw.domain.models
 
+/**
+ * Модель данных для использования в слое бизнес логики.
+ * Содержит детальную информацию о конкретном фильме
+ */
+
 data class DomainDetailedMovie(
     val adult: Boolean,
     val backdropPath: String,

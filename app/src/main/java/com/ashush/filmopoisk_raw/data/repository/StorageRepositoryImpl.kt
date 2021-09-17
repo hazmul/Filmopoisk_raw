@@ -3,22 +3,25 @@ package com.ashush.filmopoisk_raw.data.repository
 import com.ashush.filmopoisk_raw.data.mapper.EntitiesMapper
 import com.ashush.filmopoisk_raw.data.storage.IStorage
 import com.ashush.filmopoisk_raw.domain.datainterfaces.IStorageRepository
+import com.ashush.filmopoisk_raw.domain.models.AppConfig
 import com.ashush.filmopoisk_raw.domain.models.DataType
 import com.ashush.filmopoisk_raw.domain.models.DomainDetailedMovie
-import com.ashush.filmopoisk_raw.domain.models.AppConfig
 import com.ashush.filmopoisk_raw.domain.models.RequestResult
 import javax.inject.Inject
 
+/**
+ * Класс - реализация интерфеса [IStorageRepository]
+ * @property storage - сущность для сохранения некоторых данных
+ *
+ * */
 class StorageRepositoryImpl @Inject constructor(
     private val storage: IStorage
 ) : IStorageRepository {
-
 
     override suspend fun storeAppConfiguration(config: AppConfig): RequestResult<Boolean> {
         val result = storage.storeAppConfiguration(config)
         return RequestResult.Success(result)
     }
-
 
     override suspend fun getAppConfiguration(): RequestResult<AppConfig> {
         val result = storage.getAppConfiguration()

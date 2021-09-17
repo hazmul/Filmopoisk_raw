@@ -14,6 +14,13 @@ import com.ashush.filmopoisk_raw.presentation.navitems.watchlist.WatchlistViewMo
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+
+/**
+ * Модуль зависимостей связанный с [ViewModel].
+ * Здесь формируются ключи KClass<out ViewModel> для заполнения карты [map] для использования в [ViewModelFactory]
+ */
 
 @Module
 abstract class ViewModelModule {

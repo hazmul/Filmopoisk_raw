@@ -7,6 +7,11 @@ import com.ashush.filmopoisk_raw.data.storage.db.dao.WatchlistDao
 import com.ashush.filmopoisk_raw.data.storage.db.entity.Favorites
 import com.ashush.filmopoisk_raw.data.storage.db.entity.Watchlist
 
+/**
+ * Класс для доступа к базе данных
+ * Предоставляет доступ к DAO для работы с таблицами
+ */
+
 @Database(entities = [Watchlist::class, Favorites::class], version = 1)
 abstract class MovieDatabase : RoomDatabase() {
 

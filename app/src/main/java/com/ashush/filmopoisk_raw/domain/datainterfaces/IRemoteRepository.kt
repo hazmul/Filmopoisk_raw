@@ -28,6 +28,7 @@ interface IRemoteRepository {
      */
     suspend fun getMovieDetail(
         movie_id: Int,
+        language: String? = null,
         appendToResponse: String? = null,
     ): RequestResult<DomainDetailedMovie>
 

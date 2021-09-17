@@ -20,7 +20,11 @@ import com.ashush.filmopoisk_raw.presentation.MainActivity
 import com.ashush.filmopoisk_raw.presentation.MainActivityViewModel
 import com.ashush.filmopoisk_raw.presentation.navitems.adapters.IListener
 import com.ashush.filmopoisk_raw.presentation.navitems.adapters.MoviesAdapter
-import com.ashush.filmopoisk_raw.utils.RVLayoutManager
+import com.ashush.filmopoisk_raw.utils.getLayout
+
+/**
+ * Фрагмент отображающий подборку фильмов в категории "скоро в прокате"
+ */
 
 class UpcomingFragment : Fragment() {
 
@@ -41,7 +45,7 @@ class UpcomingFragment : Fragment() {
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager =
-            RVLayoutManager.getLayout(requireActivity(), sharedViewModel.viewTypeStatus.value)
+            getLayout(requireActivity(), sharedViewModel.viewTypeStatus.value)
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireActivity(),
@@ -75,7 +79,7 @@ class UpcomingFragment : Fragment() {
             adapter.update(result)
         }
         sharedViewModel.viewTypeStatus.observe(viewLifecycleOwner) { result ->
-            binding.recyclerView.layoutManager = RVLayoutManager.getLayout(requireActivity(), result)
+            binding.recyclerView.layoutManager = getLayout(requireActivity(), result)
         }
 
         viewModel.getMovies()
