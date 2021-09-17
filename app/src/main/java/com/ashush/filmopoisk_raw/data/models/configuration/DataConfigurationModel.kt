@@ -2,6 +2,9 @@ package com.ashush.filmopoisk_raw.data.models.configuration
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Модель данных получаемых с сервера при запросе настроек API
+ */
 data class DataConfigurationModel(
     @SerializedName("change_keys")
     val changeKeys: List<String>? = null,

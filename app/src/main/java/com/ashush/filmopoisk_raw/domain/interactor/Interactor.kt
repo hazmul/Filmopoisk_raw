@@ -1,28 +1,28 @@
 package com.ashush.filmopoisk_raw.domain.interactor
 
-import com.ashush.filmopoisk_raw.domain.datainterfaces.IDataRepository
+import com.ashush.filmopoisk_raw.domain.datainterfaces.IRemoteRepository
 import com.ashush.filmopoisk_raw.domain.datainterfaces.IStorageRepository
 import com.ashush.filmopoisk_raw.domain.models.*
 import javax.inject.Inject
 
 class Interactor @Inject constructor(
-    private val dataRepository: IDataRepository,
+    private val remoteRepository: IRemoteRepository,
     private val storageRepository: IStorageRepository,
 ) {
 
     suspend fun getRemoteConfiguration(): RequestResult<Boolean> {
-        return dataRepository.getConfiguration()
+        return remoteRepository.getConfiguration()
     }
 
     suspend fun getGenresInfo(): RequestResult<Boolean> {
-        return dataRepository.getGenresInfo()
+        return remoteRepository.getGenresInfo()
     }
 
     suspend fun getMovieDetail(
         movie_id: Int,
         append_to_response: String? = null,
     ): RequestResult<DomainDetailedMovie> {
-        return dataRepository.getMovieDetail(movie_id, append_to_response)
+        return remoteRepository.getMovieDetail(movie_id, append_to_response)
     }
 
     suspend fun getMoviesPopular(
@@ -30,7 +30,7 @@ class Interactor @Inject constructor(
         page: Int? = null,
         region: String? = null
     ): RequestResult<DomainMovies> {
-        return dataRepository.getMoviesPopular(language, page, region)
+        return remoteRepository.getMoviesPopular(language, page, region)
     }
 
     suspend fun getMoviesTopRated(
@@ -38,7 +38,7 @@ class Interactor @Inject constructor(
         page: Int? = null,
         region: String? = null
     ): RequestResult<DomainMovies> {
-        return dataRepository.getMoviesTopRated(language, page, region)
+        return remoteRepository.getMoviesTopRated(language, page, region)
     }
 
     suspend fun getMoviesUpcoming(
@@ -46,7 +46,7 @@ class Interactor @Inject constructor(
         page: Int? = null,
         region: String? = null
     ): RequestResult<DomainMovies> {
-        return dataRepository.getMoviesUpcoming(language, page, region)
+        return remoteRepository.getMoviesUpcoming(language, page, region)
     }
 
     suspend fun getMoviesNowPlaying(
@@ -54,7 +54,7 @@ class Interactor @Inject constructor(
         page: Int? = null,
         region: String? = null
     ): RequestResult<DomainMovies> {
-        return dataRepository.getMoviesNowPlaying(language, page, region)
+        return remoteRepository.getMoviesNowPlaying(language, page, region)
     }
 
     suspend fun getSearchResult(
@@ -66,7 +66,7 @@ class Interactor @Inject constructor(
         year: Int? = null,
         primary_release_year: Int? = null
     ): RequestResult<DomainMovies> {
-        return dataRepository.getSearchResult(
+        return remoteRepository.getSearchResult(
             language,
             query,
             page,

@@ -5,8 +5,17 @@ import com.ashush.filmopoisk_raw.data.models.movies.DataMovies
 import com.ashush.filmopoisk_raw.domain.models.DomainMovies
 import java.util.*
 
+/**
+ * В этом классе преобразуюся модели data слоя в модели domain слоя
+ */
+
 class MoviesMapper {
     companion object {
+        /**
+         * Функция преобразования
+         * Получает [DataMovies]
+         * @return [DomainMovies]
+         */
         fun mapToDomainMovies(dataMovies: DataMovies): DomainMovies {
             val list = mutableListOf<DomainMovies.Movie>()
             dataMovies.movies?.let {
@@ -14,7 +23,7 @@ class MoviesMapper {
                     list.add(
                         DomainMovies.Movie(
                             adult = movie.adult ?: false,
-                            posterPath = DataConfig.getBaseImageUrl() + (movie.posterPath?: ""),
+                            posterPath = DataConfig.getBaseImageUrl() + (movie.posterPath ?: ""),
                             genres = if (movie.genreIds?.isNotEmpty() == true) {
                                 DataConfig.genres?.genres?.filter { it?.id in movie.genreIds }?.map { it?.name }
                                     ?.reduce { str, item -> "$str, $item" }

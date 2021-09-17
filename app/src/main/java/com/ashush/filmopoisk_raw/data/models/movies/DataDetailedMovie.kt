@@ -1,7 +1,9 @@
 package com.ashush.filmopoisk_raw.data.models.movies
 
 import com.google.gson.annotations.SerializedName
-
+/**
+ * Модель данных получаемых с сервера при запросе детальной информации по фильму
+ */
 data class DataDetailedMovie(
     @SerializedName("adult")
     val adult: Boolean? = null,

@@ -1,6 +1,6 @@
 package com.ashush.filmopoisk_raw.di.domain
 
-import com.ashush.filmopoisk_raw.domain.datainterfaces.IDataRepository
+import com.ashush.filmopoisk_raw.domain.datainterfaces.IRemoteRepository
 import com.ashush.filmopoisk_raw.domain.datainterfaces.IStorageRepository
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
 import dagger.Module
@@ -11,9 +11,9 @@ class DomainModule {
 
     @Provides
     fun provideInteractor(
-        dataRepository: IDataRepository,
+        remoteRepository: IRemoteRepository,
         storageRepository: IStorageRepository
     ): Interactor {
-        return Interactor(dataRepository, storageRepository)
+        return Interactor(remoteRepository, storageRepository)
     }
 }

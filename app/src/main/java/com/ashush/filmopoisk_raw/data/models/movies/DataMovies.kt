@@ -2,10 +2,10 @@ package com.ashush.filmopoisk_raw.data.models.movies
 
 import com.google.gson.annotations.SerializedName
 
-//response for get popular
-//response for get top rated
-//response for get now playing
-//response for get upcoming
+/**
+ * Модель данных получаемых с сервера при запросе списка фильмов какой-либо категории
+ * TopRated, Upcoming, Popular, NowPlaying...
+ */
 
 data class DataMovies(
     @SerializedName("page")

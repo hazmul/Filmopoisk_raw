@@ -22,7 +22,7 @@ class DataRepositoryImplTest {
 
     private val storage: IStorage = mockk()
     private val retrofitServiceProvider: RetrofitServiceProvider = mockk()
-    private val dataRepository = DataRepositoryImpl(retrofitServiceProvider, storage)
+    private val dataRepository = RemoteRepositoryImpl(retrofitServiceProvider, storage)
 
     @Before
     fun init() {

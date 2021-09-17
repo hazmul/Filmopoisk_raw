@@ -5,8 +5,17 @@ import com.ashush.filmopoisk_raw.data.models.movies.DataDetailedMovie
 import com.ashush.filmopoisk_raw.domain.models.DomainDetailedMovie
 import java.util.*
 
+/**
+ * В этом классе преобразуюся модели data слоя в модели domain слоя
+ */
+
 class DetailedMovieMapper {
     companion object {
+        /**
+         * Функция преобразования
+         * Получает [DataDetailedMovie]
+         * @return [DomainDetailedMovie]
+         */
         fun mapToDomainDetailedMovie(dataDetailedMovie: DataDetailedMovie): DomainDetailedMovie {
             return DomainDetailedMovie(
                 adult = dataDetailedMovie.adult ?: false,
@@ -21,7 +30,7 @@ class DetailedMovieMapper {
                 id = dataDetailedMovie.id ?: 0,
                 originalLanguage = dataDetailedMovie.originalLanguage ?: "",
                 overview = dataDetailedMovie.overview ?: "",
-                posterPath = DataConfig.getBaseImageUrl() + (dataDetailedMovie.posterPath?: ""),
+                posterPath = DataConfig.getBaseImageUrl() + (dataDetailedMovie.posterPath ?: ""),
                 productionCompanies = if (dataDetailedMovie.productionCompanies?.isNotEmpty() == true) {
                     dataDetailedMovie.productionCompanies.map { it?.name }.reduce { str, item -> "$str, $item" } ?: ""
                 } else {

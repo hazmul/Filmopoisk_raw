@@ -5,18 +5,28 @@ import com.ashush.filmopoisk_raw.data.mapper.DetailedMovieMapper
 import com.ashush.filmopoisk_raw.data.mapper.MoviesMapper
 import com.ashush.filmopoisk_raw.data.remote.RetrofitServiceProvider
 import com.ashush.filmopoisk_raw.data.storage.IStorage
-import com.ashush.filmopoisk_raw.domain.datainterfaces.IDataRepository
+import com.ashush.filmopoisk_raw.domain.datainterfaces.IRemoteRepository
 import com.ashush.filmopoisk_raw.domain.models.DomainDetailedMovie
 import com.ashush.filmopoisk_raw.domain.models.DomainMovies
 import com.ashush.filmopoisk_raw.domain.models.RequestResult
 import javax.inject.Inject
 
-class DataRepositoryImpl @Inject constructor(
+/**
+ * Класс - реализация интерфеса [IRemoteRepository]
+ * @property retrofitServiceProvider - сущность для обращений в сеть
+ * @property storage - сущность для сохранения некоторых данных
+ *
+ * */
+class RemoteRepositoryImpl @Inject constructor(
     private val retrofitServiceProvider: RetrofitServiceProvider,
     private val storage: IStorage
-) :
-    IDataRepository {
+) : IRemoteRepository {
 
+    /**
+     * Запрашиваются данный через [retrofitServiceProvider]
+     * если успешно, то сохраняет с помощью [storage] и возвращает их
+     * если не успешно, то пытается загрузить их из локального источника с помощью [storage]
+     */
     override suspend fun getConfiguration(): RequestResult<Boolean> {
         val result = retrofitServiceProvider.getService().getConfiguration()
         return when {
@@ -54,7 +64,7 @@ class DataRepositoryImpl @Inject constructor(
         appendToResponse: String?
     ): RequestResult<DomainDetailedMovie> {
         val result = retrofitServiceProvider.getService()
-            .getMovieDetail(movieId = movie_id, append_to_response = appendToResponse)
+            .getMovieDetail(movieId = movie_id, appendToResponse = appendToResponse)
         return when {
             result.isSuccessful -> RequestResult.Success(DetailedMovieMapper.mapToDomainDetailedMovie(result.body()!!))
             else -> RequestResult.Error(null, result.message())
@@ -148,7 +158,6 @@ class DataRepositoryImpl @Inject constructor(
             else -> RequestResult.Error(null, result.message())
         }
     }
-
 
 
 }
