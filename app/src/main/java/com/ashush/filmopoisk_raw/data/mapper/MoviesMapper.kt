@@ -18,12 +18,18 @@ class MoviesMapper {
          */
         fun mapToDomainMovies(dataMovies: DataMovies): DomainMovies {
             val list = mutableListOf<DomainMovies.Movie>()
+            val posterSizes = DataConfig.config?.images?.posterSizes
+            val basePosterLink = if (posterSizes?.size!! > 1) {
+                DataConfig.getBaseImageUrl(posterSizes[posterSizes.lastIndex - 1])
+            } else {
+                DataConfig.getBaseImageUrl()
+            }
             dataMovies.movies?.let {
                 for (movie in dataMovies.movies) {
                     list.add(
                         DomainMovies.Movie(
                             adult = movie.adult ?: false,
-                            posterPath = DataConfig.getBaseImageUrl() + (movie.posterPath ?: ""),
+                            posterPath = basePosterLink + (movie.posterPath ?: ""),
                             genres = if (movie.genreIds?.isNotEmpty() == true) {
                                 DataConfig.genres?.genres?.filter { it?.id in movie.genreIds }?.map { it?.name }
                                     ?.reduce { str, item -> "$str, $item" }
