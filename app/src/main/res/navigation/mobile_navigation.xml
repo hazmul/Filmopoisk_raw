@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/launchFragment"
         android:name="com.ashush.filmopoisk_raw.presentation.launch.LaunchFragment"
-        android:label="@string/fragment_launch_label"
+        android:label=""
         tools:layout="@layout/fragment_launch">
         <action
             android:id="@+id/actionLaunchFragmentToNavMainPager"
@@ -28,7 +28,7 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.ashush.filmopoisk_raw.presentation.DetailFragment"
-        android:label="fragment_blank"
+        android:label=""
         tools:layout="@layout/fragment_detail">
         <argument
             android:name="movieId"
@@ -52,7 +52,7 @@
     <fragment
         android:id="@+id/navFavorites"
         android:name="com.ashush.filmopoisk_raw.presentation.navitems.favorites.FavoritesFragment"
-        android:label="fragment_favorites"
+        android:label="Favorites"
         tools:layout="@layout/fragment_favorites" >
         <action
             android:id="@+id/actionNavFavoritesToDetailFragment"
@@ -61,7 +61,7 @@
     <fragment
         android:id="@+id/navWatchlist"
         android:name="com.ashush.filmopoisk_raw.presentation.navitems.watchlist.WatchlistFragment"
-        android:label="fragment_watchlist"
+        android:label="Watchlist"
         tools:layout="@layout/fragment_watchlist" >
         <action
             android:id="@+id/actionNavWatchlistToDetailFragment"

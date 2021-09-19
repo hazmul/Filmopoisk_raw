@@ -50,12 +50,7 @@ class WatchlistFragment : Fragment() {
         preBinding = FragmentWatchlistBinding.inflate(inflater, container, false)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = getLayout(requireActivity(), sharedViewModel.viewTypeStatus.value)
-        binding.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                requireActivity(),
-                LinearLayoutManager.VERTICAL
-            )
-        )
+
     }
 
     private fun bindObservers() {

@@ -52,12 +52,7 @@ class NowPlayingFragment : Fragment() {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager =
             getLayout(requireActivity(), sharedViewModel.viewTypeStatus.value)
-        binding.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                requireActivity(),
-                LinearLayoutManager.VERTICAL
-            )
-        )
+
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)

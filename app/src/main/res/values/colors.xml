@@ -23,6 +23,7 @@
 
 
     <!--utils colors-->
+    <color name="pr1WithAlpha">#6F0D253F</color>
     <color name="launcher">#01b4e4</color>
     <color name="main_background">#FFFFFF</color>
     <color name="in_favorite">#FF5757</color>

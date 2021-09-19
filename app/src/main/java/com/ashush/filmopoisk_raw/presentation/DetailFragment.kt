@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat.getColor
@@ -51,8 +53,6 @@ class DetailFragment : Fragment() {
     private var watchlistFAB: FloatingActionButton? = null
     private var expandedFAB: ExtendedFloatingActionButton? = null
     private var rootFAB: ConstraintLayout? = null
-    private var toolBarImg: ImageView? = null
-    private var collapsingToolbar: CollapsingToolbarLayout? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,9 +85,8 @@ class DetailFragment : Fragment() {
             watchlistFAB = it.findViewById(R.id.add_watchlist_fab)
             expandedFAB = it.findViewById(R.id.add_fab)
             rootFAB = it.findViewById(R.id.add_fab_content)
-            toolBarImg = it.findViewById(R.id.toolbar_img_main)
-            collapsingToolbar = it.findViewById(R.id.collapsing_toolbar)
         }
+        binding.home.setOnClickListener( View.OnClickListener { activity?.onBackPressed() })
         viewModel.getMovieInfo(movieId)
         sharedViewModel.optionMenuIsNeeded.value = false
     }
@@ -157,8 +156,7 @@ class DetailFragment : Fragment() {
 
     private fun updateUI(movieDomain: DomainDetailedMovie) {
         setDetailToolbar(movieDomain)
-        binding.apply {
-            binding.movieNameTitle.text = "${movieDomain.title}"
+        binding.detailContent.apply {
             movieCountriesText.text = movieDomain.productionCountries
             movieGenresText.text = movieDomain.genres
             movieHomepageText.text = HtmlCompat.fromHtml(
@@ -176,21 +174,19 @@ class DetailFragment : Fragment() {
     }
 
     private fun setDetailToolbar(movieDomain: DomainDetailedMovie) {
+        (activity as AppCompatActivity?)?.supportActionBar?.hide()
         expandedFAB?.visibility = View.VISIBLE
         rootFAB?.visibility = View.VISIBLE
-        toolBarImg?.visibility = View.VISIBLE
-        collapsingToolbar?.title = " "
+        binding.title.text = movieDomain.title
 
         Picasso.get()
             .load(movieDomain.backdropPath)
-            .into(requireActivity().findViewById<ImageView>(R.id.toolbar_img_main))
+            .into(binding.toolbarImage)
     }
 
     private fun restoreMainToolbar() {
         expandedFAB?.visibility = View.GONE
         rootFAB?.visibility = View.GONE
-        toolBarImg?.visibility = View.GONE
-        collapsingToolbar?.title = ""
-        toolBarImg?.setImageDrawable(null)
+        (activity as AppCompatActivity?)?.supportActionBar?.show()
     }
 }

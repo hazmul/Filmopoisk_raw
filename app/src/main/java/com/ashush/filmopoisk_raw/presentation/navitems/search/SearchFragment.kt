@@ -53,12 +53,7 @@ class SearchFragment : Fragment() {
         preBinding = FragmentSearchBinding.inflate(inflater, container, false)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = getLayout(requireActivity(), sharedViewModel.viewTypeStatus.value)
-        binding.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                requireActivity(),
-                LinearLayoutManager.VERTICAL
-            )
-        )
+
         binding.editTextSearchQuery.addTextChangedListener(DebouncingQueryTextListener(lifecycle) { query ->
             query?.let { viewModel.getOtherMovies(it) }
         })

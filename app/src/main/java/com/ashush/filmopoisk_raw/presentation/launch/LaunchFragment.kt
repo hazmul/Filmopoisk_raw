@@ -37,7 +37,6 @@ class LaunchFragment : Fragment() {
             .setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
 
-
         preBinding = FragmentLaunchBinding.inflate(inflater, container, false)
         return binding.root
     }

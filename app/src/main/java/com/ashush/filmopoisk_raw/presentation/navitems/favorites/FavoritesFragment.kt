@@ -9,8 +9,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.databinding.FragmentFavoritesBinding
 import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
@@ -50,12 +48,6 @@ class FavoritesFragment : Fragment() {
         preBinding = FragmentFavoritesBinding.inflate(inflater, container, false)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = getLayout(requireActivity(), sharedViewModel.viewTypeStatus.value)
-        binding.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                requireActivity(),
-                LinearLayoutManager.VERTICAL
-            )
-        )
     }
 
     private fun bindObservers() {

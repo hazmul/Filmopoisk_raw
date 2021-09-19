@@ -14,69 +14,48 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/padding_Xsmall">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/center_guidelineV"
+        <TextView
+            android:id="@+id/cardView_text_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cardView_img_poster"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Mega Movie 5DMega Movie 5DMega Movie 5DMega Movie 5DMega Movie 5D" />
+
+
+        <TextView
+            android:id="@+id/cardView_text_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.3" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView_icon_image_star"
+            app:layout_constraintStart_toStartOf="@+id/cardView_text_title"
+            app:layout_constraintTop_toTopOf="@+id/cardView_icon_image_star"
+            tools:text="(2021)" />
 
+        <ImageView
+            android:id="@+id/cardView_icon_image_star"
+            android:layout_width="@dimen/imgSize_Xsmall"
+            android:layout_height="@dimen/imgSize_Xsmall"
+            android:contentDescription="@string/vote_star"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_baseline_star_rate_24"
+            app:layout_constraintEnd_toStartOf="@+id/cardView_text_vote"
+            app:layout_constraintTop_toBottomOf="@+id/cardView_text_title"
+            app:tint="@color/yellow" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cardView_Header"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/cardView_text_vote"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView_icon_image_star"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/cardView_text_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-                app:layout_constraintEnd_toStartOf="@+id/cardView_icon_image_star"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Mega Movie 5DMega Movie 5DMega Movie 5DMega Movie 5DMega Movie 5D" />
-
-
-            <TextView
-                android:id="@+id/cardView_text_year"
-                android:layout_width="wrap_content"
-                android:layout_height="19dp"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-                app:layout_constraintBottom_toTopOf="@+id/cardView_icon_image_star"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="(2021)" />
-
-            <ImageView
-                android:id="@+id/cardView_icon_image_star"
-                android:layout_width="@dimen/imgSize_Xsmall"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/vote_star"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_baseline_star_rate_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/cardView_text_vote"
-                app:layout_constraintTop_toBottomOf="@id/cardView_text_year"
-                app:tint="@color/yellow" />
-
-            <TextView
-                android:id="@+id/cardView_text_vote"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-                app:layout_constraintBottom_toBottomOf="@+id/cardView_icon_image_star"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/cardView_icon_image_star"
-                tools:text="10.0" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
+            app:layout_constraintTop_toTopOf="@+id/cardView_icon_image_star"
+            tools:text="10.0" />
 
         <ImageView
             android:id="@+id/cardView_img_poster"
@@ -84,12 +63,11 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/movie_poster"
-            android:minHeight="@dimen/imgSize_large"
-            android:scaleType="fitCenter"
             android:elevation="2dp"
-            app:layout_constraintEnd_toEndOf="@id/center_guidelineV"
+            android:maxHeight="128dp"
+            android:scaleType="fitCenter"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView_Header"
+            app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/debug_poster" />
 
         <TextView
@@ -100,18 +78,11 @@
             android:layout_marginStart="8dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/center_guidelineV"
-            app:layout_constraintTop_toBottomOf="@+id/cardView_Header"
+            app:layout_constraintStart_toEndOf="@+id/cardView_img_poster"
+            app:layout_constraintTop_toBottomOf="@+id/cardView_icon_image_star"
             tools:text="Overview Overview Overview Overview
                         Overview Overview Overview Overview
-                        Overview Overview Overview Overview
-                        Overview Overview Overview Overview
-                        Overview Overview Overview Overview
-                        Overview Overview Overview Overview
-                        Overview Overview Overview Overview
-                        Overview Overview Overview Overview
                         Overview Overview Overview Overview" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
