@@ -37,7 +37,7 @@ class DomainMoviesExamples {
     class DomainMovieExample {
         companion object {
 
-            private val imagesLinkForTest = DataConfig.getBaseImageUrl()
+            private val imagesLinkForTest = DataConfig.getBaseImageUrl("w780")
 
             val moviesMovie1 =
                 DomainMovies.Movie(

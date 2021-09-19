@@ -65,13 +65,13 @@ class RemoteRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMovieDetail(
-        movie_id: Int,
+        movieId: Int,
         language: String?,
         appendToResponse: String?
     ): RequestResult<DomainDetailedMovie> {
         val result =
             retrofitServiceProvider.getService()
-                .getMovieDetail(movieId = movie_id, language = language, appendToResponse = appendToResponse)
+                .getMovieDetail(movieId = movieId, language = language, appendToResponse = appendToResponse)
         return when {
             result.isSuccessful -> RequestResult.Success(DetailedMovieMapper.mapToDomainDetailedMovie(result.body()!!))
             else -> RequestResult.Error(null, result.message())

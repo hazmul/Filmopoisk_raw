@@ -32,7 +32,7 @@ class RVLayoutManagerTest {
 
         assertEquals(
             LinearLayoutManager::class.java.name,
-            RVLayoutManager.getLayout(context, listview)::class.java.name
+            getLayout(context, listview)::class.java.name
         )
     }
 
@@ -43,7 +43,7 @@ class RVLayoutManagerTest {
 
         assertEquals(
             GridLayoutManager::class.java.name,
-            RVLayoutManager.getLayout(context, gridview)::class.java.name
+            getLayout(context, gridview)::class.java.name
         )
     }
 
@@ -53,7 +53,7 @@ class RVLayoutManagerTest {
 
         assertEquals(
             LinearLayoutManager::class.java.name,
-            RVLayoutManager.getLayout(context, null)::class.java.name
+            getLayout(context, null)::class.java.name
         )
     }
 }

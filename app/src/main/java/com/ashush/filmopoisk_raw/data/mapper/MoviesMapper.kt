@@ -18,11 +18,13 @@ class MoviesMapper {
          */
         fun mapToDomainMovies(dataMovies: DataMovies): DomainMovies {
             val list = mutableListOf<DomainMovies.Movie>()
-            val posterSizes = DataConfig.config?.images?.posterSizes
-            val basePosterLink = if (posterSizes?.size!! > 1) {
-                DataConfig.getBaseImageUrl(posterSizes[posterSizes.lastIndex - 1])
-            } else {
-                DataConfig.getBaseImageUrl()
+            var basePosterLink = ""
+            DataConfig.config?.images?.posterSizes?.let {
+               basePosterLink = if (it.size > 1) {
+                    DataConfig.getBaseImageUrl(it[it.lastIndex - 1])
+                } else {
+                    DataConfig.getBaseImageUrl()
+                }
             }
             dataMovies.movies?.let {
                 for (movie in dataMovies.movies) {

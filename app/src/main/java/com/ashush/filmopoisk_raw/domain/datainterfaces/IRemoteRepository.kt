@@ -27,7 +27,7 @@ interface IRemoteRepository {
      * @return объект [RequestResult] со статусом выполнения задачи
      */
     suspend fun getMovieDetail(
-        movie_id: Int,
+        movieId: Int,
         language: String? = null,
         appendToResponse: String? = null,
     ): RequestResult<DomainDetailedMovie>
