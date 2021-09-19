@@ -31,7 +31,7 @@ class MoviesMapper {
                             adult = movie.adult ?: false,
                             posterPath = basePosterLink + (movie.posterPath ?: ""),
                             genres = if (movie.genreIds?.isNotEmpty() == true) {
-                                DataConfig.genres?.genres?.filter { it?.id in movie.genreIds }?.map { it?.name }
+                                DataConfig.genresInfo?.genres?.filter { it?.id in movie.genreIds }?.map { it?.name }
                                     ?.reduce { str, item -> "$str, $item" }
                                     ?.lowercase(Locale.getDefault()) ?: ""
                             } else {

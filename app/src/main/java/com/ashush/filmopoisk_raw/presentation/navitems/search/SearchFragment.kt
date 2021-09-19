@@ -43,33 +43,25 @@ class SearchFragment : Fragment() {
     ): View {
         viewModel = injectViewModel((requireActivity() as MainActivity).viewModelFactory)
 
-        preBinding = FragmentSearchBinding.inflate(inflater, container, false)
+        initUI(inflater, container)
+        bindObservers()
 
+        return binding.root
+    }
+
+    private fun initUI(inflater: LayoutInflater, container: ViewGroup?) {
+        preBinding = FragmentSearchBinding.inflate(inflater, container, false)
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager =
-            getLayout(requireActivity(), sharedViewModel.viewTypeStatus.value)
+        binding.recyclerView.layoutManager = getLayout(requireActivity(), sharedViewModel.viewTypeStatus.value)
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireActivity(),
                 LinearLayoutManager.VERTICAL
             )
         )
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        adapter.listener = IListener { movieId ->
-            val bundle = bundleOf(DetailFragment.MOVIE_ID_KEY to movieId)
-            view.findNavController().navigate(R.id.actionNavSearchToDetailFragment, bundle)
-        }
-
         binding.editTextSearchQuery.addTextChangedListener(DebouncingQueryTextListener(lifecycle) { query ->
             query?.let { viewModel.getOtherMovies(it) }
         })
-
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -78,9 +70,10 @@ class SearchFragment : Fragment() {
                 }
             }
         })
+        binding.buttonAddSearchFilters.setOnClickListener(::setFiltersUserAction)
+    }
 
-        binding.fragmentSearchFilters.setOnClickListener(::filtersAction)
-
+    private fun bindObservers() {
         viewModel.filteredMovies.observe(viewLifecycleOwner) { movies ->
             movies?.let { adapter.update(it) }
         }
@@ -92,7 +85,20 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun filtersAction(view: View?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setNavigation(view)
+    }
+
+    private fun setNavigation(view: View) {
+        adapter.listener = IListener { movieId ->
+            val bundle = bundleOf(DetailFragment.MOVIE_ID_KEY to movieId)
+            view.findNavController().navigate(R.id.actionNavSearchToDetailFragment, bundle)
+        }
+    }
+
+    private fun setFiltersUserAction(view: View?) {
         requireContext().showSearchFilterDialog(viewModel.filter) { filter ->
             viewModel.applyFilter(filter)
         }

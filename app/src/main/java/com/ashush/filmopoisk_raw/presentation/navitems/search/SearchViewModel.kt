@@ -45,10 +45,17 @@ class SearchViewModel @Inject constructor(private var interactor: Interactor) : 
         filteredMovies.addSource(requestResult) { applyFilter(filter) }
     }
 
+    /**
+     * Подгрузить допольнительный список фильмов для продолжения скролла
+     */
     fun getMoviesAfterScrollDown() {
         getMovies(lastQuery)
     }
 
+    /**
+     * Подгрузить новый список фильмов на основании введенной строки [query].
+     * Сбрасывает [pager] и LiveData [requestResult], MediatorLiveData [filteredMovies] т.к. запрос на новый список фильмов.
+     */
     fun getOtherMovies(query: String) {
         pager.resetPager()
         requestResult.value = emptyList()
@@ -56,7 +63,7 @@ class SearchViewModel @Inject constructor(private var interactor: Interactor) : 
         getMovies(query)
     }
 
-    fun getMovies(query: String) {
+    private fun getMovies(query: String) {
         viewModelJob.cancelChildren()
         viewModelScope.launch {
             withContext(Dispatchers.IO + viewModelJob) {
@@ -81,6 +88,9 @@ class SearchViewModel @Inject constructor(private var interactor: Interactor) : 
         }
     }
 
+    /**
+     * Применить новый фильтр и обновить MediatorLiveData [filteredMovies] на валидность фильмов.
+     */
     fun applyFilter(filter: SearchFilter) {
         this.filter = filter
         filteredMovies.value = (requestResult.value ?: emptyList())

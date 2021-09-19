@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:orientation="vertical"
+    tools:background="@android:color/white"
     tools:context=".presentation.DetailFragment">
+
+    <TextView
+        android:id="@+id/movie_name_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_small"
+        tools:text="Mega movie"
+        android:background="@android:color/white"
+        android:elevation="2dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/margin_small"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:background="@android:color/white">
+        android:paddingHorizontal="@dimen/margin_small"
+        android:paddingBottom="@dimen/margin_small"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/details"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -209,7 +221,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/overview"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
                 <TextView
                     android:id="@+id/movie_overview_text"
@@ -224,5 +236,4 @@
     </androidx.core.widget.NestedScrollView>
 
 
-
-</FrameLayout>
+</LinearLayout>

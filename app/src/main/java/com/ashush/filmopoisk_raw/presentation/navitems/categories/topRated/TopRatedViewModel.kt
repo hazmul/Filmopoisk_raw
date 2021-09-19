@@ -11,7 +11,7 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 /**
- * ViewModel фрагмента отображающий подборку фильмов в категории "высокооцененные"
+ * ViewModel фрагмента отображающий подборку фильмов в категории "TopRated"
  */
 
 class TopRatedViewModel @Inject constructor(
@@ -28,6 +28,12 @@ class TopRatedViewModel @Inject constructor(
 
     private val pager = Pager()
     private var viewModelJob = SupervisorJob()
+
+    /**
+     * Получить все фильмы категории "TopRated"
+     * - При успехе обновить LiveData [requestResult]
+     * - При не успехе обновить LiveData [requestError]
+     */
 
     fun getMovies() {
         viewModelJob.cancelChildren()

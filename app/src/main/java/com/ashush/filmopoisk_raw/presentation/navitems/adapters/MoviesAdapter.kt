@@ -5,7 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ashush.filmopoisk_raw.R
+import com.ashush.filmopoisk_raw.domain.models.DomainDetailedMovie
 import com.ashush.filmopoisk_raw.domain.models.DomainMovies
+
+/**
+ * Адаптер для отображения списка фильмов
+ * Использует модель данных [DomainMovies]
+ */
 
 class MoviesAdapter : RecyclerView.Adapter<MoviesViewHolder>() {
 

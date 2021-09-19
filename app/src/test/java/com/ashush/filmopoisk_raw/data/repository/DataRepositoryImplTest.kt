@@ -27,7 +27,7 @@ class DataRepositoryImplTest {
     @Before
     fun init() {
         DataConfig.config = null
-        DataConfig.genres = null
+        DataConfig.genresInfo = null
     }
 
     @Test
@@ -64,7 +64,7 @@ class DataRepositoryImplTest {
 
         coVerifySequence {
             retrofitServiceProvider.getService().getGenresInfo()
-            DataConfig.genres = response.body()!!
+            DataConfig.genresInfo = response.body()!!
         }
     }
 

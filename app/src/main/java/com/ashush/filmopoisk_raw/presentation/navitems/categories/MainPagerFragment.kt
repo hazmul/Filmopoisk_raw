@@ -10,7 +10,7 @@ import com.ashush.filmopoisk_raw.databinding.FragmentMainPagerBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
 /**
- * Фрагмент для отображения "страничек" с подборками
+ * Фрагмент для отображения "фрагментов" с категориями
  */
 
 class MainPagerFragment : Fragment() {

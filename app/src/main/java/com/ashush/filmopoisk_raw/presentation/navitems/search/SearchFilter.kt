@@ -3,7 +3,7 @@ package com.ashush.filmopoisk_raw.presentation.navitems.search
 import java.util.*
 
 /**
- * Дата-класс содержащий информацию об заданных критериях фильтрации
+ * Дата-класс содержащий информацию о заданных критериях фильтрации
  */
 
 data class SearchFilter (

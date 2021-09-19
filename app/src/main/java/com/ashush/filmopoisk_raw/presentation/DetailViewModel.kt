@@ -28,6 +28,12 @@ class DetailViewModel @Inject constructor(private var interactor: Interactor) : 
     val inFavorite = MutableLiveData<Boolean>()
     val inWatchlist = MutableLiveData<Boolean>()
 
+    /**
+     * Получить информацию о фильме
+     * @param movieId - ID интересующего фильма
+     * - При успехе обновить LiveData [requestResult]. Проверить наличие фильма в категориях "Favorite" и "Watchlist".
+     * - При не успехе обновить LiveData [requestError]
+     */
     fun getMovieInfo(movieId: Int) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -64,7 +70,10 @@ class DetailViewModel @Inject constructor(private var interactor: Interactor) : 
             }
         }
     }
-
+    /**
+     * Обработать действие пользователя по добавлению\удалению фильма из категории "Favorite"
+     * Если в категории, то убрать, если нет, то добавить.
+     */
     fun toFavoriteClicked(movieDomain: DomainDetailedMovie) {
         if (inFavorite.value == false) {
             viewModelScope.launch {
@@ -83,7 +92,10 @@ class DetailViewModel @Inject constructor(private var interactor: Interactor) : 
 
         }
     }
-
+    /**
+     * Обработать действие пользователя по добавлению\удалению фильма из категории "Watchlist"
+     * Если в категории, то убрать, если нет, то добавить.
+     */
     fun toWatchlistClicked(movieDomain: DomainDetailedMovie) {
         if (inWatchlist.value == false) {
             viewModelScope.launch {

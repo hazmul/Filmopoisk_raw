@@ -40,28 +40,25 @@ class WatchlistFragment : Fragment() {
     ): View {
         viewModel = injectViewModel((requireActivity() as MainActivity).viewModelFactory)
 
-        preBinding = FragmentWatchlistBinding.inflate(inflater, container, false)
+        initUI(inflater, container)
+        bindObservers()
 
+        return binding.root
+    }
+
+    private fun initUI(inflater: LayoutInflater, container: ViewGroup?) {
+        preBinding = FragmentWatchlistBinding.inflate(inflater, container, false)
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager =
-            getLayout(requireActivity(), sharedViewModel.viewTypeStatus.value)
+        binding.recyclerView.layoutManager = getLayout(requireActivity(), sharedViewModel.viewTypeStatus.value)
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireActivity(),
                 LinearLayoutManager.VERTICAL
             )
         )
-        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        adapter.listener = IListener { movieId ->
-            val bundle = bundleOf(DetailFragment.MOVIE_ID_KEY to movieId)
-            view.findNavController().navigate(R.id.actionNavWatchlistToDetailFragment, bundle)
-        }
-
+    private fun bindObservers() {
         viewModel.requestError.observe(viewLifecycleOwner) { result ->
             Toast.makeText(requireActivity(), result, Toast.LENGTH_SHORT).show()
         }
@@ -71,7 +68,23 @@ class WatchlistFragment : Fragment() {
         sharedViewModel.viewTypeStatus.observe(viewLifecycleOwner) { result ->
             binding.recyclerView.layoutManager = getLayout(requireActivity(), result)
         }
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setNavigation(view)
+        getData()
+    }
+
+    private fun setNavigation(view: View) {
+        adapter.listener = IListener { movieId ->
+            val bundle = bundleOf(DetailFragment.MOVIE_ID_KEY to movieId)
+            view.findNavController().navigate(R.id.actionNavWatchlistToDetailFragment, bundle)
+        }
+    }
+
+    private fun getData() {
         viewModel.getMovies()
     }
 

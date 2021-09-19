@@ -10,7 +10,7 @@ import com.ashush.filmopoisk_raw.presentation.navitems.categories.topRated.TopRa
 import com.ashush.filmopoisk_raw.presentation.navitems.categories.upcoming.UpcomingFragment
 
 /**
- * Адаптер для отображения "страничек" с подборками
+ * Адаптер для отображения "фрагментов" с категориями
  */
 
 class ViewPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {

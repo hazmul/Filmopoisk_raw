@@ -1,5 +1,6 @@
 package com.ashush.filmopoisk_raw.presentation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.core.text.HtmlCompat
@@ -17,6 +19,7 @@ import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.databinding.FragmentDetailBinding
 import com.ashush.filmopoisk_raw.di.presentation.injectViewModel
 import com.ashush.filmopoisk_raw.domain.models.DomainDetailedMovie
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -60,10 +63,15 @@ class DetailFragment : Fragment() {
 
         getData()
         initUI(inflater, container)
-        bindObservers()
         handleFab()
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        bindObservers()
     }
 
     private fun getData() {
@@ -150,6 +158,7 @@ class DetailFragment : Fragment() {
     private fun updateUI(movieDomain: DomainDetailedMovie) {
         setDetailToolbar(movieDomain)
         binding.apply {
+            binding.movieNameTitle.text = "${movieDomain.title}"
             movieCountriesText.text = movieDomain.productionCountries
             movieGenresText.text = movieDomain.genres
             movieHomepageText.text = HtmlCompat.fromHtml(
@@ -170,7 +179,7 @@ class DetailFragment : Fragment() {
         expandedFAB?.visibility = View.VISIBLE
         rootFAB?.visibility = View.VISIBLE
         toolBarImg?.visibility = View.VISIBLE
-        collapsingToolbar?.title = ("${movieDomain.title} (${"\\d{4}".toRegex().find(movieDomain.releaseDate)?.value})")
+        collapsingToolbar?.title = " "
 
         Picasso.get()
             .load(movieDomain.backdropPath)
@@ -181,7 +190,7 @@ class DetailFragment : Fragment() {
         expandedFAB?.visibility = View.GONE
         rootFAB?.visibility = View.GONE
         toolBarImg?.visibility = View.GONE
-        toolBarImg?.setImageDrawable(null)
         collapsingToolbar?.title = ""
+        toolBarImg?.setImageDrawable(null)
     }
 }

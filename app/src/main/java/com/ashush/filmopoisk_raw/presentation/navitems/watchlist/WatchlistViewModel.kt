@@ -27,6 +27,12 @@ class WatchlistViewModel @Inject constructor(
     val requestResult = MutableLiveData<List<DomainDetailedMovie>>()
     val requestError = MutableLiveData<String>()
 
+    /**
+     * Получить все фильмы категории "Watchlist"
+     * - При успехе обновить LiveData [requestResult]
+     * - При не успехе обновить LiveData [requestError]
+     */
+
     fun getMovies() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {

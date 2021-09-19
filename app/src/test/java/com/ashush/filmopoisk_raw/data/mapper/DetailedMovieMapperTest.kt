@@ -18,7 +18,7 @@ class DetailedMovieMapperTest {
 
     @Before
     fun init() {
-        DataConfig.genres = DataGenresInfoExample.value
+        DataConfig.genresInfo = DataGenresInfoExample.value
         DataConfig.config = DataConfigurationModelExample.value
     }
 

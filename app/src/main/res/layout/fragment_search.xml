@@ -7,6 +7,7 @@
     tools:context=".presentation.navitems.search.SearchFragment">
 
     <EditText
+        android:layout_margin="@dimen/margin_small"
         android:id="@+id/editText_searchQuery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,6 +21,7 @@
         android:importantForAutofill="no" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_margin="@dimen/margin_small"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -32,7 +34,7 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <Button
-        android:id="@+id/fragment_search_filters"
+        android:id="@+id/button_add_search_filters"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"

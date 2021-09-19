@@ -7,6 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ashush.filmopoisk_raw.R
 import com.ashush.filmopoisk_raw.domain.models.DomainDetailedMovie
 
+/**
+ * Адаптер для отображения списка фильмов в категориях "Favorites" и "Watchlist"
+ * Использует модель данных [DomainDetailedMovie]
+ */
+
 class DetailedMoviesAdapter : RecyclerView.Adapter<DetailedMoviesViewHolder>() {
 
     private var movieDomains: List<DomainDetailedMovie> = emptyList()

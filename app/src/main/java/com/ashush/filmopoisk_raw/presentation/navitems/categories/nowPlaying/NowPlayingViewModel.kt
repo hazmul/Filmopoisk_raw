@@ -11,7 +11,7 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 /**
- * ViewModel фрагмента отображающий подборку фильмов в категории "сейчас в прокате"
+ * ViewModel фрагмента отображающий подборку фильмов в категории "NowPlaying"
  */
 
 class NowPlayingViewModel @Inject constructor(
@@ -28,6 +28,12 @@ class NowPlayingViewModel @Inject constructor(
 
     private val pager = Pager()
     private var viewModelJob = SupervisorJob()
+
+    /**
+     * Получить все фильмы категории "NowPlaying"
+     * - При успехе обновить LiveData [requestResult]
+     * - При не успехе обновить LiveData [requestError]
+     */
 
     fun getMovies() {
         viewModelJob.cancelChildren()

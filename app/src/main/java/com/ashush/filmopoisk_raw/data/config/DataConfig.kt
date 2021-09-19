@@ -3,7 +3,7 @@ package com.ashush.filmopoisk_raw.data.config
 import com.ashush.filmopoisk_raw.data.config.DataConfig.Companion.API_KEY
 import com.ashush.filmopoisk_raw.data.config.DataConfig.Companion.baseURl
 import com.ashush.filmopoisk_raw.data.config.DataConfig.Companion.config
-import com.ashush.filmopoisk_raw.data.config.DataConfig.Companion.genres
+import com.ashush.filmopoisk_raw.data.config.DataConfig.Companion.genresInfo
 import com.ashush.filmopoisk_raw.data.models.configuration.DataConfigurationModel
 import com.ashush.filmopoisk_raw.data.models.configuration.DataGenresInfo
 
@@ -32,9 +32,9 @@ class DataConfig {
         var config: DataConfigurationModel? = null
 
         /**
-         * @property genres содержит информацию о жанрах фильмов.
+         * @property genresInfo содержит информацию о жанрах фильмов.
          */
-        var genres: DataGenresInfo? = null
+        var genresInfo: DataGenresInfo? = null
 
         /**
          * Получет размер [size] желаемый для загрузки изображения.

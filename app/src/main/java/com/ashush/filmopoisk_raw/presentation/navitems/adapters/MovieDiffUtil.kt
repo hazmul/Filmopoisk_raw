@@ -2,6 +2,10 @@ package com.ashush.filmopoisk_raw.presentation.navitems.adapters
 
 import androidx.recyclerview.widget.DiffUtil
 
+/**
+ * Утилита DiffUtil для лучшего отображения изменений информции в различных адаптерах
+ */
+
 open class MovieDiffUtil<T>(
     private var oldMovies: List<T>,
     private var newMovies: List<T>

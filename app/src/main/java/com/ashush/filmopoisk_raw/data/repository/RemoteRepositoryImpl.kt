@@ -54,7 +54,7 @@ class RemoteRepositoryImpl @Inject constructor(
         return when {
             result.isSuccessful -> {
                 result.body()?.let {
-                    DataConfig.genres = it
+                    DataConfig.genresInfo = it
                 }
                 RequestResult.Success(true)
             }

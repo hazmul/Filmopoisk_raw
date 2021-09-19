@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ashush.filmopoisk_raw.domain.models.AppConfig
 
 /**
- * Функция помогающая определить тип RecyclerView.LayoutManager в зависимости от [AppConfig.ViewType]
+ * Функция помогающая определить тип RecyclerView.LayoutManager в зависимости от значени сохраненного в [AppConfig.ViewType]
  */
 
 fun getLayout(context: Context, viewType: AppConfig.ViewType?): RecyclerView.LayoutManager {

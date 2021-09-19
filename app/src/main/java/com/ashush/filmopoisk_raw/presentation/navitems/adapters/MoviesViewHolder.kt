@@ -6,9 +6,11 @@ import com.ashush.filmopoisk_raw.databinding.RecyclerItemBinding
 import com.ashush.filmopoisk_raw.domain.models.DomainMovies
 import com.squareup.picasso.Picasso
 
+/**
+ * ViewHolder для соотсветсвующего адаптера [MoviesAdapter]
+ */
+
 class MoviesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-
 
     private val binding = RecyclerItemBinding.bind(itemView)
 

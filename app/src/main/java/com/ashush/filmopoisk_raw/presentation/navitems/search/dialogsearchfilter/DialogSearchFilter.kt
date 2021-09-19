@@ -11,16 +11,19 @@ import com.ashush.filmopoisk_raw.presentation.navitems.search.dialogsearchfilter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.*
 
+/**
+ * Функцию показывающая диалоговое окно с критериями фильтрации и
+ * вызывающая функцию [applyFilter] с передачей в качестве параметра сформированного объекта [SearchFilter]
+ */
+
 fun Context.showSearchFilterDialog(
     defaultFilter: SearchFilter,
     applyFilter: (SearchFilter) -> Unit
 ) {
     val binding = DialogSearchFilterBinding.inflate(LayoutInflater.from(this))
-    val dialog = BottomSheetDialog(this).apply {
-        setContentView(binding.root)
-    }
+    val dialog = BottomSheetDialog(this).apply { setContentView(binding.root) }
 
-    var genres = DataConfig.genres?.genres
+    var genres = DataConfig.genresInfo?.genres
         ?.map { GenreItem(it, it?.id in defaultFilter.genres) }
         ?: emptyList()
 
@@ -41,6 +44,10 @@ fun Context.showSearchFilterDialog(
     dialog.show()
 }
 
+/**
+ * Установить значения view в диалоге на основании переданного фильтра
+ */
+
 private fun DialogSearchFilterBinding.setDefaultFilter(defaultFilter: SearchFilter) {
     dialogSearchFilter18Over.isChecked = defaultFilter.isAdult ?: false
     dialogSearchFilterDatesFrom.setText(defaultFilter.dateFrom.toString())
@@ -48,6 +55,11 @@ private fun DialogSearchFilterBinding.setDefaultFilter(defaultFilter: SearchFilt
     dialogSearchFilterVoteAverage.values =
         listOf(defaultFilter.minVoteAverage.toFloat(), defaultFilter.maxVoteAverage.toFloat())
 }
+
+/**
+ * Функция формирующая объект [SearchFilter] для дальнейшего использования на основании переданных параметров.
+ * Данные формируются на основании переданного списка [genres] и значений установленных в view.
+ */
 
 private fun DialogSearchFilterBinding.applyAction(
     applyFilter: (SearchFilter) -> Unit,

@@ -23,7 +23,7 @@ import com.ashush.filmopoisk_raw.presentation.navitems.adapters.MoviesAdapter
 import com.ashush.filmopoisk_raw.utils.getLayout
 
 /**
- * Фрагмент отображающий подборку фильмов в категории "скоро в прокате"
+ * Фрагмент отображающий подборку фильмов в категории "Upcoming"
  */
 
 class UpcomingFragment : Fragment() {
@@ -41,8 +41,14 @@ class UpcomingFragment : Fragment() {
     ): View {
         viewModel = injectViewModel((requireActivity() as MainActivity).viewModelFactory)
 
-        preBinding = FragmentUpcomingBinding.inflate(inflater, container, false)
+        initUI(inflater, container)
+        bindObservers()
 
+        return binding.root
+    }
+
+    private fun initUI(inflater: LayoutInflater, container: ViewGroup?) {
+        preBinding = FragmentUpcomingBinding.inflate(inflater, container, false)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager =
             getLayout(requireActivity(), sharedViewModel.viewTypeStatus.value)
@@ -52,17 +58,6 @@ class UpcomingFragment : Fragment() {
                 LinearLayoutManager.VERTICAL
             )
         )
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        adapter.listener = IListener { movieId ->
-            val bundle = bundleOf(DetailFragment.MOVIE_ID_KEY to movieId)
-            view.findNavController().navigate(R.id.actionNavMainPagerToDetailFragment, bundle)
-        }
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -71,7 +66,9 @@ class UpcomingFragment : Fragment() {
                 }
             }
         })
+    }
 
+    private fun bindObservers() {
         viewModel.requestError.observe(viewLifecycleOwner) { result ->
             Toast.makeText(requireActivity(), result, Toast.LENGTH_SHORT).show()
         }
@@ -81,7 +78,23 @@ class UpcomingFragment : Fragment() {
         sharedViewModel.viewTypeStatus.observe(viewLifecycleOwner) { result ->
             binding.recyclerView.layoutManager = getLayout(requireActivity(), result)
         }
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setNavigation(view)
+        getData()
+    }
+
+    private fun setNavigation(view: View) {
+        adapter.listener = IListener { movieId ->
+            val bundle = bundleOf(DetailFragment.MOVIE_ID_KEY to movieId)
+            view.findNavController().navigate(R.id.actionNavMainPagerToDetailFragment, bundle)
+        }
+    }
+
+    private fun getData() {
         viewModel.getMovies()
     }
 
