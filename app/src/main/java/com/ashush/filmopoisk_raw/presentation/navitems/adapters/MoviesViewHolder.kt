@@ -16,7 +16,7 @@ class MoviesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bindView(movie: DomainMovies.Movie, listener: IListener?) {
         binding.cardViewTextTitle.text = movie.title
-        binding.cardViewTextOverView.text = movie.genres
+        binding.cardViewTextGenres.text = movie.genres
         binding.cardViewTextYear.text = ("${"\\d{4}".toRegex().find(movie.releaseDate)?.value}")
         binding.cardViewTextVote.text = movie.voteAverage.toString()
         Picasso.get()

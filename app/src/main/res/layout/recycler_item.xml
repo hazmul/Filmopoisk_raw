@@ -14,14 +14,21 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/padding_Xsmall">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/left_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.25" />
+
         <TextView
             android:id="@+id/cardView_text_title"
             android:layout_width="0dp"
+            android:layout_marginStart="@dimen/margin_small"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/cardView_img_poster"
+            app:layout_constraintStart_toStartOf="@+id/left_guideline"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Mega Movie 5DMega Movie 5DMega Movie 5DMega Movie 5DMega Movie 5D" />
 
@@ -66,23 +73,20 @@
             android:elevation="2dp"
             android:maxHeight="128dp"
             android:scaleType="fitCenter"
+            app:layout_constraintEnd_toStartOf="@+id/left_guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/debug_poster" />
 
         <TextView
-            android:id="@+id/cardView_text_overView"
+            android:id="@+id/cardView_text_genres"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_small"
-            android:layout_marginStart="8dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/cardView_img_poster"
+            app:layout_constraintStart_toStartOf="@+id/cardView_text_year"
             app:layout_constraintTop_toBottomOf="@+id/cardView_icon_image_star"
-            tools:text="Overview Overview Overview Overview
-                        Overview Overview Overview Overview
-                        Overview Overview Overview Overview" />
+            tools:text="genres, genres, genres, genres, genres, genres, genres, genres," />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

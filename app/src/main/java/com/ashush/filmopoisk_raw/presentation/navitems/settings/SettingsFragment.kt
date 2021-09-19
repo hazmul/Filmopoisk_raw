@@ -41,6 +41,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 Toast.makeText(requireActivity(), getString(R.string.feedback_summary), Toast.LENGTH_SHORT).show()
                 return true
             }
+            getString(R.string.theme_style_key) -> {
+                sharedViewModel.loadAppSettings()
+                return true
+            }
         }
         return super.onPreferenceTreeClick(preference)
     }

@@ -16,10 +16,7 @@ class DetailedMoviesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
 
     fun bindView(movieDomain: DomainDetailedMovie, listener: IListener?) {
         binding.cardViewTextTitle.text = movieDomain.title
-        binding.cardViewTextOverView.text = when {
-            movieDomain.overview.length >= 100 -> "${movieDomain.overview.substring(0, 100)}..."
-            else -> movieDomain.overview
-        }
+        binding.cardViewTextGenres.text = movieDomain.genres
         binding.cardViewTextYear.text = ("${"\\d{4}".toRegex().find(movieDomain.releaseDate)?.value}")
         binding.cardViewTextVote.text = movieDomain.voteAverage.toString()
         Picasso.get()

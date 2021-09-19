@@ -142,9 +142,7 @@ class Interactor @Inject constructor(
      * @return объект [RequestResult] со статусом выполнения задачи
      */
     suspend fun getAppConfiguration(): AppConfig {
-        if (AppConfig.getInstance() == null) {
-            AppConfig.setInstance(storageRepository.getAppConfiguration().data!!)
-        }
+        AppConfig.setInstance(storageRepository.getAppConfiguration().data!!)
         return AppConfig.getInstance()!!
     }
 

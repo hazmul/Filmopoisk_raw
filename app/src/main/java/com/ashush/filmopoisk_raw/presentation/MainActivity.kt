@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.ResourcesCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
@@ -75,6 +76,15 @@ class MainActivity : AppCompatActivity() {
     private fun bindObservers() {
         sharedViewModel.optionMenuIsNeeded.observe(this) { result ->
             invalidateOptionsMenu()
+        }
+        sharedViewModel.themeStatus.observe(this) { result ->
+            result?.let {
+                if (result) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+            }
         }
     }
 

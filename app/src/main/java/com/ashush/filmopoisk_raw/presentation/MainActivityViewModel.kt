@@ -22,6 +22,7 @@ class MainActivityViewModel @Inject constructor(
 ) : ViewModel() {
 
     val viewTypeStatus = MutableLiveData<AppConfig.ViewType>()
+    val themeStatus = MutableLiveData<Boolean>()
     val optionMenuIsNeeded = MutableLiveData<Boolean>()
 
     fun loadAppSettings() {
@@ -29,6 +30,7 @@ class MainActivityViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 val config = interactor.getAppConfiguration()
                 viewTypeStatus.postValue(config.viewType)
+                themeStatus.postValue(config.themeType)
             }
         }
     }

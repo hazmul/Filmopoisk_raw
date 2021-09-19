@@ -2,18 +2,17 @@
     <!-- Base application theme. -->
     <style name="Theme.Filmopoisk_Raw" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/pr1</item>
-        <item name="colorPrimaryVariant">@color/pr3</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorOnPrimary</item>
         <item name="colorOnPrimary">@android:color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/sec1</item>
-        <item name="colorSecondaryVariant">@color/sec3</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryVariant">@color/colorOnSecondary</item>
         <item name="colorOnSecondary">@android:color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@drawable/bg_launcher</item>
-        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+<!--        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>-->
     </style>
 
 
@@ -31,33 +30,34 @@
     <style name="Base_ToolbarStyle">
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="android:theme">@style/Base_ToolbarTheme</item>
-        <item name="contentScrim">@color/pr1</item>
-        <item name="iconTint">@android:color/white</item>
+<!--        <item name="contentScrim">@color/colorPrimary</item>-->
+<!--        <item name="iconTint">@android:color/white</item>-->
     </style>
 
     <style name="Base_ToolbarTheme">
         <!-- Color used for the title of the Toolbar - as long as not overridden -->
-        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorPrimary">@color/toolbar_items</item>
         <!-- Used to color back button and three dots -->
-        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="android:background">@color/toolbar_color</item>
+        <item name="android:textColorSecondary">@color/toolbar_items</item>
     </style>
 
-    <style name="AppBottomSheetDialogTheme"
-        parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/AppModalStyle</item>
-    </style>
+<!--    <style name="AppBottomSheetDialogTheme"-->
+<!--        parent="Theme.Design.Light.BottomSheetDialog">-->
+<!--        <item name="bottomSheetStyle">@style/AppModalStyle</item>-->
+<!--    </style>-->
 
-    <style name="AppModalStyle"
-        parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/rounded_dialog</item>
-    </style>
-    <style name="AppContentCardStyleWithDarkText">
-        <item name="android:textColor">@color/pr1</item>
-        <item name="android:background">@android:color/white</item>
-    </style>
-    <style name="AppContentCardStyleWithWhiteText">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">@color/pr1</item>
-    </style>
+<!--    <style name="AppModalStyle"-->
+<!--        parent="Widget.Design.BottomSheet.Modal">-->
+<!--        <item name="android:background">@drawable/rounded_dialog</item>-->
+<!--    </style>-->
+<!--    <style name="AppContentCardStyleWithDarkText">-->
+<!--        <item name="android:textColor">@color/colorPrimary</item>-->
+<!--        <item name="android:background">@android:color/white</item>-->
+<!--    </style>-->
+<!--    <style name="AppContentCardStyleWithWhiteText">-->
+<!--        <item name="android:textColor">@android:color/white</item>-->
+<!--        <item name="android:background">@color/colorPrimary</item>-->
+<!--    </style>-->
 
 </resources>

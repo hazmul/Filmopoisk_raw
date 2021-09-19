@@ -72,5 +72,6 @@
     <string name="load_image_desc">Load Image</string>
     <string name="movie_poster">Movie Poster</string>
     <string name="vote_star">Vote star</string>
+    <string name="home_button">home button</string>
 
 </resources>

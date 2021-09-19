@@ -12,27 +12,27 @@
     <color name="Light_green">#90cea1</color>
 
     <!--primary colors-->
-    <color name="colorPrimary">#0d253f</color>
+    <color name="colorPrimary">#68B0BA</color>
     <color name="colorPrimaryVariant">#394d6a</color>
     <color name="colorOnPrimary">#00001a</color>
     <!--secondary colors-->
 
-    <color name="colorSecondary">#01b4e4</color>
-    <color name="colorSecondaryVariant">#64e6ff</color>
-    <color name="colorOnSecondary">#0084b2</color>
+    <color name="colorSecondary">#68B0BA</color>
+    <color name="colorSecondaryVariant">#0B87A0</color>
+    <color name="colorOnSecondary">#094b62</color>
 
 
     <!--utils colors-->
-    <color name="drawer_icons">#2B9CAA</color>
-    <color name="launcher">#01b4e4</color>
-    <color name="main_background">#FFFFFF</color>
-    <color name="in_favorite">#FF5757</color>
+    <color name="drawer_icons">#80DEEA</color>
+    <color name="launcher">#0a637b</color>
+    <color name="main_background">#323232</color>
+    <color name="in_favorite">#EF9A9A</color>
     <color name="not_favorite">#FFFFFF</color>
     <color name="in_watchlist">#0d253f</color>
     <color name="not_watchlist">#FFFFFF</color>
     <color name="toolbar_items">#FFFFFF</color>
-    <color name="toolbar_color">#0d253f</color>
-    <color name="toolbar_color_alpha">#700D253F</color>
+    <color name="toolbar_color">#242424</color>
+    <color name="toolbar_color_alpha">#70242424</color>
 
-    <color name="yellow">#F6BD13</color>
+    <color name="yellow">#FFE082</color>
 </resources>
