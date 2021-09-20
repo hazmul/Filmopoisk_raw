@@ -24,7 +24,7 @@
 
     <!--utils colors-->
     <color name="drawer_icons">#80DEEA</color>
-    <color name="launcher">#0a637b</color>
+    <color name="launcher">#323232</color>
     <color name="main_background">#323232</color>
     <color name="in_favorite">#EF9A9A</color>
     <color name="not_favorite">#FFFFFF</color>

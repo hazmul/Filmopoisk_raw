@@ -34,9 +34,8 @@
 
     <ImageButton
         android:id="@android:id/home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/padding_medium"
+        android:layout_width="?attr/actionBarSize"
+        android:layout_height="?attr/actionBarSize"
         android:clickable="true"
         android:focusable="true"
         android:contentDescription="@string/home_button"
@@ -54,8 +53,9 @@
         android:background="@drawable/rounded_dialog"
         android:backgroundTint="@color/toolbar_color_alpha"
         android:paddingHorizontal="@dimen/padding_medium"
+        android:gravity="center_vertical"
         style="@style/Base_ToolbarStyle"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         app:layout_constraintBottom_toBottomOf="@id/toolbar_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
