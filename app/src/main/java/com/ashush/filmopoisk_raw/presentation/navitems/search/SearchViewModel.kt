@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
 import com.ashush.filmopoisk_raw.domain.models.DomainMovies
 import com.ashush.filmopoisk_raw.domain.models.RequestResult
+import com.ashush.filmopoisk_raw.utils.DispatcherProvider
+import com.ashush.filmopoisk_raw.utils.IDispatcherProvider
 import com.ashush.filmopoisk_raw.utils.Pager
 import com.ashush.filmopoisk_raw.utils.getYear
 import kotlinx.coroutines.*
@@ -15,6 +17,7 @@ import javax.inject.Inject
 /**
  * ViewModel экрана приложения c поиском фильмов.
  * @param interactor интерактор для получения данных
+ * @param dispatcherProvider провайдер CoroutineDispatcher для выбора потока выполнения
  * @property requestResult LiveData содержит информацию об фильме полученного по результатам запроса.
  * @property requestError LiveData содержит информацию об ошибке по результатам запроса.
  * @property pager обработчик страниц
@@ -24,7 +27,10 @@ import javax.inject.Inject
  * @property filter заданный пользователем фильтр.
  */
 
-class SearchViewModel @Inject constructor(private var interactor: Interactor) : ViewModel() {
+class SearchViewModel @Inject constructor(
+    private val interactor: Interactor,
+    private val dispatcherProvider: IDispatcherProvider
+) : ViewModel() {
 
     override fun onCleared() {
         viewModelJob.cancel()
@@ -66,7 +72,7 @@ class SearchViewModel @Inject constructor(private var interactor: Interactor) : 
     private fun getMovies(query: String) {
         viewModelJob.cancelChildren()
         viewModelScope.launch {
-            withContext(Dispatchers.IO + viewModelJob) {
+            withContext(dispatcherProvider.io + viewModelJob) {
                 if (pager.hasNextPage()) {
                     lastQuery = query
                     when (val result = interactor.getSearchResult(query = query, page = pager.nextPage)) {

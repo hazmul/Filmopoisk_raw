@@ -7,6 +7,7 @@ import com.ashush.filmopoisk_raw.di.data.RepositoryModule
 import com.ashush.filmopoisk_raw.di.data.StoreModule
 import com.ashush.filmopoisk_raw.di.domain.DomainModule
 import com.ashush.filmopoisk_raw.di.presentation.ViewModelModule
+import com.ashush.filmopoisk_raw.di.utils.UtilsModule
 import com.ashush.filmopoisk_raw.presentation.MainActivity
 import dagger.BindsInstance
 import dagger.Component
@@ -26,6 +27,7 @@ import javax.inject.Singleton
         DomainModule::class,
         RepositoryModule::class,
         RemoteModule::class,
+        UtilsModule::class,
     ]
 )
 

@@ -6,16 +6,23 @@ import androidx.lifecycle.viewModelScope
 import com.ashush.filmopoisk_raw.domain.interactor.Interactor
 import com.ashush.filmopoisk_raw.domain.models.DomainMovies
 import com.ashush.filmopoisk_raw.domain.models.RequestResult
+import com.ashush.filmopoisk_raw.utils.IDispatcherProvider
 import com.ashush.filmopoisk_raw.utils.Pager
-import kotlinx.coroutines.*
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
  * ViewModel фрагмента отображающий подборку фильмов в категории "TopRated"
+ * @param interactor интерактор для получения данных
+ * @param dispatcherProvider провайдер CoroutineDispatcher для выбора потока выполнения
  */
 
 class TopRatedViewModel @Inject constructor(
-    private var interactor: Interactor
+    private val interactor: Interactor,
+    private val dispatcherProvider: IDispatcherProvider
 ) : ViewModel() {
 
     override fun onCleared() {
@@ -38,7 +45,7 @@ class TopRatedViewModel @Inject constructor(
     fun getMovies() {
         viewModelJob.cancelChildren()
         viewModelScope.launch {
-            withContext(Dispatchers.IO + viewModelJob) {
+            withContext(dispatcherProvider.io + viewModelJob) {
                 if (pager.hasNextPage()) {
                     when (val result = interactor.getMoviesTopRated(page = pager.nextPage)) {
                         is RequestResult.Success -> {
